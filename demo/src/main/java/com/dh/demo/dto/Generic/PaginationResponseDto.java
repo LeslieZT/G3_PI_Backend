@@ -8,9 +8,7 @@ import lombok.Setter;
 import java.util.List;
 
 
-@Getter
-@Setter
-@AllArgsConstructor
+
 public record PaginationResponseDto<T>(
         List<T> data,
         int page,
