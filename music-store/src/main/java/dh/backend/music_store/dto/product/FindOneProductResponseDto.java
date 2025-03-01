@@ -1,5 +1,4 @@
 package dh.backend.music_store.dto.product;
-import dh.backend.music_store.dto.brand.BrandResponseDto;
 
 import lombok.*;
 
@@ -17,6 +16,6 @@ public class FindOneProductResponseDto {
     private Integer stockQuantity;
     private Boolean isAvailable;
     private ProductCategoryResponseDto category;
-    private BrandResponseDto brand;
+    //private BrandResponseDto brand;
     private List<ProductImageResponseDto> images;
 }

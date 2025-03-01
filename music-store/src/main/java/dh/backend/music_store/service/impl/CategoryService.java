@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CategoryService implements ICategoryService {
@@ -37,4 +38,11 @@ public class CategoryService implements ICategoryService {
         responseDto.setData(categories);
         return responseDto;
     }
+
+    @Override
+    public Optional<Category> buscarPorId(Integer id) {
+        return categoryRepository.findById(id);
+    }
+
+
 }

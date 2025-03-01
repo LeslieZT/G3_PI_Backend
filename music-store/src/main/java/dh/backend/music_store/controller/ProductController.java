@@ -29,4 +29,10 @@ public class ProductController {
         return ResponseEntity.ok(product);
 
     }
+
+    @GetMapping("/producto/{id}")
+    public ResponseEntity<DetalleProductoResponseDto> buscarDetallesPorId(@PathVariable Integer id){
+        DetalleProductoResponseDto detalleProductoResponseDto = productService.buscarDetallesPorId(id);
+        return ResponseEntity.ok(detalleProductoResponseDto);
+    }
 }

@@ -2,13 +2,18 @@ package dh.backend.music_store.service.impl;
 
 
 import dh.backend.music_store.dto.Generic.PaginationResponseDto;
+import dh.backend.music_store.dto.product.DetalleProductoResponseDto;
 import dh.backend.music_store.dto.product.FindAllProductRequestDto;
 import dh.backend.music_store.dto.product.FindAllProductResponseDto;
 import dh.backend.music_store.dto.product.FindOneProductResponseDto;
 
+import dh.backend.music_store.entity.Category;
 import dh.backend.music_store.entity.Product;
+import dh.backend.music_store.entity.ProductImage;
 import dh.backend.music_store.exception.ResourceNotFoundException;
 import dh.backend.music_store.repository.IProductRepository;
+import dh.backend.music_store.service.ICategoryService;
+import dh.backend.music_store.service.IProductImageService;
 import dh.backend.music_store.service.IProductService;
 
 import org.slf4j.*;
@@ -25,12 +30,17 @@ public class ProductService implements IProductService {
     private final Logger logger = LoggerFactory.getLogger(ProductService.class);
 
     final IProductRepository productRepository;
+    private ICategoryService categoryService;
+    private IProductImageService productImageService;
+
 
     @Autowired
     private ModelMapper modelMapper;
 
-    public ProductService(IProductRepository productRepository) {
+    public ProductService(IProductRepository productRepository, ICategoryService categoryService, IProductImageService productImageService) {
         this.productRepository = productRepository;
+        this.categoryService = categoryService;
+        this.productImageService = productImageService;
     }
 
     @Override
@@ -67,6 +77,48 @@ public class ProductService implements IProductService {
         }
         FindOneProductResponseDto responseProduct = modelMapper.map(producto.get(), FindOneProductResponseDto.class);
         return responseProduct;
-
     }
+
+    @Override
+    public DetalleProductoResponseDto buscarDetallesPorId(Integer id) {
+        logger.info("Ingresando al Service Producto | Buscar Detalles por id");
+        Optional<Product> productoDesdeDb = productRepository.findById(id);
+        DetalleProductoResponseDto detalleProductoResponseDto = null;
+        if(productoDesdeDb.isPresent()){
+            logger.info("Producto encontrado en la db");
+            detalleProductoResponseDto = mapperToDetalleProductoResponseDto(productoDesdeDb.get());
+            logger.info("Producto mapeado a Response Detalle");
+        }
+        return detalleProductoResponseDto;
+    }
+
+
+    //funcion de mapeo a DetalleProductoResponseDto
+    private DetalleProductoResponseDto mapperToDetalleProductoResponseDto(Product product){
+        logger.info("Mapeando producto A response Detalle");
+        //buscar categoria del producto
+        Category category = categoryService.buscarPorId(product.getCategory().getId()).get();
+        logger.info("Categoria encontrada");
+        //buscar imagen principal del producto
+        ProductImage productImage = productImageService.encontrarImagenPrincipalProducto(product);
+        logger.info("Imagen principal producto encontrada");
+
+        //mapeando
+        DetalleProductoResponseDto detalleProductoResponseDto = new DetalleProductoResponseDto(product.getId(),
+                category.getName(),
+                product.getName(),
+                productImage.getUrl(),
+                product.getDescription(),
+                product.getPricePerHour(),
+                product.getMarca(),
+                product.getModelo(),
+                product.getCondicion(),
+                product.getOrigen(),
+                product.getAnioLanzamiento(),
+                product.getMedidas(),
+                product.getMaterial(),
+                product.getUsoRecomendado());
+        return detalleProductoResponseDto;
+    }
+
 }
