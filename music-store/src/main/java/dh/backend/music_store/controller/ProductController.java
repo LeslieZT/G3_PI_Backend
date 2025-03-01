@@ -4,6 +4,7 @@ import dh.backend.music_store.dto.Generic.PaginationResponseDto;
 import dh.backend.music_store.dto.product.*;
 import dh.backend.music_store.service.IProductService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,9 +31,13 @@ public class ProductController {
 
     }
 
-    @GetMapping("/producto/{id}")
+    @GetMapping("/producto/detalle/{id}")
     public ResponseEntity<DetalleProductoResponseDto> buscarDetallesPorId(@PathVariable Integer id){
         DetalleProductoResponseDto detalleProductoResponseDto = productService.buscarDetallesPorId(id);
-        return ResponseEntity.ok(detalleProductoResponseDto);
+        if(detalleProductoResponseDto != null){
+            return ResponseEntity.ok(detalleProductoResponseDto);
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 }

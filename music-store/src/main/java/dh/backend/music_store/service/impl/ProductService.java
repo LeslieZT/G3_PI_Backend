@@ -101,13 +101,17 @@ public class ProductService implements IProductService {
         logger.info("Categoria encontrada");
         //buscar imagen principal del producto
         ProductImage productImage = productImageService.encontrarImagenPrincipalProducto(product);
-        logger.info("Imagen principal producto encontrada");
+        String url = "//url.com";
+        if(productImage != null){
+            logger.info("Imagen principal producto encontrada");
+            url = productImage.getUrl();
+        }
 
         //mapeando
         DetalleProductoResponseDto detalleProductoResponseDto = new DetalleProductoResponseDto(product.getId(),
                 category.getName(),
                 product.getName(),
-                productImage.getUrl(),
+                url,
                 product.getDescription(),
                 product.getPricePerHour(),
                 product.getMarca(),
