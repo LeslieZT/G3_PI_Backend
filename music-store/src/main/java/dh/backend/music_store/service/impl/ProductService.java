@@ -2,9 +2,10 @@ package dh.backend.music_store.service.impl;
 
 
 import dh.backend.music_store.dto.Generic.PaginationResponseDto;
-import dh.backend.music_store.dto.product.FindAllProductRequestDto;
-import dh.backend.music_store.dto.product.FindAllProductResponseDto;
-import dh.backend.music_store.dto.product.FindOneProductResponseDto;
+import dh.backend.music_store.dto.product.projection.FilteredProductProjection;
+import dh.backend.music_store.dto.product.request.FindAllProductRequestDto;
+import dh.backend.music_store.dto.product.response.FindAllProductResponseDto;
+import dh.backend.music_store.dto.product.response.FindOneProductResponseDto;
 
 import dh.backend.music_store.entity.Product;
 import dh.backend.music_store.exception.ResourceNotFoundException;
@@ -40,14 +41,23 @@ public class ProductService implements IProductService {
         }
         int offset = (request.getPage() - 1) * request.getLimit();
 
-        List<Object[]> productsDB = this.productRepository.filterProducts(request.getSearch(), request.getCategoryId(), request.getLimit(), offset);
-        Integer totalDB = this.productRepository.countFilterProducts(request.getSearch(), request.getCategoryId());
+        logger.info("Request: {}", request);
 
-        List<FindAllProductResponseDto> data = productsDB.stream().map(obj -> new FindAllProductResponseDto(
-                (Integer) obj[0],  // id
-                (String) obj[1],   // name
-                (obj[2] != null) ? (String) obj[2] : null,
-                (Double) obj[3]   // pricePerHour */
+        boolean hasCategories = request.getCategories() != null && !request.getCategories().isEmpty();
+
+        logger.info("HasCategories: {}", hasCategories);
+
+        List<FilteredProductProjection> productsDB = this.productRepository.filterProducts(request.getSearch(), request.getCategories(), hasCategories,  request.getLimit(), offset);
+        Integer totalDB = this.productRepository.countFilterProducts(request.getSearch(), request.getCategories(), hasCategories);
+
+        logger.info("ProductsDB: {}", productsDB);
+
+        List<FindAllProductResponseDto> data = productsDB.stream().map(projection -> new FindAllProductResponseDto(
+                projection.getId(),
+                projection.getName(),
+                projection.getUrl(),
+                projection.getPricePerHour()
+
         )).toList();
 
         PaginationResponseDto<FindAllProductResponseDto> paginationResponse = new PaginationResponseDto<FindAllProductResponseDto>();
