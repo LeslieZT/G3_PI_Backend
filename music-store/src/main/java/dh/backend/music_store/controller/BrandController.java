@@ -13,15 +13,15 @@ import java.util.List;
 @RestController
 public class BrandController {
 
-    private IBrandService BrandService;
+    private IBrandService brandService;
 
-    public BrandController(IBrandService BrandService) {
-        this.BrandService = BrandService;
+    public BrandController(IBrandService brandService) {
+        this.brandService = brandService;
     }
 
     @GetMapping("/brands")
     public ResponseEntity<ResponseDto<List<BrandResponseDto>>> findAll(){
-        ResponseDto<List<BrandResponseDto>> response = BrandService.findAll();
+        ResponseDto<List<BrandResponseDto>> response = brandService.findAll();
         return ResponseEntity.ok(response);
     }
 }
