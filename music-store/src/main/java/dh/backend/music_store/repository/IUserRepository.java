@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface IUserRepository extends JpaRepository<User, Integer> {
@@ -44,5 +45,8 @@ public interface IUserRepository extends JpaRepository<User, Integer> {
     Integer countFilterUsers(@Param("search") String search,
                              @Param("roleIds") List<Integer> roleIds,
                              @Param("hasRoles") boolean hasRoles);
+
+
+    Optional<User> findByEmail(String email);
 
 }

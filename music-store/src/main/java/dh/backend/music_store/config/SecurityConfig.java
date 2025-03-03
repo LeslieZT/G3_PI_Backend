@@ -20,12 +20,12 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/test/index").permitAll();
+                    auth.requestMatchers("/createuser").permitAll();
                     auth.anyRequest().authenticated();
                 })
                 .formLogin(form -> form
-                                .successHandler(successHandler()) //URL de redireción después del login
-                                .permitAll())
+                        .successHandler(successHandler()) //URL de redireción después del login
+                        .permitAll())
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
                         .sessionFixation(SessionManagementConfigurer.SessionFixationConfigurer::migrateSession) // Protección contra fijación de sesión //migrateSession -> crea nueva session
@@ -34,6 +34,7 @@ public class SecurityConfig {
                         .expiredUrl("/login") // Redirigir si la sesión expira
                         .sessionRegistry(sessionRegistry())
                 )
+                .httpBasic(httpBasic -> {} )
                 .build();
     }
 

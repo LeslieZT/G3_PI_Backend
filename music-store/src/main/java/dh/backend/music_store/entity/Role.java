@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Getter
@@ -16,9 +18,10 @@ public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    private String name;
+    @Enumerated(EnumType.STRING)
+    private ERole name;
 
     @Column(name = "creation_date")
     private LocalDate creationDate;
+
 }

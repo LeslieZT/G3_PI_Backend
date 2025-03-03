@@ -1,14 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="bac50f5c-b467-4438-ae0b-e6a00f299a07" name="Changes" comment="" />
+    <list default="true" id="bac50f5c-b467-4438-ae0b-e6a00f299a07" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/G3_PI_Backend.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/G3_PI_Backend.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/music-store/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/music-store/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/controller/TestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/controller/TestController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/entity/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/entity/Role.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/entity/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/exception/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/exception/GlobalExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/repository/IRoleRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/repository/IRoleRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/repository/IUserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/repository/IUserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/service/IUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/service/IUserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/service/impl/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/service/impl/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/music-store/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/music-store/src/main/resources/application.properties" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="CodeInsightWorkspaceSettings">
+    <option name="optimizeImportsOnTheFly" value="true" />
+  </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="security" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -21,11 +51,20 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Downloaded.Files.Path.Enabled": "false",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "develop",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "F:/LESLIE/DIGITAL HOUSE/G3_PI_Backend"
+    "last_opened_file_path": "C:/Users/COMPUTER/Desktop/SoundKeeper/G3_PI_Backend/music-store/pom.xml",
+    "project.structure.last.edited": "SDKs",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
 }]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -38,5 +77,9 @@
       <updated>1740333699654</updated>
     </task>
     <servers />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

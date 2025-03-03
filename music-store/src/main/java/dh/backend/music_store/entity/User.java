@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email")})
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +22,6 @@ public class User {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(nullable = false, unique = true)
     private String email;
 
     private String password;
@@ -39,6 +38,6 @@ public class User {
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
 
-    @Column(name = "creation_date", nullable = false, updatable = false)
-    private LocalDate creationDate = LocalDate.now();
+    @Column(name = "creation_date")
+    private LocalDate creationDate;
 }

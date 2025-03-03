@@ -4,9 +4,11 @@ import dh.backend.music_store.dto.Generic.PaginationResponseDto;
 import dh.backend.music_store.dto.Generic.ResponseDto;
 import dh.backend.music_store.dto.user.projection.FilteredUserProjection;
 import dh.backend.music_store.dto.user.request.ChangeRoleUserRequestDto;
+import dh.backend.music_store.dto.user.request.CreateUserDto;
 import dh.backend.music_store.dto.user.request.FindAllUserRequestDto;
 import dh.backend.music_store.dto.user.response.ChangeRoleResponseDto;
 import dh.backend.music_store.dto.user.response.FindAllUserResponseDto;
+import dh.backend.music_store.dto.user.response.RegisterUserDto;
 import dh.backend.music_store.dto.user.response.RoleResponseDto;
 import dh.backend.music_store.entity.Role;
 import dh.backend.music_store.entity.User;
@@ -14,6 +16,7 @@ import dh.backend.music_store.exception.ResourceNotFoundException;
 import dh.backend.music_store.repository.IRoleRepository;
 import dh.backend.music_store.repository.IUserRepository;
 import dh.backend.music_store.service.IUserService;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -32,9 +35,12 @@ public class UserService implements IUserService {
 
     private final IRoleRepository roleRepository;
 
-    public UserService(IUserRepository userRepository, IRoleRepository roleRepository) {
+    private final ModelMapper modelMapper;
+
+    public UserService(IUserRepository userRepository, IRoleRepository roleRepository, ModelMapper modelMapper) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -90,4 +96,23 @@ public class UserService implements IUserService {
 
     }
 
+    @Override
+    public RegisterUserDto saveUser(CreateUserDto createUserDto) {
+        try {
+            User user = modelMapper.map(createUserDto, User.class);
+            user = userRepository.save(user); // La entidad ya tiene el ID generado
+
+            RegisterUserDto userDto = new RegisterUserDto(
+                    user.getFirstName(),
+                    user.getLastName(),
+                    user.getEmail(),
+                    user.getPassword(),
+                    "Registro Exitoso"
+            );
+
+            return userDto;
+        } catch (Exception e) {
+            return new RegisterUserDto(null, null, null, null, "Error al Registrarse");
+        }
+    }
 }

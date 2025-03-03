@@ -3,11 +3,14 @@ package dh.backend.music_store.controller;
 import dh.backend.music_store.dto.Generic.PaginationResponseDto;
 import dh.backend.music_store.dto.Generic.ResponseDto;
 import dh.backend.music_store.dto.user.request.ChangeRoleUserRequestDto;
+import dh.backend.music_store.dto.user.request.CreateUserDto;
 import dh.backend.music_store.dto.user.request.FindAllUserRequestDto;
 import dh.backend.music_store.dto.user.response.ChangeRoleResponseDto;
 import dh.backend.music_store.dto.user.response.FindAllUserResponseDto;
+import dh.backend.music_store.dto.user.response.RegisterUserDto;
 import dh.backend.music_store.service.IUserService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,4 +39,12 @@ public class UserController {
         ResponseDto<ChangeRoleResponseDto> response = userService.changeRole(request);
         return ResponseEntity.ok(response);
     }
+
+    @PostMapping("/createUser")
+    public ResponseEntity<RegisterUserDto> createUser(@Valid @RequestBody CreateUserDto createUserDto) {
+        RegisterUserDto response = userService.saveUser(createUserDto);
+        return ResponseEntity.status(response.getMessage().equals("Registro Exitoso") ? HttpStatus.OK : HttpStatus.BAD_REQUEST)
+                .body(response);
+    }
+
 }
