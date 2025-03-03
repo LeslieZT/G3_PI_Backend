@@ -7,5 +7,5 @@ public interface IProductService {
     PaginationResponseDto<FindAllProductResponseDto> findAll(FindAllProductRequestDto request);
     FindOneProductResponseDto findOne(Integer id);
 
-    DetalleProductoResponseDto buscarDetallesPorId(Integer id);
+    DetailProductResponseDto findDetailsById(Integer id);
 }

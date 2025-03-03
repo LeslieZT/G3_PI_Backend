@@ -44,16 +44,19 @@ public class Product {
     @Column(name = "creation_date")
     private LocalDate creationDate;
 
-    private String marca;
-    private String modelo;
-    private String condicion;
-    private String origen;
-    @Column(name = "anio_lanzamiento")
-    private String anioLanzamiento;
-    private String medidas;
+    @ManyToOne
+    @JoinColumn(name = "brand_id", nullable = false)
+    private Brand brandId;
+    private String model;
+    private String product_condition;
+    private String origin;
+    @Column(name = "launch_year")
+    private String launchYear;
+    private String product_size;
     private String material;
-    @Column (name = "uso_recomendado")
-    private String usoRecomendado;
+    @Column (name = "recommended_use")
+    private String recommendedUse;
+
     @Override
     public String toString() {
         return GsonProvider.getGson().toJson(this);

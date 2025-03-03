@@ -9,50 +9,61 @@ VALUES
 ('2025-03-1', DEFAULT, 'url.com', 'Electricos'),
 ('2025-03-1', DEFAULT, 'url.com', 'Accesorios');
 
+-- insercion de datos en tabla Brand
+INSERT INTO brands(id, name, creation_date)
+VALUES
+(DEFAULT, 'Pearl', '2025-03-1'),
+(DEFAULT, 'Roland', '2025-03-1'),
+(DEFAULT, 'Fender', '2025-03-1'),
+(DEFAULT, 'Tama', '2025-03-1'),
+(DEFAULT, 'Sony', '2025-03-1'),
+(DEFAULT, 'Gibson', '2025-03-1'),
+(DEFAULT, 'Hohner', '2025-03-1'),
+(DEFAULT, 'Steinway & Sons', '2025-03-1');
 
 
 -- insercion de datos en productos
-INSERT INTO products(`category_id`, `creation_date`, `id`,`is_available`, `price_per_hour`, `stock_quantity`, `anio_lanzamiento`,
-`condicion`, `description`, `marca`, `material`, `medidas`, `modelo`, `name`, `origen`, `uso_recomendado`)
+INSERT INTO products(`category_id`, `creation_date`, `id`,`is_available`, `price_per_hour`, `stock_quantity`, `launch_year`,
+`product_condition`, `description`, `brand_id`, `material`, `product_size`, `model`, `name`, `origin`, `recommended_use`)
 VALUES
 ( 2, '2024-06-17', DEFAULT, true, 35.99, 5, '2022', 'Nueva','Batería acústica profesional con gran resonancia y durabilidad.',
-'Pearl', 'Metal y madera', '140 x 90', 'EXX725S', 'Batería Pearl Export', 'Japón', 'Profesional y estudio'),
+1, 'Metal y madera', '140 x 90', 'EXX725S', 'Batería Pearl Export', 'Japón', 'Profesional y estudio'),
 ( 3, '2024-06-17', DEFAULT, true, 28.99, 3, '2021', 'Nuevo', 'Teclado digital con 88 teclas sensibles al tacto y múltiples funciones integradas.',
-'Roland', 'Plástico y metal', '130 x 35', 'FP-30X', 'Teclado Roland FP-30X', 'EE.UU.', 'Profesional'),
+2, 'Plástico y metal', '130 x 35', 'FP-30X', 'Teclado Roland FP-30X', 'EE.UU.', 'Profesional'),
 ( 1, '2024-06-17', DEFAULT, true, 22.50, 4, '2022', 'Seminueva', 'Guitarra acústica de seis cuerdas con gran resonancia y acabado de madera natural.',
-'Fender', 'Madera', '100 x 40', 'CD-60', 'Guitarra Fender CD-60', 'México', 'Principiantes y conciertos acústicos'),
+3, 'Madera', '100 x 40', 'CD-60', 'Guitarra Fender CD-60', 'México', 'Principiantes y conciertos acústicos'),
 ( 2, '2024-06-17', DEFAULT, true, 40.00, 3, '2023', 'Nueva', 'Batería acústica de 5 piezas con platillos incluidos, ideal para estudios y presentaciones en vivo.',
-'Tama', 'Madera y metal', '150 x 90', 'Imperialstar', 'Batería Tama Imperialstar', 'Japón', 'Profesional y estudio'),
+4, 'Madera y metal', '150 x 90', 'Imperialstar', 'Batería Tama Imperialstar', 'Japón', 'Profesional y estudio'),
 ( 6, '2024-06-17', DEFAULT, true, 15.99, 10, '2022', 'Nuevo', 'Audífonos profesionales con cancelación de ruido y sonido envolvente.',
- 'Sony', 'Plástico y metal', '18 x 15', 'WH-1000XM4', 'Audífonos Sony WH-1000XM4', 'Japón', 'Estudio de grabación y uso diario'),
+ 5, 'Plástico y metal', '18 x 15', 'WH-1000XM4', 'Audífonos Sony WH-1000XM4', 'Japón', 'Estudio de grabación y uso diario'),
  (
      1, '2024-06-17', DEFAULT, true, 30.00, 5, '2023', 'Nueva',
      'Guitarra eléctrica de seis cuerdas con cuerpo de caoba y pastillas humbucker.',
-     'Gibson', 'Madera', '102 x 35', 'Les Paul Standard 50s',
+     6, 'Madera', '102 x 35', 'Les Paul Standard 50s',
      'Guitarra Gibson Les Paul', 'EE.UU.', 'Profesional y conciertos en vivo'
  ),
  (
      4, '2024-06-17', DEFAULT, true, 10.50, 8, '2022', 'Nueva',
      'Armónica diatónica de 10 agujeros afinada en Do (C), ideal para blues y folk.',
-     'Hohner', 'Metal y plástico', '10 x 3', 'Marine Band 1896',
+     7, 'Metal y plástico', '10 x 3', 'Marine Band 1896',
      'Armónica Hohner Marine Band', 'Alemania', 'Música blues, folk y rock'
  ),
  (
      3, '2024-06-17', DEFAULT, true, 50.00, 2, '2023', 'Nuevo',
      'Piano de cola con 88 teclas, sonido envolvente y sistema de martillos de alta precisión.',
-     'Steinway & Sons', 'Madera y metal', '150 x 180', 'Model D',
+     8, 'Madera y metal', '150 x 180', 'Model D',
      'Piano Steinway & Sons Model D', 'Alemania', 'Conciertos y estudio profesional'
  ),
  (
      4, '2024-06-17', DEFAULT, true, 20.00, 4, '2021', 'Seminuevo',
      'Violín acústico con acabado en barniz brillante, ideal para principiantes y músicos avanzados.',
-     'Stradivarius', 'Madera de arce y abeto', '59 x 21', '1730',
+     1, 'Madera de arce y abeto', '59 x 21', '1730',
      'Violín Stradivarius 1730', 'Italia', 'Estudio y presentaciones en vivo'
  ),
  (
      6, '2024-06-17', DEFAULT, true, 15.00, 6, '2022', 'Nueva',
      'Caja de ritmos digital con secuenciador integrado y sonidos de batería electrónica.',
-     'Roland', 'Plástico y metal', '30 x 20', 'TR-8S',
+     2, 'Plástico y metal', '30 x 20', 'TR-8S',
      'Caja de Ritmos Roland TR-8S', 'Japón', 'Producción musical y presentaciones en vivo'
  );
 

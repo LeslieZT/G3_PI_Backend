@@ -3,6 +3,7 @@ package dh.backend.music_store.service.impl;
 import dh.backend.music_store.dto.Generic.ResponseDto;
 import dh.backend.music_store.dto.category.CategoryResponseDto;
 import dh.backend.music_store.entity.Category;
+import dh.backend.music_store.exception.ResourceNotFoundException;
 import dh.backend.music_store.repository.ICategoryRepository;
 import dh.backend.music_store.repository.IProductRepository;
 import dh.backend.music_store.service.ICategoryService;
@@ -40,9 +41,13 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
-    public Optional<Category> buscarPorId(Integer id) {
-        return categoryRepository.findById(id);
+    public CategoryResponseDto findById(Integer id) {
+        Optional<Category> category = categoryRepository.findById(id);
+        if(category.isEmpty()) {
+            logger.error("Category {} NOT FOUND IN DB", id);
+            throw new ResourceNotFoundException("Category " + id + " not found");
+        }
+        return modelMapper.map(category.get(), CategoryResponseDto.class);
     }
-
 
 }

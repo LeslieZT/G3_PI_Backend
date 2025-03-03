@@ -10,5 +10,5 @@ import java.util.Optional;
 public interface ICategoryService {
     ResponseDto<List<CategoryResponseDto>> findAll();
 
-    Optional<Category> buscarPorId(Integer id);
+    CategoryResponseDto findById(Integer id);
 }

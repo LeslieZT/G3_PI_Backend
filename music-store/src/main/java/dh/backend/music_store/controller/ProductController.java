@@ -32,12 +32,8 @@ public class ProductController {
     }
 
     @GetMapping("/producto/detalle/{id}")
-    public ResponseEntity<DetalleProductoResponseDto> buscarDetallesPorId(@PathVariable Integer id){
-        DetalleProductoResponseDto detalleProductoResponseDto = productService.buscarDetallesPorId(id);
-        if(detalleProductoResponseDto != null){
-            return ResponseEntity.ok(detalleProductoResponseDto);
-        }else{
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+    public ResponseEntity<DetailProductResponseDto> findDetailsById(@PathVariable Integer id){
+        DetailProductResponseDto detalleProductoResponseDto = productService.findDetailsById(id);
+        return  ResponseEntity.ok(detalleProductoResponseDto);
     }
 }

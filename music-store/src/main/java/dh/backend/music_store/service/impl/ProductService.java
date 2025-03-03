@@ -2,7 +2,9 @@ package dh.backend.music_store.service.impl;
 
 
 import dh.backend.music_store.dto.Generic.PaginationResponseDto;
-import dh.backend.music_store.dto.product.DetalleProductoResponseDto;
+import dh.backend.music_store.dto.brand.BrandResponseDto;
+import dh.backend.music_store.dto.category.CategoryResponseDto;
+import dh.backend.music_store.dto.product.DetailProductResponseDto;
 import dh.backend.music_store.dto.product.FindAllProductRequestDto;
 import dh.backend.music_store.dto.product.FindAllProductResponseDto;
 import dh.backend.music_store.dto.product.FindOneProductResponseDto;
@@ -12,6 +14,7 @@ import dh.backend.music_store.entity.Product;
 import dh.backend.music_store.entity.ProductImage;
 import dh.backend.music_store.exception.ResourceNotFoundException;
 import dh.backend.music_store.repository.IProductRepository;
+import dh.backend.music_store.service.IBrandService;
 import dh.backend.music_store.service.ICategoryService;
 import dh.backend.music_store.service.IProductImageService;
 import dh.backend.music_store.service.IProductService;
@@ -32,15 +35,17 @@ public class ProductService implements IProductService {
     final IProductRepository productRepository;
     private ICategoryService categoryService;
     private IProductImageService productImageService;
+    private IBrandService brandService;
 
 
     @Autowired
     private ModelMapper modelMapper;
 
-    public ProductService(IProductRepository productRepository, ICategoryService categoryService, IProductImageService productImageService) {
+    public ProductService(IProductRepository productRepository, ICategoryService categoryService, IProductImageService productImageService, IBrandService brandService) {
         this.productRepository = productRepository;
         this.categoryService = categoryService;
         this.productImageService = productImageService;
+        this.brandService = brandService;
     }
 
     @Override
@@ -80,24 +85,25 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public DetalleProductoResponseDto buscarDetallesPorId(Integer id) {
+    public DetailProductResponseDto findDetailsById(Integer id) {
         logger.info("Ingresando al Service Producto | Buscar Detalles por id");
-        Optional<Product> productoDesdeDb = productRepository.findById(id);
-        DetalleProductoResponseDto detalleProductoResponseDto = null;
-        if(productoDesdeDb.isPresent()){
-            logger.info("Producto encontrado en la db");
-            detalleProductoResponseDto = mapperToDetalleProductoResponseDto(productoDesdeDb.get());
-            logger.info("Producto mapeado a Response Detalle");
+        Optional<Product> productFromDb = productRepository.findById(id);
+        DetailProductResponseDto detailProductResponseDto = null;
+        if(productFromDb.isEmpty()){
+            logger.error("Producto no encontrado en la db");
+            throw new ResourceNotFoundException("Producto " + id + " not found");
         }
-        return detalleProductoResponseDto;
+        detailProductResponseDto = mapperToDetailProductResponseDto(productFromDb.get());
+        logger.info("Producto mapeado a Response Detalle");
+        return detailProductResponseDto;
     }
 
 
-    //funcion de mapeo a DetalleProductoResponseDto
-    private DetalleProductoResponseDto mapperToDetalleProductoResponseDto(Product product){
-        logger.info("Mapeando producto A response Detalle");
+    //funcion de mapeo a DetailProductResponseDto
+    private DetailProductResponseDto mapperToDetailProductResponseDto(Product product){
+        logger.info("Mapeando producto a response Detalle");
         //buscar categoria del producto
-        Category category = categoryService.buscarPorId(product.getCategory().getId()).get();
+        CategoryResponseDto category = categoryService.findById(product.getCategory().getId());
         logger.info("Categoria encontrada");
         //buscar imagen principal del producto
         ProductImage productImage = productImageService.encontrarImagenPrincipalProducto(product);
@@ -106,23 +112,24 @@ public class ProductService implements IProductService {
             logger.info("Imagen principal producto encontrada");
             url = productImage.getUrl();
         }
-
-        //mapeando
-        DetalleProductoResponseDto detalleProductoResponseDto = new DetalleProductoResponseDto(product.getId(),
+        //buscar marca del producto
+        BrandResponseDto brandResponseDto = brandService.findById(product.getBrandId().getId());
+        //mapeo
+        DetailProductResponseDto detailProductResponseDto = new DetailProductResponseDto(product.getId(),
                 category.getName(),
                 product.getName(),
                 url,
                 product.getDescription(),
                 product.getPricePerHour(),
-                product.getMarca(),
-                product.getModelo(),
-                product.getCondicion(),
-                product.getOrigen(),
-                product.getAnioLanzamiento(),
-                product.getMedidas(),
+                brandResponseDto.getName(),
+                product.getModel(),
+                product.getProduct_condition(),
+                product.getOrigin(),
+                product.getLaunchYear(),
+                product.getProduct_size(),
                 product.getMaterial(),
-                product.getUsoRecomendado());
-        return detalleProductoResponseDto;
+                product.getRecommendedUse());
+        return detailProductResponseDto;
     }
 
 }
