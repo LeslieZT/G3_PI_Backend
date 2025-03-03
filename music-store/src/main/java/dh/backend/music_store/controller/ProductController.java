@@ -25,13 +25,6 @@ public class ProductController {
     }
 
     @GetMapping("/products/{id}")
-    public  ResponseEntity<FindOneProductResponseDto> findOne(@PathVariable Integer id){
-        FindOneProductResponseDto product = productService.findOne(id);
-        return ResponseEntity.ok(product);
-
-    }
-
-    @GetMapping("/producto/detalle/{id}")
     public ResponseEntity<DetailProductResponseDto> findDetailsById(@PathVariable Integer id){
         DetailProductResponseDto detalleProductoResponseDto = productService.findDetailsById(id);
         return  ResponseEntity.ok(detalleProductoResponseDto);
