@@ -1,5 +1,6 @@
-package dh.backend.music_store.dto.product;
 
+package dh.backend.music_store.dto.product.response;
+import dh.backend.music_store.dto.brand.BrandResponseDto;
 import lombok.*;
 
 import java.util.List;

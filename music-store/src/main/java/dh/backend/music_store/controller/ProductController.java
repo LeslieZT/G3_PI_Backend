@@ -1,7 +1,10 @@
 package dh.backend.music_store.controller;
 
 import dh.backend.music_store.dto.Generic.PaginationResponseDto;
-import dh.backend.music_store.dto.product.*;
+import dh.backend.music_store.dto.product.request.FindAllProductRequestDto;
+import dh.backend.music_store.dto.product.response.DetailProductResponseDto;
+import dh.backend.music_store.dto.product.response.FindAllProductResponseDto;
+import dh.backend.music_store.dto.product.response.FindOneProductResponseDto;
 import dh.backend.music_store.service.IProductService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -18,7 +21,7 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @PostMapping("/products")
+    @PostMapping("/products/find-all")
     public ResponseEntity<PaginationResponseDto<FindAllProductResponseDto>>  findAll(@Valid @RequestBody(required = false) FindAllProductRequestDto request){
         PaginationResponseDto<FindAllProductResponseDto> response = productService.findAll(request);
         return ResponseEntity.ok(response);
