@@ -19,6 +19,8 @@ import dh.backend.music_store.service.IUserService;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
@@ -36,6 +38,9 @@ public class UserService implements IUserService {
     private final IRoleRepository roleRepository;
 
     private final ModelMapper modelMapper;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public UserService(IUserRepository userRepository, IRoleRepository roleRepository, ModelMapper modelMapper) {
         this.userRepository = userRepository;
@@ -96,10 +101,21 @@ public class UserService implements IUserService {
 
     }
 
+    //Encriptamos password
+    private String encryptPassword(String rawPassword) {
+        return passwordEncoder.encode(rawPassword);
+    }
+
     @Override
     public RegisterUserDto saveUser(CreateUserDto createUserDto) {
         try {
+            createUserDto.setPassword(encryptPassword(createUserDto.getPassword()));
             User user = modelMapper.map(createUserDto, User.class);
+
+            // Buscar el rol con ID = 2 y asignarlo por default
+            Role role = roleRepository.findById(2).orElseThrow(() -> new RuntimeException("Rol no encontrado"));
+            user.setRole(role);
+
             user = userRepository.save(user); // La entidad ya tiene el ID generado
 
             RegisterUserDto userDto = new RegisterUserDto(

@@ -40,7 +40,7 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/createUser")
+    @PostMapping("/createuser")
     public ResponseEntity<RegisterUserDto> createUser(@Valid @RequestBody CreateUserDto createUserDto) {
         RegisterUserDto response = userService.saveUser(createUserDto);
         return ResponseEntity.status(response.getMessage().equals("Registro Exitoso") ? HttpStatus.OK : HttpStatus.BAD_REQUEST)
