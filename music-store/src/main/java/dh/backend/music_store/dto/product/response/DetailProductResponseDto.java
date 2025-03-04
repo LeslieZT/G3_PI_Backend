@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -24,4 +26,5 @@ public class DetailProductResponseDto {
     private String size;
     private String material;
     private String recommendedUse;
+    private List<String> secondaryImages;
 }

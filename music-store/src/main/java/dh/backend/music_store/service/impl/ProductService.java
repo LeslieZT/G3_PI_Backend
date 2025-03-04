@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.modelmapper.ModelMapper;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -114,7 +115,7 @@ public class ProductService implements IProductService {
         CategoryResponseDto category = categoryService.findById(product.getCategory().getId());
         logger.info("Categoria encontrada");
         //buscar imagen principal del producto
-        ProductImage productImage = productImageService.encontrarImagenPrincipalProducto(product);
+        ProductImage productImage = productImageService.findByProductAndIsPrimary(product);
         String url = "//url.com";
         if(productImage != null){
             logger.info("Imagen principal producto encontrada");
@@ -122,6 +123,12 @@ public class ProductService implements IProductService {
         }
         //buscar marca del producto
         BrandResponseDto brandResponseDto = brandService.findById(product.getBrandId().getId());
+        //buscaar imagenes no principales
+        List<ProductImage> secondaryImagesFromDb = productImageService.findByProductAndIsNotPrimary(product);
+        List<String> secondaryImages = new ArrayList<>();
+        for (ProductImage pi : secondaryImagesFromDb){
+            secondaryImages.add(pi.getUrl());
+        }
         //mapeo
         DetailProductResponseDto detailProductResponseDto = new DetailProductResponseDto(product.getId(),
                 category.getName(),
@@ -136,7 +143,8 @@ public class ProductService implements IProductService {
                 product.getLaunchYear(),
                 product.getProduct_size(),
                 product.getMaterial(),
-                product.getRecommendedUse());
+                product.getRecommendedUse(),
+                secondaryImages);
         return detailProductResponseDto;
     }
 
