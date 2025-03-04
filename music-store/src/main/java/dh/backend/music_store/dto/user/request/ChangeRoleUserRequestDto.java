@@ -13,12 +13,12 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ChangeRoleUserRequestDto {
 
-    @NotNull(message = "User ID is required")
-    @Positive(message = "User ID must be greater than 0")
+    @NotNull(message = "Users ID is required")
+    @Positive(message = "Users ID must be greater than 0")
     private Integer userId;
 
     @NotNull(message = "Role ID is required")
-    @Positive(message = "User ID must be greater than 0")
+    @Positive(message = "Users ID must be greater than 0")
     private Integer roleId;
 
 

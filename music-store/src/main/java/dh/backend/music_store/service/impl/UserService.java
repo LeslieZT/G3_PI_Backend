@@ -11,7 +11,7 @@ import dh.backend.music_store.dto.user.response.FindAllUserResponseDto;
 import dh.backend.music_store.dto.user.response.RegisterUserDto;
 import dh.backend.music_store.dto.user.response.RoleResponseDto;
 import dh.backend.music_store.entity.Role;
-import dh.backend.music_store.entity.User;
+import dh.backend.music_store.entity.Users;
 import dh.backend.music_store.exception.ResourceNotFoundException;
 import dh.backend.music_store.repository.IRoleRepository;
 import dh.backend.music_store.repository.IUserRepository;
@@ -84,9 +84,9 @@ public class UserService implements IUserService {
 
     @Override
     public ResponseDto<ChangeRoleResponseDto> changeRole(ChangeRoleUserRequestDto request) {
-        Optional<User> userDB = userRepository.findById(request.getUserId());
+        Optional<Users> userDB = userRepository.findById(request.getUserId());
         if (userDB.isEmpty()) {
-            throw new ResourceNotFoundException("User not found");
+            throw new ResourceNotFoundException("Users not found");
         }
 
         Optional<Role> roleDB = roleRepository.findById(request.getRoleId());
@@ -110,19 +110,19 @@ public class UserService implements IUserService {
     public RegisterUserDto saveUser(CreateUserDto createUserDto) {
         try {
             createUserDto.setPassword(encryptPassword(createUserDto.getPassword()));
-            User user = modelMapper.map(createUserDto, User.class);
+            Users users = modelMapper.map(createUserDto, Users.class);
 
             // Buscar el rol con ID = 2 y asignarlo por default
             Role role = roleRepository.findById(2).orElseThrow(() -> new RuntimeException("Rol no encontrado"));
-            user.setRole(role);
+            users.setRole(role);
 
-            user = userRepository.save(user); // La entidad ya tiene el ID generado
+            users = userRepository.save(users); // La entidad ya tiene el ID generado
 
             RegisterUserDto userDto = new RegisterUserDto(
-                    user.getFirstName(),
-                    user.getLastName(),
-                    user.getEmail(),
-                    user.getPassword(),
+                    users.getFirstName(),
+                    users.getLastName(),
+                    users.getEmail(),
+                    users.getPassword(),
                     "Registro Exitoso"
             );
 
