@@ -1,3 +1,6 @@
+--
+INSERT INTO roles (name) VALUES ('admin'), ('user');
+
 -- insercion de datos en categorias.
 INSERT INTO categories
 (creation_date, id, image_url, name)

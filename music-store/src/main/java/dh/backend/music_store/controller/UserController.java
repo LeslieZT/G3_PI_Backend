@@ -38,6 +38,7 @@ public class UserController {
         ResponseDto<ChangeRoleResponseDto> response = userService.changeRole(request);
         return ResponseEntity.ok(response);
     }
+
     @PostMapping("/users/register")
     public ResponseEntity<RegisterUserResponseDto> registerUser(@Valid @RequestBody RegisterUserRequestDto request) {
         RegisterUserResponseDto response = userService.registerUser(request);

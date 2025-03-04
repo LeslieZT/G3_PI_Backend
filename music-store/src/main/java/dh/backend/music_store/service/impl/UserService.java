@@ -19,7 +19,7 @@ import dh.backend.music_store.service.IUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
@@ -37,13 +37,13 @@ public class UserService implements IUserService {
 
     private final IRoleRepository roleRepository;
 
-    // private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(IUserRepository userRepository, IRoleRepository roleRepository) {
+    public UserService(IUserRepository userRepository, IRoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
-        // this.passwordEncoder = passwordEncoder;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -106,24 +106,21 @@ public class UserService implements IUserService {
         }
 
 
-        Role role = roleRepository.findById(Math.toIntExact(request.getRoleId()))
-                .orElseThrow(() -> new RuntimeException("Rol no encontrado"));
+
 
 
         Users user = new Users();
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
         user.setEmail(request.getEmail());
-        // user.setPassword(passwordEncoder.encode(request.getPassword())); // Codificar la contraseña
+        user.setPassword(passwordEncoder.encode(request.getPassword())); // Codificar la contraseña
         user.setPhoneCode(request.getPhoneCode());
         user.setPhone(request.getPhone());
         user.setAddress(request.getAddress());
         user.setAvatar(request.getAvatar());
-        user.setRole(role);
-
+        user.setRole(roleRepository.findById(2).orElseThrow(() -> new RuntimeException("Rol no encontrado")));
 
         Users savedUser = userRepository.save(user);
-
 
         RegisterUserResponseDto response = new RegisterUserResponseDto();
         response.setId(Long.valueOf(savedUser.getId()));
