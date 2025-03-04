@@ -43,5 +43,7 @@ public interface IUserRepository extends JpaRepository<Users, Integer> {
     Integer countFilterUsers(@Param("search") String search,
                              @Param("roleIds") List<Integer> roleIds,
                              @Param("hasRoles") boolean hasRoles);
+    //añadido
+    boolean existsByEmail(String email);
 
 }

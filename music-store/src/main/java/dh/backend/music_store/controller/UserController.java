@@ -4,8 +4,10 @@ import dh.backend.music_store.dto.Generic.PaginationResponseDto;
 import dh.backend.music_store.dto.Generic.ResponseDto;
 import dh.backend.music_store.dto.user.request.ChangeRoleUserRequestDto;
 import dh.backend.music_store.dto.user.request.FindAllUserRequestDto;
+import dh.backend.music_store.dto.user.request.RegisterUserRequestDto;
 import dh.backend.music_store.dto.user.response.ChangeRoleResponseDto;
 import dh.backend.music_store.dto.user.response.FindAllUserResponseDto;
+import dh.backend.music_store.dto.user.response.RegisterUserResponseDto;
 import dh.backend.music_store.service.IUserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +36,11 @@ public class UserController {
     @PatchMapping("/users/change-role")
     public ResponseEntity<ResponseDto<ChangeRoleResponseDto>> changeRole(@Valid @RequestBody(required = false) ChangeRoleUserRequestDto request){
         ResponseDto<ChangeRoleResponseDto> response = userService.changeRole(request);
+        return ResponseEntity.ok(response);
+    }
+    @PostMapping("/users/register")
+    public ResponseEntity<RegisterUserResponseDto> registerUser(@Valid @RequestBody RegisterUserRequestDto request) {
+        RegisterUserResponseDto response = userService.registerUser(request);
         return ResponseEntity.ok(response);
     }
 }
