@@ -1,16 +1,15 @@
 package dh.backend.music_store.repository;
 import dh.backend.music_store.dto.user.projection.FilteredUserProjection;
-import dh.backend.music_store.entity.User;
+import dh.backend.music_store.entity.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collection;
 import java.util.List;
 
 @Repository
-public interface IUserRepository extends JpaRepository<User, Integer> {
+public interface IUserRepository extends JpaRepository<Users, Integer> {
 
     @Query(value =
             "SELECT U.id AS id, U.first_name AS firstName, U.last_name AS lastName, " +
