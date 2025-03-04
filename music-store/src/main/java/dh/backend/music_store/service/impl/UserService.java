@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+
 import java.util.List;
 import java.util.Optional;
 
@@ -105,7 +106,7 @@ public class UserService implements IUserService {
         }
 
 
-        Role role = roleRepository.findById(request.getRoleId())
+        Role role = roleRepository.findById(Math.toIntExact(request.getRoleId()))
                 .orElseThrow(() -> new RuntimeException("Rol no encontrado"));
 
 
