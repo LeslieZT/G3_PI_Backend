@@ -55,9 +55,10 @@ public class SecurityConfig {
                     auth.requestMatchers("/users/register","/login").permitAll();
                     auth.anyRequest().authenticated();
                 })
-                .formLogin(form -> form
-                        .successHandler(successHandler()) //URL de redireción después del login
-                        .permitAll())
+                /*.formLogin(form -> form
+                        .loginPage("http://localhost:5173/login")
+                        //.successHandler(successHandler()) //URL de redireción después del login
+                        .permitAll())*/
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                         .sessionFixation(SessionManagementConfigurer.SessionFixationConfigurer::migrateSession) // Protección contra fijación de sesión //migrateSession -> crea nueva session
