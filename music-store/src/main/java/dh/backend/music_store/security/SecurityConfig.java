@@ -88,17 +88,6 @@ public class SecurityConfig {
         return new SessionRegistryImpl();
     }
 
-    /*
-    @Bean
-    UserDetailsService userDetailsService(){
-        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-        manager.createUser(User.withUsername("user")
-                .password("1234")
-                .roles()
-                .build());
-        return manager;
-    }*/
-
 
     @Bean
     PasswordEncoder passwordEncoder(){
