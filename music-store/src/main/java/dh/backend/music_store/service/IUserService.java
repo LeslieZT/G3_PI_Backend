@@ -16,4 +16,6 @@ public interface IUserService {
     ResponseDto<ChangeRoleResponseDto> changeRole(ChangeRoleUserRequestDto request);
 
     RegisterUserDto saveUser(CreateUserDto createUserDto);
+
+    String deleteUser(String id);
 }

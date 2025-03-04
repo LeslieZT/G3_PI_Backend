@@ -131,4 +131,10 @@ public class UserService implements IUserService {
             return new RegisterUserDto(null, null, null, null, "Error al Registrarse");
         }
     }
+
+    @Override
+    public String deleteUser(String id){
+        userRepository.deleteById(Integer.valueOf(id));
+        return "Se a borrado usuario con id:".concat(id);
+    }
 }

@@ -9,14 +9,14 @@ import dh.backend.music_store.dto.user.response.ChangeRoleResponseDto;
 import dh.backend.music_store.dto.user.response.FindAllUserResponseDto;
 import dh.backend.music_store.dto.user.response.RegisterUserDto;
 import dh.backend.music_store.service.IUserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -40,11 +40,26 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/createuser")
+    @PostMapping("/user/register")
     public ResponseEntity<RegisterUserDto> createUser(@Valid @RequestBody CreateUserDto createUserDto) {
         RegisterUserDto response = userService.saveUser(createUserDto);
         return ResponseEntity.status(response.getMessage().equals("Registro Exitoso") ? HttpStatus.OK : HttpStatus.BAD_REQUEST)
                 .body(response);
+    }
+
+    @PostMapping("/user/logout")
+    public ResponseEntity<String> logout(HttpServletRequest request) {
+        SecurityContextHolder.clearContext(); // Limpia el contexto de seguridad
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate(); // Invalida la sesión
+        }
+        return ResponseEntity.ok("Sesión cerrada correctamente");
+    }
+
+    @DeleteMapping("/deleteuser")
+    public ResponseEntity<String> deleteUser(@RequestParam String id){
+        return (ResponseEntity<String>) ResponseEntity.ok(userService.deleteUser(id));
     }
 
 }

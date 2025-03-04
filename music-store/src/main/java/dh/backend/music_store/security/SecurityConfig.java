@@ -32,12 +32,13 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity.csrf(config -> config.disable()) // SOlo activar para uso de formularios
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/createuser","/login").permitAll();
+                    auth.requestMatchers("/user/register","/login").permitAll();
                     auth.anyRequest().authenticated();
                 })
                 .formLogin(form -> form
                         .successHandler(successHandler()) //URL de redireción después del login
                         .permitAll())
+
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
                         .sessionFixation(SessionManagementConfigurer.SessionFixationConfigurer::migrateSession) // Protección contra fijación de sesión //migrateSession -> crea nueva session
@@ -45,6 +46,12 @@ public class SecurityConfig {
                         .maximumSessions(1)
                         .expiredUrl("/login") // Redirigir si la sesión expira
                         .sessionRegistry(sessionRegistry())
+                ).logout(logout -> logout
+                        .logoutUrl("/user/logout") // URL para cerrar sesión
+                        .logoutSuccessUrl("/home") // Redirigir tras logout
+                        .invalidateHttpSession(true) // Invalidar la sesión
+                        .deleteCookies("JSESSIONID") // Eliminar cookies de sesión
+                        .permitAll()
                 )
                 .httpBasic(httpBasic -> {} )
                 .build();
