@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface IBrandService {
     ResponseDto<List<BrandResponseDto>> findAll();
+
+    BrandResponseDto findById(Integer id);
 }

@@ -24,3 +24,4 @@ public class Category {
     @Column(name = "creation_date")
     private LocalDate creationDate;
 }
+

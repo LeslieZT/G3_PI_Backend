@@ -66,7 +66,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiError> internalServerError(Exception e, HttpServletRequest request){
-        this.logger.error("Exception" + e);
+        this.logger.error("Exception " + e);
         ApiError apiError = new ApiError(
                 request.getRequestURI(),
                 "Error del servidor",
