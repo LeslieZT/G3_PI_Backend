@@ -12,6 +12,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.SessionManagementConfigurer;
@@ -30,6 +31,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
     @Autowired
     JwtUtils jwtUtils;
@@ -50,14 +52,14 @@ public class SecurityConfig {
 
         return httpSecurity.csrf(config -> config.disable()) // SOlo activar para uso de formularios
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/user/register","/login").permitAll();
+                    auth.requestMatchers("/users/register","/login").permitAll();
                     auth.anyRequest().authenticated();
                 })
                 .formLogin(form -> form
                         .successHandler(successHandler()) //URL de redireción después del login
                         .permitAll())
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                         .sessionFixation(SessionManagementConfigurer.SessionFixationConfigurer::migrateSession) // Protección contra fijación de sesión //migrateSession -> crea nueva session
                         .invalidSessionUrl("/login") // Manejo de sesión inválida
                         .maximumSessions(1)

@@ -13,8 +13,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class UserController {
 
+    @Autowired
     private IUserService userService;
 
     public UserController(IUserService userService) {
@@ -29,18 +32,20 @@ public class UserController {
     }
 
     @PostMapping("/users/find-all")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<PaginationResponseDto<FindAllUserResponseDto>>  findAll(@Valid @RequestBody(required = false) FindAllUserRequestDto request){
         PaginationResponseDto<FindAllUserResponseDto> response = userService.findAll(request);
         return ResponseEntity.ok(response);
     }
 
     @PatchMapping("/users/change-role")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ResponseDto<ChangeRoleResponseDto>> changeRole(@Valid @RequestBody(required = false) ChangeRoleUserRequestDto request){
         ResponseDto<ChangeRoleResponseDto> response = userService.changeRole(request);
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/user/register")
+    @PostMapping("/users/register")
     public ResponseEntity<RegisterUserDto> createUser(@Valid @RequestBody CreateUserDto createUserDto) {
         RegisterUserDto response = userService.saveUser(createUserDto);
         return ResponseEntity.status(response.getMessage().equals("Registro Exitoso") ? HttpStatus.OK : HttpStatus.BAD_REQUEST)
@@ -58,6 +63,7 @@ public class UserController {
     }
 
     @DeleteMapping("/deleteuser")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> deleteUser(@RequestParam String id){
         return (ResponseEntity<String>) ResponseEntity.ok(userService.deleteUser(id));
     }
