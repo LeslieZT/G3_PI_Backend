@@ -22,7 +22,6 @@ public class Users {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(nullable = false, unique = true)
     private String email;
 
     private String password;
@@ -39,6 +38,6 @@ public class Users {
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
 
-    @Column(name = "creation_date", nullable = false, updatable = false)
-    private LocalDate creationDate = LocalDate.now();
+    @Column(name = "creation_date")
+    private LocalDate creationDate;
 }

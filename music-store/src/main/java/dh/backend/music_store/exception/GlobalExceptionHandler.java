@@ -1,6 +1,7 @@
 package dh.backend.music_store.exception;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.slf4j.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import org.slf4j.*;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {

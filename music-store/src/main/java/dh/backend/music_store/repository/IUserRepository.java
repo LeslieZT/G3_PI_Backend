@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface IUserRepository extends JpaRepository<Users, Integer> {
@@ -45,5 +46,8 @@ public interface IUserRepository extends JpaRepository<Users, Integer> {
                              @Param("hasRoles") boolean hasRoles);
     //añadido
     boolean existsByEmail(String email);
+
+
+    Optional<Users> findByEmail(String email);
 
 }

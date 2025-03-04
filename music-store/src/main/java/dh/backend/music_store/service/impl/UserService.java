@@ -4,6 +4,7 @@ import dh.backend.music_store.dto.Generic.PaginationResponseDto;
 import dh.backend.music_store.dto.Generic.ResponseDto;
 import dh.backend.music_store.dto.user.projection.FilteredUserProjection;
 import dh.backend.music_store.dto.user.request.ChangeRoleUserRequestDto;
+import dh.backend.music_store.dto.user.request.CreateUserDto;
 import dh.backend.music_store.dto.user.request.FindAllUserRequestDto;
 import dh.backend.music_store.dto.user.request.RegisterUserRequestDto;
 import dh.backend.music_store.dto.user.response.ChangeRoleResponseDto;
@@ -16,6 +17,7 @@ import dh.backend.music_store.exception.ResourceNotFoundException;
 import dh.backend.music_store.repository.IRoleRepository;
 import dh.backend.music_store.repository.IUserRepository;
 import dh.backend.music_store.service.IUserService;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,7 +86,7 @@ public class UserService implements IUserService {
     public ResponseDto<ChangeRoleResponseDto> changeRole(ChangeRoleUserRequestDto request) {
         Optional<Users> userDB = userRepository.findById(request.getUserId());
         if (userDB.isEmpty()) {
-            throw new ResourceNotFoundException("User not found");
+            throw new ResourceNotFoundException("Users not found");
         }
 
         Optional<Role> roleDB = roleRepository.findById(request.getRoleId());
@@ -130,9 +132,14 @@ public class UserService implements IUserService {
         response.setPhone(savedUser.getPhone());
         response.setAddress(savedUser.getAddress());
         response.setAvatar(savedUser.getAvatar());
-        response.setRoleName(savedUser.getRole().getName());
+        response.setRoleName(String.valueOf(savedUser.getRole().getName()));
 
         return response;
+    }
+
+    //Encriptamos password
+    private String encryptPassword(String rawPassword) {
+        return passwordEncoder.encode(rawPassword);
     }
 
 }
