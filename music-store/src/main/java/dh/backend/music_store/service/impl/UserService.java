@@ -19,7 +19,7 @@ import dh.backend.music_store.service.IUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+// import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
@@ -36,13 +36,13 @@ public class UserService implements IUserService {
 
     private final IRoleRepository roleRepository;
 
-    private final BCryptPasswordEncoder passwordEncoder;
+    // private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(IUserRepository userRepository, IRoleRepository roleRepository, BCryptPasswordEncoder passwordEncoder) {
+    public UserService(IUserRepository userRepository, IRoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
-        this.passwordEncoder = passwordEncoder;
+        // this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -109,11 +109,11 @@ public class UserService implements IUserService {
                 .orElseThrow(() -> new RuntimeException("Rol no encontrado"));
 
 
-        User user = new User();
+        Users user = new Users();
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
         user.setEmail(request.getEmail());
-        user.setPassword(passwordEncoder.encode(request.getPassword())); // Codificar la contraseña
+        // user.setPassword(passwordEncoder.encode(request.getPassword())); // Codificar la contraseña
         user.setPhoneCode(request.getPhoneCode());
         user.setPhone(request.getPhone());
         user.setAddress(request.getAddress());
@@ -121,7 +121,7 @@ public class UserService implements IUserService {
         user.setRole(role);
 
 
-        User savedUser = userRepository.save(user);
+        Users savedUser = userRepository.save(user);
 
 
         RegisterUserResponseDto response = new RegisterUserResponseDto();
