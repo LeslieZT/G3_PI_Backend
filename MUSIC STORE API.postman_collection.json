@@ -16,10 +16,16 @@
 							"type": "noauth"
 						},
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"_categoryId\": 1,\r\n    \"limit\": 1\r\n}",
+							"raw": "{\r\n    \"_categories\": [1,2],\r\n    \"_search\": \"Pia\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -27,14 +33,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/products",
-							"protocol": "http",
+							"raw": "{{url_prod}}/products/find-all",
 							"host": [
-								"localhost"
+								"{{url_prod}}"
 							],
-							"port": "8080",
 							"path": [
-								"products"
+								"products",
+								"find-all"
 							]
 						}
 					},
@@ -49,15 +54,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/products/1",
-							"protocol": "http",
+							"raw": "{{url_prod}}/products/6",
 							"host": [
-								"localhost"
+								"{{url_prod}}"
 							],
-							"port": "8080",
 							"path": [
 								"products",
-								"1"
+								"6"
 							]
 						}
 					},
@@ -77,15 +80,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/products/1",
-							"protocol": "http",
+							"raw": "{{url}}/categories",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "8080",
 							"path": [
-								"products",
-								"1"
+								"categories"
 							]
 						}
 					},
@@ -105,14 +105,167 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/brands",
+							"raw": "{{url_prod}}/brands",
+							"host": [
+								"{{url_prod}}"
+							],
+							"path": [
+								"brands"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "Find All",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJsYXN0TmFtZSI6ImFkbWluIiwiZmlyc3ROYW1lIjoiYWRtaW4iLCJyb2xlIjpbeyJhdXRob3JpdHkiOiJBRE1JTiJ9XSwic3ViIjoiYWRtaW5AZW1haWwuY29tIiwiaWF0IjoxNzQxMTU1MzgzLCJleHAiOjE3NDEyNDE3ODN9.uJrXQiDClAzk9l0BF0a1o6sjaRHzIrJUu77wvD9ms6U",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsZmFyYXRlQGdtYWlsLmNvbSIsImlhdCI6MTc0MTE0Nzg4MCwiZXhwIjoxNzQxMjM0MjgwfQ.GGeGqBX5h0_Sn0ZMPcy3ob7gRVqSYo8ekQwQS_CEpoM",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"_roles\": [1],\r\n    \"_search\": \"pedro\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/users/find-all",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"find-all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change role",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJsYXN0TmFtZSI6ImZqIiwicm9sZSI6W3siYXV0aG9yaXR5IjoiVVNFUiJ9XSwiZmlyc3ROYW1lIjoiZGRkIiwic3ViIjoibGZhcmF0ZUBnbWFpbC5jb20iLCJpYXQiOjE3NDExNTMyNjEsImV4cCI6MTc0MTIzOTY2MX0.MCzqtghA5k9-N05G9OUpZ3ZSH0ffjL5F6ySP3jRF02s",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"userId\": 1,\r\n   \"roleId\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users/change-role",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"brands"
+								"users",
+								"change-role"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "login",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"email\": \"admin@email.com\",\r\n   \"password\": \"admin123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "register",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"email\": \"user3@gmail.com\",\r\n   \"lastName\": \"user\",\r\n   \"firstName\": \"user\",\r\n   \"password\": \"admin123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/auth/register",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth",
+								"register"
 							]
 						}
 					},
