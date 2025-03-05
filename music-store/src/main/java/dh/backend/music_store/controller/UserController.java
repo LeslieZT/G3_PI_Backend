@@ -40,8 +40,8 @@ public class UserController {
     }
 
     @PostMapping("/users/register")
-    public ResponseEntity<RegisterUserResponseDto> registerUser(@Valid @RequestBody RegisterUserRequestDto request) {
-        RegisterUserResponseDto response = userService.registerUser(request);
+    public ResponseEntity<ResponseDto<RegisterUserResponseDto>> registerUser(@Valid @RequestBody RegisterUserRequestDto request) {
+        ResponseDto<RegisterUserResponseDto>  response = userService.registerUser(request);
         return ResponseEntity.ok(response);
     }
 }

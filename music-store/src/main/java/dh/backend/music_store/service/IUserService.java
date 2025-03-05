@@ -12,7 +12,6 @@ import dh.backend.music_store.dto.user.response.RegisterUserResponseDto;
 public interface IUserService {
     PaginationResponseDto<FindAllUserResponseDto> findAll(FindAllUserRequestDto request);
     ResponseDto<ChangeRoleResponseDto> changeRole(ChangeRoleUserRequestDto request);
-
-    RegisterUserResponseDto registerUser(RegisterUserRequestDto request);
+    ResponseDto<RegisterUserResponseDto> registerUser(RegisterUserRequestDto request);
 }
 

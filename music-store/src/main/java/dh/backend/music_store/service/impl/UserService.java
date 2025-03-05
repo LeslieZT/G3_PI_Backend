@@ -12,10 +12,12 @@ import dh.backend.music_store.dto.user.response.RegisterUserResponseDto;
 import dh.backend.music_store.dto.user.response.RoleResponseDto;
 import dh.backend.music_store.entity.Role;
 import dh.backend.music_store.entity.Users;
+import dh.backend.music_store.exception.BadRequestException;
 import dh.backend.music_store.exception.ResourceNotFoundException;
 import dh.backend.music_store.repository.IRoleRepository;
 import dh.backend.music_store.repository.IUserRepository;
 import dh.backend.music_store.service.IUserService;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +42,8 @@ public class UserService implements IUserService {
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
+    private ModelMapper modelMapper;
+
     public UserService(IUserRepository userRepository, IRoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
@@ -99,39 +103,17 @@ public class UserService implements IUserService {
 
     }
     @Override
-    public RegisterUserResponseDto registerUser(RegisterUserRequestDto request) {
+    public ResponseDto<RegisterUserResponseDto>  registerUser(RegisterUserRequestDto request) {
 
         if (userRepository.existsByEmail(request.getEmail())) {
-            throw new RuntimeException("El correo electrónico ya está registrado.");
+            throw new BadRequestException("The email is already registered");
         }
-
-
-
-
-
-        Users user = new Users();
-        user.setFirstName(request.getFirstName());
-        user.setLastName(request.getLastName());
-        user.setEmail(request.getEmail());
-        user.setPassword(passwordEncoder.encode(request.getPassword())); // Codificar la contraseña
-        user.setPhoneCode(request.getPhoneCode());
-        user.setPhone(request.getPhone());
-        user.setAddress(request.getAddress());
-        user.setAvatar(request.getAvatar());
-        user.setRole(roleRepository.findById(2).orElseThrow(() -> new RuntimeException("Rol no encontrado")));
-
-        Users savedUser = userRepository.save(user);
-
-        RegisterUserResponseDto response = new RegisterUserResponseDto();
-        response.setId(Long.valueOf(savedUser.getId()));
-        response.setFirstName(savedUser.getFirstName());
-        response.setLastName(savedUser.getLastName());
-        response.setEmail(savedUser.getEmail());
-        response.setPhone(savedUser.getPhone());
-        response.setAddress(savedUser.getAddress());
-        response.setAvatar(savedUser.getAvatar());
-        response.setRoleName(savedUser.getRole().getName());
-
+        Users user =  modelMapper.map(request, Users.class);
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setRole(roleRepository.findById(2).orElseThrow(() -> new RuntimeException("Role not found")));
+        userRepository.save(user);
+        ResponseDto<RegisterUserResponseDto> response = new ResponseDto<>();
+        response.setData(new RegisterUserResponseDto("The user was created successfully "));
         return response;
     }
 
