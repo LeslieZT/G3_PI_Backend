@@ -30,7 +30,7 @@ public class SecurityConfiguration {
                         auth ->{
                             // endpoints que no necesitan autenticacion
                             auth.requestMatchers("/auth/**").permitAll();
-                            auth.requestMatchers("/productos/**").permitAll();
+                            auth.requestMatchers("/products/**").permitAll();
                             auth.requestMatchers(HttpMethod.GET, "/categories/**").permitAll();
                             auth.requestMatchers(HttpMethod.GET, "/brands/**").permitAll();
 
