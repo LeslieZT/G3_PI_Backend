@@ -10,12 +10,12 @@ INSERT INTO roles (name) VALUES ('admin'), ('user');
 INSERT INTO categories
 (creation_date, id, image_url, name)
 VALUES
-('2025-03-1', DEFAULT, 'https://asset.cloudinary.com/dqc7cuyox/83862358bfdda80e60a52e77fc4df34e', 'Guitarras'),
-('2025-03-1', DEFAULT, 'https://asset.cloudinary.com/dqc7cuyox/32a59efde4597a9ee8ae6b41cd4e41a4', 'Baterias'),
-('2025-03-1', DEFAULT, 'https://asset.cloudinary.com/dqc7cuyox/0481006a4db0fbadef19cc80c1acb3ed', 'Pianos'),
-('2025-03-1', DEFAULT, 'https://asset.cloudinary.com/dqc7cuyox/438bc72099561ec775a8f84128d3dfd0', 'Bajos'),
-('2025-03-1', DEFAULT, 'https://asset.cloudinary.com/dqc7cuyox/1738691a86366fb28b71dd1f2e2c6bb5', 'Electricos'),
-('2025-03-1', DEFAULT, 'https://asset.cloudinary.com/dqc7cuyox/4505d20129b1b34eec014a8167b789d2', 'Accesorios');
+('2025-03-1', DEFAULT, 'https://res.cloudinary.com/dqc7cuyox/image/upload/fl_preserve_transparency/v1741105007/CGuitarras_oney1g.jpg?_s=public-apps', 'Guitarras'),
+('2025-03-1', DEFAULT, 'https://res.cloudinary.com/dqc7cuyox/image/upload/fl_preserve_transparency/v1741105104/CBaterias_twvhnx.jpg?_s=public-apps', 'Baterias'),
+('2025-03-1', DEFAULT, 'https://res.cloudinary.com/dqc7cuyox/image/upload/fl_preserve_transparency/v1741105173/CPianos_ktcukz.jpg?_s=public-apps', 'Pianos'),
+('2025-03-1', DEFAULT, 'https://res.cloudinary.com/dqc7cuyox/image/upload/fl_preserve_transparency/v1741105226/CBajos_y0dbkl.jpg?_s=public-apps', 'Bajos'),
+('2025-03-1', DEFAULT, 'https://res.cloudinary.com/dqc7cuyox/image/upload/fl_preserve_transparency/v1741105287/CElectricos_zzifvp.jpg?_s=public-apps', 'Electricos'),
+('2025-03-1', DEFAULT, 'https://res.cloudinary.com/dqc7cuyox/image/upload/fl_preserve_transparency/v1741105359/CAccesorios_erfr38.jpg?_s=public-apps', 'Accesorios');
 
 -- insercion de datos en tabla Brand
 INSERT INTO brands(id, name, creation_date)
