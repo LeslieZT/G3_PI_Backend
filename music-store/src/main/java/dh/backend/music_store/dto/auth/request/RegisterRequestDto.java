@@ -1,16 +1,16 @@
-package dh.backend.music_store.dto.user.request;
+package dh.backend.music_store.dto.auth.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
+import lombok.*;
+
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterUserRequestDto {
+public class RegisterRequestDto {
 
     @NotBlank(message = "First name is required")
     private String firstName;
@@ -25,11 +25,5 @@ public class RegisterUserRequestDto {
     @Size(min = 6, message = "Password must be at least 6 characters long")
     private String password;
 
-    private String phoneCode;
-    private String phone;
-    private String address;
-    private String avatar;
-    private Long roleId;
+
 }
-
-
