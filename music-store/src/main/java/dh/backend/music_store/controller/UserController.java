@@ -4,6 +4,7 @@ import dh.backend.music_store.dto.Generic.PaginationResponseDto;
 import dh.backend.music_store.dto.Generic.ResponseDto;
 import dh.backend.music_store.dto.user.request.ChangeRoleUserRequestDto;
 import dh.backend.music_store.dto.user.request.FindAllUserRequestDto;
+import dh.backend.music_store.dto.user.request.FindByEmailRequestDto;
 import dh.backend.music_store.dto.user.request.RegisterUserRequestDto;
 import dh.backend.music_store.dto.user.response.ChangeRoleResponseDto;
 import dh.backend.music_store.dto.user.response.FindAllUserResponseDto;
@@ -11,11 +12,7 @@ import dh.backend.music_store.dto.user.response.RegisterUserResponseDto;
 import dh.backend.music_store.service.IUserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -43,5 +40,11 @@ public class UserController {
     public ResponseEntity<ResponseDto<RegisterUserResponseDto>> registerUser(@Valid @RequestBody RegisterUserRequestDto request) {
         ResponseDto<RegisterUserResponseDto>  response = userService.registerUser(request);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/users/find-by-email")
+    public ResponseEntity<ResponseDto<?>> finByEmail(@Valid @RequestBody FindByEmailRequestDto findByEmailRequestDto){
+        ResponseDto responseDto = userService.finByEmail(findByEmailRequestDto);
+        return ResponseEntity.ok(responseDto);
     }
 }
