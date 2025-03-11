@@ -17,5 +17,4 @@ public class FindByEmailRequestDto {
     @NotBlank
     @Email
     private String email;
-    private String token;
 }

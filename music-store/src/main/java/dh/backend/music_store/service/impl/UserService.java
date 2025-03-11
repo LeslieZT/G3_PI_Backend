@@ -117,7 +117,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public ResponseDto<?> finByEmail(FindByEmailRequestDto findByEmailRequestDto){
+    public ResponseDto<FindByEmailResponseDto> finByEmail(FindByEmailRequestDto findByEmailRequestDto){
         Users users = userRepository.findByEmail(findByEmailRequestDto.getEmail()).orElseThrow(() -> new RuntimeException("User not found"));
         FindByEmailResponseDto responseDto = modelMapper.map(users, FindByEmailResponseDto.class);
         responseDto.setRole(String.valueOf(users.getRole().getName()));
