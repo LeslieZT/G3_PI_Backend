@@ -80,9 +80,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/categories",
+							"raw": "{{url_prod}}/categories",
 							"host": [
-								"{{url}}"
+								"{{url_prod}}"
 							],
 							"path": [
 								"categories"
@@ -122,14 +122,58 @@
 			"name": "users",
 			"item": [
 				{
-					"name": "Find All",
+					"name": "get account",
 					"request": {
 						"auth": {
 							"type": "bearer",
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJsYXN0TmFtZSI6ImFkbWluIiwiZmlyc3ROYW1lIjoiYWRtaW4iLCJyb2xlIjpbeyJhdXRob3JpdHkiOiJBRE1JTiJ9XSwic3ViIjoiYWRtaW5AZW1haWwuY29tIiwiaWF0IjoxNzQxMTU1MzgzLCJleHAiOjE3NDEyNDE3ODN9.uJrXQiDClAzk9l0BF0a1o6sjaRHzIrJUu77wvD9ms6U",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbeyJhdXRob3JpdHkiOiJVU0VSIn1dLCJmaXJzdE5hbWUiOiJ1c2VyIiwibGFzdE5hbWUiOiJ1c2VyIiwic3ViIjoidXNlcjNAZ21haWwuY29tIiwiaWF0IjoxNzQxNjcwNTIyLCJleHAiOjE3NDE3NTY5MjJ9.hfdfvzjbIFJcJr9D2faYEq7QiqDvfcyHQ0xZdXNe67o",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsZmFyYXRlQGdtYWlsLmNvbSIsImlhdCI6MTc0MTE0Nzg4MCwiZXhwIjoxNzQxMjM0MjgwfQ.GGeGqBX5h0_Sn0ZMPcy3ob7gRVqSYo8ekQwQS_CEpoM",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"admin@email.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/users/find-by-email",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"find-by-email"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "find all",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbeyJhdXRob3JpdHkiOiJBRE1JTiJ9XSwiZmlyc3ROYW1lIjoiYWRtaW4iLCJsYXN0TmFtZSI6ImFkbWluIiwic3ViIjoiYWRtaW5AZW1haWwuY29tIiwiaWF0IjoxNzQxNjUyNjg5LCJleHAiOjE3NDE3MzkwODl9.jOgmwWd1B_pJEvLs67xdbIyW2J-I9_U_hqvQ-_WwXqQ",
 									"type": "string"
 								}
 							]
@@ -153,11 +197,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/users/find-all",
+							"raw": "{{url}}/backoffice/users/find-all",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
+								"backoffice",
 								"users",
 								"find-all"
 							]
@@ -173,7 +218,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJsYXN0TmFtZSI6ImZqIiwicm9sZSI6W3siYXV0aG9yaXR5IjoiVVNFUiJ9XSwiZmlyc3ROYW1lIjoiZGRkIiwic3ViIjoibGZhcmF0ZUBnbWFpbC5jb20iLCJpYXQiOjE3NDExNTMyNjEsImV4cCI6MTc0MTIzOTY2MX0.MCzqtghA5k9-N05G9OUpZ3ZSH0ffjL5F6ySP3jRF02s",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbeyJhdXRob3JpdHkiOiJBRE1JTiJ9XSwiZmlyc3ROYW1lIjoiYWRtaW4iLCJsYXN0TmFtZSI6ImFkbWluIiwic3ViIjoiYWRtaW5AZW1haWwuY29tIiwiaWF0IjoxNzQxNjUyNjg5LCJleHAiOjE3NDE3MzkwODl9.jOgmwWd1B_pJEvLs67xdbIyW2J-I9_U_hqvQ-_WwXqQ",
 									"type": "string"
 								}
 							]
@@ -182,7 +227,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \"userId\": 1,\r\n   \"roleId\": 2\r\n}",
+							"raw": "{\r\n   \"userId\": 2,\r\n   \"roleId\": 2\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -190,13 +235,12 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/users/change-role",
-							"protocol": "http",
+							"raw": "{{url}}/backoffice/users/change-role",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "8080",
 							"path": [
+								"backoffice",
 								"users",
 								"change-role"
 							]
@@ -227,12 +271,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/auth/login",
-							"protocol": "http",
+							"raw": "{{url}}/auth/login",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "8080",
 							"path": [
 								"auth",
 								"login"

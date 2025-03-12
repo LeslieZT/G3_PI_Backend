@@ -5,11 +5,9 @@ import dh.backend.music_store.dto.Generic.ResponseDto;
 import dh.backend.music_store.dto.user.projection.FilteredUserProjection;
 import dh.backend.music_store.dto.user.request.ChangeRoleUserRequestDto;
 import dh.backend.music_store.dto.user.request.FindAllUserRequestDto;
+import dh.backend.music_store.dto.user.request.FindByEmailRequestDto;
 import dh.backend.music_store.dto.user.request.RegisterUserRequestDto;
-import dh.backend.music_store.dto.user.response.ChangeRoleResponseDto;
-import dh.backend.music_store.dto.user.response.FindAllUserResponseDto;
-import dh.backend.music_store.dto.user.response.RegisterUserResponseDto;
-import dh.backend.music_store.dto.user.response.RoleResponseDto;
+import dh.backend.music_store.dto.user.response.*;
 import dh.backend.music_store.entity.Role;
 import dh.backend.music_store.entity.Users;
 import dh.backend.music_store.exception.BadRequestException;
@@ -115,6 +113,16 @@ public class UserService implements IUserService {
         userRepository.save(user);
         ResponseDto<RegisterUserResponseDto> response = new ResponseDto<>();
         response.setData(new RegisterUserResponseDto("The user was created successfully "));
+        return response;
+    }
+
+    @Override
+    public ResponseDto<FindByEmailResponseDto> finByEmail(FindByEmailRequestDto findByEmailRequestDto){
+        Users users = userRepository.findByEmail(findByEmailRequestDto.getEmail()).orElseThrow(() -> new RuntimeException("User not found"));
+        FindByEmailResponseDto responseDto = modelMapper.map(users, FindByEmailResponseDto.class);
+        responseDto.setRole(String.valueOf(users.getRole().getName()));
+        ResponseDto<FindByEmailResponseDto> response = new ResponseDto<>();
+        response.setData(responseDto);
         return response;
     }
 

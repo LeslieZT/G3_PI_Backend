@@ -34,11 +34,12 @@ public class SecurityConfiguration {
                             auth.requestMatchers(HttpMethod.GET, "/categories/**").permitAll();
                             auth.requestMatchers(HttpMethod.GET, "/brands/**").permitAll();
 
-                            // endponints que necesitan algun tipo de rol especifico
-                            auth.requestMatchers("/users/**").hasAnyAuthority("ADMIN");
-
                             // endpoints que requieren autenticacion basica (tener al menos el rol de user)
-                            auth.requestMatchers("/turnos/**").authenticated();
+                            auth.requestMatchers(HttpMethod.POST, "/users/find-by-email").authenticated();
+
+                            // endponints que necesitan algun tipo de rol especifico
+                            auth.requestMatchers("/backoffice/**").hasAnyAuthority("ADMIN");
+
                             auth.anyRequest().authenticated();
 
                         })
