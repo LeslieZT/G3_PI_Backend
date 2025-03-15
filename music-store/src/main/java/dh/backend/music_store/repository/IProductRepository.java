@@ -32,4 +32,6 @@ public interface IProductRepository extends JpaRepository<Product, Integer> {
     Integer countFilterProducts(@Param("search") String search,
                                 @Param("categoryIds") List<Integer> categoryIds,
                                 @Param("hasCategories") boolean hasCategories);
+
+    List<Product> findByName(String name);
 }

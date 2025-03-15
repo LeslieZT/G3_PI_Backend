@@ -45,7 +45,7 @@ public class BrandService implements IBrandService {
        Optional<Brand> brandFromDb =  BrandRepository.findById(id);
        if(brandFromDb.isEmpty()){
            logger.error("Brand(Marca) {} not found", id);
-           throw new ResourceNotFoundException("Producto " + id + " not found");
+           throw new ResourceNotFoundException("Marca " + id + " not found");
        }
        return modelMapper.map(brandFromDb, BrandResponseDto.class);
     }

@@ -2,6 +2,7 @@ package dh.backend.music_store.controller;
 
 import dh.backend.music_store.dto.Generic.PaginationResponseDto;
 import dh.backend.music_store.dto.product.request.FindAllProductRequestDto;
+import dh.backend.music_store.dto.product.request.SaveProductRequestDto;
 import dh.backend.music_store.dto.product.response.DetailProductResponseDto;
 import dh.backend.music_store.dto.product.response.FindAllProductResponseDto;
 import dh.backend.music_store.dto.product.response.FindOneProductResponseDto;
@@ -26,7 +27,11 @@ public class ProductController {
         PaginationResponseDto<FindAllProductResponseDto> response = productService.findAll(request);
         return ResponseEntity.ok(response);
     }
-
+    @PostMapping("/products/save")
+    public ResponseEntity<DetailProductResponseDto> save(@RequestBody SaveProductRequestDto saveProductRequestDto){
+        DetailProductResponseDto detailResponse = productService.save(saveProductRequestDto);
+        return ResponseEntity.ok(detailResponse);
+    }
     @GetMapping("/products/{id}")
     public ResponseEntity<DetailProductResponseDto> findDetailsById(@PathVariable Integer id){
         DetailProductResponseDto detalleProductoResponseDto = productService.findDetailsById(id);

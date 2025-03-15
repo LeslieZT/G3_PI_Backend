@@ -34,6 +34,10 @@ public class SecurityConfiguration {
                             auth.requestMatchers(HttpMethod.GET, "/categories/**").permitAll();
                             auth.requestMatchers(HttpMethod.GET, "/brands/**").permitAll();
 
+                                //luego poner en solo para admins - al igual q el endpoint de guardar producto
+                            auth.requestMatchers(HttpMethod.POST, "/api/upload/image").permitAll();
+
+
                             // endpoints que requieren autenticacion basica (tener al menos el rol de user)
                             auth.requestMatchers(HttpMethod.POST, "/users/find-by-email").authenticated();
 
