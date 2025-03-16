@@ -2,6 +2,7 @@ package dh.backend.music_store.service.impl;
 
 
 import dh.backend.music_store.dto.Generic.PaginationResponseDto;
+import dh.backend.music_store.dto.Generic.RequestSearcherDto;
 import dh.backend.music_store.dto.brand.BrandResponseDto;
 import dh.backend.music_store.dto.category.CategoryResponseDto;
 import dh.backend.music_store.dto.product.response.DetailProductResponseDto;
@@ -9,10 +10,13 @@ import dh.backend.music_store.dto.product.projection.FilteredProductProjection;
 import dh.backend.music_store.dto.product.request.FindAllProductRequestDto;
 import dh.backend.music_store.dto.product.response.FindAllProductResponseDto;
 import dh.backend.music_store.dto.product.response.FindOneProductResponseDto;
+import dh.backend.music_store.dto.product.response.ResponseSearchProductDto;
 import dh.backend.music_store.entity.Product;
 import dh.backend.music_store.entity.ProductImage;
+import dh.backend.music_store.entity.Reservation;
 import dh.backend.music_store.exception.ResourceNotFoundException;
 import dh.backend.music_store.repository.IProductRepository;
+import dh.backend.music_store.repository.IReservationRepository;
 import dh.backend.music_store.service.IBrandService;
 import dh.backend.music_store.service.ICategoryService;
 import dh.backend.music_store.service.IProductImageService;
@@ -24,9 +28,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.modelmapper.ModelMapper;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductService implements IProductService {
@@ -36,6 +42,9 @@ public class ProductService implements IProductService {
     private ICategoryService categoryService;
     private IProductImageService productImageService;
     private IBrandService brandService;
+
+    @Autowired
+    private IReservationRepository reservationRepository;
 
 
     @Autowired
@@ -107,7 +116,6 @@ public class ProductService implements IProductService {
         return detailProductResponseDto;
     }
 
-
     //funcion de mapeo a DetailProductResponseDto
     private DetailProductResponseDto mapperToDetailProductResponseDto(Product product){
         logger.info("Mapeando producto a response Detalle");
@@ -122,7 +130,7 @@ public class ProductService implements IProductService {
             url = productImage.getUrl();
         }
         //buscar marca del producto
-        BrandResponseDto brandResponseDto = brandService.findById(product.getBrandId().getId());
+        BrandResponseDto brandResponseDto = brandService.findById(product.getBrand().getId());
         //buscaar imagenes no principales
         List<ProductImage> secondaryImagesFromDb = productImageService.findByProductAndIsNotPrimary(product);
         List<String> secondaryImages = new ArrayList<>();
@@ -146,6 +154,47 @@ public class ProductService implements IProductService {
                 product.getRecommendedUse(),
                 secondaryImages);
         return detailProductResponseDto;
+    }
+
+    @Override
+    public List<ResponseSearchProductDto> searchProducts(RequestSearcherDto requestSearcherDto) {
+        //FALTA FILTRADO SOLO DATE
+        List<Product> products = productRepository.searchProducts(requestSearcherDto.getText());
+
+        List<ResponseSearchProductDto> productResponseDtos =new ArrayList<>();
+
+        for (Product product : products){
+
+            ResponseSearchProductDto productft = modelMapper.map(product,ResponseSearchProductDto.class);
+            productft.setBrand(product.getBrand().getName());
+            productft.setCategory(product.getCategory().getName());
+            ProductImage productImage = productImageService.findByProductAndIsPrimary(product);
+            productft.setImages(productImage.getUrl());
+            //FILTRANDO DISPONIBILIDAD POR FECHAS
+            if(isProductAvaiable(product, requestSearcherDto.getDateInit(), requestSearcherDto.getDateEnd())){
+                productResponseDtos.add(productft);
+            }
+
+        }
+
+
+
+        return productResponseDtos;
+    }
+
+    private boolean  isProductAvaiable(Product product, LocalDate dateInit, LocalDate dateEnd){
+        // Obtener todas las reservas activas del producto
+        List<Reservation> activeReservations = reservationRepository.findByProductIdAndStatus(product.getId(), 1);
+        if(activeReservations.isEmpty() || dateInit ==null || dateEnd==null){
+            return true;
+        }else {
+            // Verificar si alguna reserva se traslapa con el rango consultado
+            boolean isAvailable = activeReservations.stream()
+                    .noneMatch(reservation ->
+                            dateEnd.isAfter(reservation.getDateInit()) && dateInit.isBefore(reservation.getDateEnd())
+                    );
+
+            return isAvailable;}
     }
 
 }

@@ -1,9 +1,12 @@
 package dh.backend.music_store.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -23,5 +26,10 @@ public class Category {
 
     @Column(name = "creation_date")
     private LocalDate creationDate;
+
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Product> products = new ArrayList<>();
+
 }
 

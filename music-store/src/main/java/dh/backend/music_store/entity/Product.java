@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -46,7 +47,8 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "brand_id", nullable = false)
-    private Brand brandId;
+    private Brand brand;
+
     private String model;
     private String product_condition;
     private String origin;
@@ -56,6 +58,11 @@ public class Product {
     private String material;
     @Column (name = "recommended_use")
     private String recommendedUse;
+
+    @OneToOne
+    @JoinColumn(name = "product")
+    private Reservation reservation;
+
 
     @Override
     public String toString() {
