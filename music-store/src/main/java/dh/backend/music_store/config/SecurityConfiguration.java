@@ -30,12 +30,10 @@ public class SecurityConfiguration {
                         auth ->{
                             // endpoints que no necesitan autenticacion
                             auth.requestMatchers("/auth/**").permitAll();
-                            auth.requestMatchers("/products/**").permitAll();
                             auth.requestMatchers(HttpMethod.GET, "/categories/**").permitAll();
                             auth.requestMatchers(HttpMethod.GET, "/brands/**").permitAll();
-
-                                //luego poner en solo para admins - al igual q el endpoint de guardar producto
-                            auth.requestMatchers(HttpMethod.POST, "/api/upload/image").permitAll();
+                            auth.requestMatchers(HttpMethod.GET, "/products/**").permitAll();
+                            auth.requestMatchers(HttpMethod.POST, "/products/find-all").permitAll();
 
 
                             // endpoints que requieren autenticacion basica (tener al menos el rol de user)
@@ -43,6 +41,8 @@ public class SecurityConfiguration {
 
                             // endponints que necesitan algun tipo de rol especifico
                             auth.requestMatchers("/backoffice/**").hasAnyAuthority("ADMIN");
+                            auth.requestMatchers(HttpMethod.POST, "/api/upload/image").hasAuthority("ADMIN");
+                            auth.requestMatchers(HttpMethod.POST, "/products/save").hasAuthority("ADMIN");
 
                             auth.anyRequest().authenticated();
 

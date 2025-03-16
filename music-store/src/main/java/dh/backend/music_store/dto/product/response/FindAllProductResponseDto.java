@@ -11,5 +11,7 @@ public class FindAllProductResponseDto {
     private String name;
     private String imageUrl;
     private Double pricePerHour;
+    private String categoryName;
+    private String description;
 }
 

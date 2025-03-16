@@ -76,7 +76,9 @@ public class ProductService implements IProductService {
                 projection.getId(),
                 projection.getName(),
                 projection.getUrl(),
-                projection.getPricePerHour()
+                projection.getPricePerHour(),
+                projection.getCategoryName(),
+                projection.getDescription()
 
         )).toList();
 

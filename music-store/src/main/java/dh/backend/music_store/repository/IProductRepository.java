@@ -12,9 +12,10 @@ import java.util.List;
 @Repository
 public interface IProductRepository extends JpaRepository<Product, Integer> {
 
-    @Query(value ="SELECT P.id , P.name, PI.url , P.price_per_hour as pricePerHour " +
+    @Query(value ="SELECT P.id, P.name, PI.url, P.price_per_hour AS pricePerHour, C.name AS categoryName, P.description " +
             "FROM products P " +
             "LEFT JOIN product_images PI ON P.id = PI.product_id AND PI.is_primary = true " +
+            "INNER JOIN categories C ON P.category_id = C.id " +
             "WHERE (:search IS NULL OR LOWER(P.name) LIKE LOWER(CONCAT('%', :search, '%'))) " +
             "AND (:hasCategories = false OR P.category_id IN (:categoryIds)) " +
             "ORDER BY P.id DESC " +
