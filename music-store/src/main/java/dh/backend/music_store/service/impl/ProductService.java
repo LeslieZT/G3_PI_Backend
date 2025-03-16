@@ -4,14 +4,19 @@ package dh.backend.music_store.service.impl;
 import dh.backend.music_store.dto.Generic.PaginationResponseDto;
 import dh.backend.music_store.dto.brand.BrandResponseDto;
 import dh.backend.music_store.dto.category.CategoryResponseDto;
+import dh.backend.music_store.dto.product.request.SaveProductRequestDto;
 import dh.backend.music_store.dto.product.response.DetailProductResponseDto;
 import dh.backend.music_store.dto.product.projection.FilteredProductProjection;
 import dh.backend.music_store.dto.product.request.FindAllProductRequestDto;
 import dh.backend.music_store.dto.product.response.FindAllProductResponseDto;
 import dh.backend.music_store.dto.product.response.FindOneProductResponseDto;
+import dh.backend.music_store.entity.Brand;
+import dh.backend.music_store.entity.Category;
 import dh.backend.music_store.entity.Product;
 import dh.backend.music_store.entity.ProductImage;
+import dh.backend.music_store.exception.BadRequestException;
 import dh.backend.music_store.exception.ResourceNotFoundException;
+import dh.backend.music_store.repository.IBrandRepository;
 import dh.backend.music_store.repository.IProductRepository;
 import dh.backend.music_store.service.IBrandService;
 import dh.backend.music_store.service.ICategoryService;
@@ -24,6 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.modelmapper.ModelMapper;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -70,7 +76,9 @@ public class ProductService implements IProductService {
                 projection.getId(),
                 projection.getName(),
                 projection.getUrl(),
-                projection.getPricePerHour()
+                projection.getPricePerHour(),
+                projection.getCategoryName(),
+                projection.getDescription()
 
         )).toList();
 
@@ -107,6 +115,50 @@ public class ProductService implements IProductService {
         return detailProductResponseDto;
     }
 
+    @Override
+    public DetailProductResponseDto save(SaveProductRequestDto saveProductRequestDto) {
+        logger.info("Ingresando al Service Producto | Guardar producto");
+        DetailProductResponseDto detailProductResponseDto = null;
+        List<Product> sameProductsByName = productRepository.findByName(saveProductRequestDto.getName());
+        if(!sameProductsByName.isEmpty()){
+            throw new BadRequestException("El nombre del producto ya se encuentra en uso");
+        }
+
+        logger.info("No existen productos con el mismo nombre, se procede al guardado");
+        Product productToSave = new Product();
+        logger.info("Buscando y mapeando categoria");
+        Category category =  modelMapper.map(categoryService.findById(saveProductRequestDto.getCategoryId()), Category.class) ;
+        Brand brand =  modelMapper.map(brandService.findById(saveProductRequestDto.getBrandId()), Brand.class);
+        //seteo de la imagen a guardar
+        List<ProductImage> images = new ArrayList<>();
+        images.add(new ProductImage(null, productToSave, saveProductRequestDto.getImageUrl(), true));
+
+        //seteo del producto a guardar
+        productToSave.setName(saveProductRequestDto.getName());
+        productToSave.setDescription(saveProductRequestDto.getDescription());
+        productToSave.setPricePerHour(saveProductRequestDto.getPrice());
+        productToSave.setStockQuantity(1);
+        productToSave.setIsAvailable(true);
+        productToSave.setCategory(category);
+        productToSave.setImages(images);
+        productToSave.setCreationDate(LocalDate.now());
+        productToSave.setBrandId(brand);
+        productToSave.setModel(saveProductRequestDto.getModel());
+        productToSave.setProduct_condition(saveProductRequestDto.getProductCondition());
+        productToSave.setOrigin(saveProductRequestDto.getOrigin());
+        productToSave.setLaunchYear(saveProductRequestDto.getLaunchYear());
+        productToSave.setProduct_size(saveProductRequestDto.getSize());
+        productToSave.setMaterial(saveProductRequestDto.getMaterial());
+        productToSave.setRecommendedUse(saveProductRequestDto.getRecommendedUse());
+
+        //guardado
+        Product productSaved = productRepository.save(productToSave);
+        logger.info("Producto persistido en la db");
+        //mapeo response
+        detailProductResponseDto = mapperToDetailProductResponseDto(productSaved);
+        return detailProductResponseDto;
+    }
+
 
     //funcion de mapeo a DetailProductResponseDto
     private DetailProductResponseDto mapperToDetailProductResponseDto(Product product){
@@ -123,7 +175,7 @@ public class ProductService implements IProductService {
         }
         //buscar marca del producto
         BrandResponseDto brandResponseDto = brandService.findById(product.getBrandId().getId());
-        //buscaar imagenes no principales
+        //buscar imagenes no principales
         List<ProductImage> secondaryImagesFromDb = productImageService.findByProductAndIsNotPrimary(product);
         List<String> secondaryImages = new ArrayList<>();
         for (ProductImage pi : secondaryImagesFromDb){
