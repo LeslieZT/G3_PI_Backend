@@ -5,5 +5,7 @@ public interface FilteredProductProjection {
     String getName();
     String getUrl();
     Double getPricePerHour();
+    String getCategoryName();
+    String getDescription();
 
 }

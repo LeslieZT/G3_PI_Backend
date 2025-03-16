@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "69f10d34-21ea-487a-88d3-0ebe65f5b5ca",
+		"_postman_id": "3af47889-891a-428e-bbe7-20017088c874",
 		"name": "MUSIC STORE API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "8028248"
+		"_exporter_id": "33998079"
 	},
 	"item": [
 		{
@@ -281,7 +281,97 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "ejemplo response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n   \"email\": \"admin@email.com\",\r\n   \"password\": \"admin123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/auth/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 16 Mar 2025 15:37:38 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"token\": \"eyJhbGciOiJIUzI1NiJ9.eyJsYXN0TmFtZSI6ImFkbWluIiwicm9sZSI6W3siYXV0aG9yaXR5IjoiQURNSU4ifV0sImZpcnN0TmFtZSI6ImFkbWluIiwic3ViIjoiYWRtaW5AZW1haWwuY29tIiwiaWF0IjoxNzQyMTM5NDU4LCJleHAiOjE3NDIyMjU4NTh9.tvn413MTg5hsdVBQSc_AJy03fNv4bwxQK9AkStTnzBE\",\n        \"role\": \"ADMIN\",\n        \"expiration\": null\n    }\n}"
+						}
+					]
 				},
 				{
 					"name": "register",
@@ -314,6 +404,417 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "HDU 23 - Registrar producto",
+			"item": [
+				{
+					"name": "Endpoint Subir Imagen",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/Alan/OneDrive/Escritorio/Un atardecer sin cables.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/upload/image",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"upload",
+								"image"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "ejemplo response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "image",
+											"type": "file",
+											"src": "/C:/Users/Alan/Downloads/piano imagen.jpg"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/upload/image",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"upload",
+										"image"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 15 Mar 2025 03:52:27 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"url\": \"https://res.cloudinary.com/dwzugg5gm/image/upload/v1742010747/ilpjjipwc7udmhivpyue.jpg\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Endpoint Guardar Producto",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": [
+						{
+							"name": "ejemplo response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Guitarra Acústica Fender CD-60\",\r\n  \"imageUrl\": \"aqui la url del producto dado por el endpoint de subir imagen\",\r\n  \"price\": 299.99,\r\n  \"description\": \"Guitarra acústica con cuerpo de caoba y tapa de abeto, ideal para principiantes y músicos intermedios.\",\r\n  \"categoryId\": 2,\r\n  \"brandId\": 4,\r\n  \"model\": \"CD-60\",\r\n  \"productCondition\": \"Nuevo\",\r\n  \"origin\": \"Estados Unidos\",\r\n  \"launchYear\": \"2023\",\r\n  \"material\": \"Caoba y abeto\",\r\n  \"size\": \"20x40x70\",\r\n  \"recommendedUse\": \"Profesional\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/products/save",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"products",
+										"save"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 15 Mar 2025 04:07:18 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 11,\n    \"category\": \"Baterias\",\n    \"name\": \"Guitarra Acústica Fender CD-60\",\n    \"mainImage\": \"aqui la url del producto dado por el endpoint de subir imagen\",\n    \"description\": \"Guitarra acústica con cuerpo de caoba y tapa de abeto, ideal para principiantes y músicos intermedios.\",\n    \"price\": 299.99,\n    \"brand\": \"Tama\",\n    \"model\": \"CD-60\",\n    \"product_condition\": \"Nuevo\",\n    \"origin\": \"Estados Unidos\",\n    \"launchYear\": \"2023\",\n    \"size\": \"20x40x70\",\n    \"material\": \"Caoba y abeto\",\n    \"recommendedUse\": \"Profesional\",\n    \"secondaryImages\": []\n}"
+						}
+					]
+				},
+				{
+					"name": "Endpoint obtener todas las categorias",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": [
+						{
+							"name": "ejemplo response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/categories",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"categories"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 15 Mar 2025 04:10:43 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": [\n        {\n            \"id\": 1,\n            \"name\": \"Guitarras\",\n            \"imageUrl\": \"https://res.cloudinary.com/dqc7cuyox/image/upload/fl_preserve_transparency/v1741105007/CGuitarras_oney1g.jpg?_s=public-apps\"\n        },\n        {\n            \"id\": 2,\n            \"name\": \"Baterias\",\n            \"imageUrl\": \"https://res.cloudinary.com/dqc7cuyox/image/upload/fl_preserve_transparency/v1741105104/CBaterias_twvhnx.jpg?_s=public-apps\"\n        },\n        {\n            \"id\": 3,\n            \"name\": \"Pianos\",\n            \"imageUrl\": \"https://res.cloudinary.com/dqc7cuyox/image/upload/fl_preserve_transparency/v1741105173/CPianos_ktcukz.jpg?_s=public-apps\"\n        },\n        {\n            \"id\": 4,\n            \"name\": \"Bajos\",\n            \"imageUrl\": \"https://res.cloudinary.com/dqc7cuyox/image/upload/fl_preserve_transparency/v1741105226/CBajos_y0dbkl.jpg?_s=public-apps\"\n        },\n        {\n            \"id\": 5,\n            \"name\": \"Electricos\",\n            \"imageUrl\": \"https://res.cloudinary.com/dqc7cuyox/image/upload/fl_preserve_transparency/v1741105287/CElectricos_zzifvp.jpg?_s=public-apps\"\n        },\n        {\n            \"id\": 6,\n            \"name\": \"Accesorios\",\n            \"imageUrl\": \"https://res.cloudinary.com/dqc7cuyox/image/upload/fl_preserve_transparency/v1741105359/CAccesorios_erfr38.jpg?_s=public-apps\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Endpoint obtener todas las marcas",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": [
+						{
+							"name": "ejemplo response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/brands",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"brands"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 15 Mar 2025 04:15:15 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": [\n        {\n            \"id\": 1,\n            \"name\": \"Pearl\"\n        },\n        {\n            \"id\": 2,\n            \"name\": \"Roland\"\n        },\n        {\n            \"id\": 3,\n            \"name\": \"Fender\"\n        },\n        {\n            \"id\": 4,\n            \"name\": \"Tama\"\n        },\n        {\n            \"id\": 5,\n            \"name\": \"Sony\"\n        },\n        {\n            \"id\": 6,\n            \"name\": \"Gibson\"\n        },\n        {\n            \"id\": 7,\n            \"name\": \"Hohner\"\n        },\n        {\n            \"id\": 8,\n            \"name\": \"Steinway & Sons\"\n        },\n        {\n            \"id\": 9,\n            \"name\": \"Otras\"\n        }\n    ]\n}"
+						}
+					]
+				}
+			],
+			"description": "Pasos para usar los endpoints que requieres rol de admin:\n\n1. Usar el endpoint /auth/login con un body de user y password del admin0 para loguearse en el back y luego copiar el token generado.\n    \n2. en la peticion que requiera un endpoint restringido a rol de admin usar el Token generado y definirlo en la seccion Autorizathion como 'Bearer Token'\n    \n3. ya se deberia dar acceso al endpoint"
 		}
 	]
 }

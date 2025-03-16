@@ -21,7 +21,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email")})
-public class Users  implements UserDetails {
+public class  Users implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
