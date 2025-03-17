@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -14,7 +16,7 @@ public class SaveProductRequestDto {
     private String imageUrl;
     private Double price;
     private String description;
-    private Integer categoryId;
+    private List<Integer> categoryIds;
     private Integer brandId;
     private String model;
     private String productCondition;

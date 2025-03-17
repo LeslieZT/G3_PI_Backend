@@ -2,6 +2,8 @@ package dh.backend.music_store.service.impl;
 
 
 import dh.backend.music_store.dto.Generic.PaginationResponseDto;
+import dh.backend.music_store.dto.Generic.ResponseDto;
+import dh.backend.music_store.dto.auth.response.ProductResponseDto;
 import dh.backend.music_store.dto.brand.BrandResponseDto;
 import dh.backend.music_store.dto.category.CategoryResponseDto;
 import dh.backend.music_store.dto.product.request.SaveProductRequestDto;
@@ -17,6 +19,7 @@ import dh.backend.music_store.entity.ProductImage;
 import dh.backend.music_store.exception.BadRequestException;
 import dh.backend.music_store.exception.ResourceNotFoundException;
 import dh.backend.music_store.repository.IBrandRepository;
+import dh.backend.music_store.repository.ICategoryRepository;
 import dh.backend.music_store.repository.IProductRepository;
 import dh.backend.music_store.service.IBrandService;
 import dh.backend.music_store.service.ICategoryService;
@@ -33,12 +36,17 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.http.HttpStatus;
 
 @Service
 public class ProductService implements IProductService {
     private final Logger logger = LoggerFactory.getLogger(ProductService.class);
 
     final IProductRepository productRepository;
+    private final ICategoryRepository categoryRepository;
     private ICategoryService categoryService;
     private IProductImageService productImageService;
     private IBrandService brandService;
@@ -47,11 +55,14 @@ public class ProductService implements IProductService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public ProductService(IProductRepository productRepository, ICategoryService categoryService, IProductImageService productImageService, IBrandService brandService) {
+    public ProductService(IProductRepository productRepository, ICategoryService categoryService,
+                          IProductImageService productImageService, IBrandService brandService,
+                          ICategoryRepository categoryRepository) {
         this.productRepository = productRepository;
         this.categoryService = categoryService;
         this.productImageService = productImageService;
         this.brandService = brandService;
+        this.categoryRepository = categoryRepository;
     }
 
     @Override
@@ -119,15 +130,17 @@ public class ProductService implements IProductService {
     public DetailProductResponseDto save(SaveProductRequestDto saveProductRequestDto) {
         logger.info("Ingresando al Service Producto | Guardar producto");
         DetailProductResponseDto detailProductResponseDto = null;
-        List<Product> sameProductsByName = productRepository.findByName(saveProductRequestDto.getName());
-        if(!sameProductsByName.isEmpty()){
+        Optional<Product> sameProductsByName = productRepository.findByName(saveProductRequestDto.getName());
+        if(!sameProductsByName.isPresent()){
             throw new BadRequestException("El nombre del producto ya se encuentra en uso");
         }
 
         logger.info("No existen productos con el mismo nombre, se procede al guardado");
         Product productToSave = new Product();
         logger.info("Buscando y mapeando categoria");
-        Category category =  modelMapper.map(categoryService.findById(saveProductRequestDto.getCategoryId()), Category.class) ;
+        List<Category> categories = saveProductRequestDto.getCategoryIds().stream()
+                .map(categoryId -> modelMapper.map(categoryService.findById(categoryId), Category.class))
+                .collect(Collectors.toList());
         Brand brand =  modelMapper.map(brandService.findById(saveProductRequestDto.getBrandId()), Brand.class);
         //seteo de la imagen a guardar
         List<ProductImage> images = new ArrayList<>();
@@ -139,7 +152,7 @@ public class ProductService implements IProductService {
         productToSave.setPricePerHour(saveProductRequestDto.getPrice());
         productToSave.setStockQuantity(1);
         productToSave.setIsAvailable(true);
-        productToSave.setCategory(category);
+        productToSave.setCategories(categories);
         productToSave.setImages(images);
         productToSave.setCreationDate(LocalDate.now());
         productToSave.setBrandId(brand);
@@ -159,13 +172,125 @@ public class ProductService implements IProductService {
         return detailProductResponseDto;
     }
 
+    @Override
+    public DetailProductResponseDto assignCategoryToProduct(Integer productId, Integer categoryId) {
+        logger.info("Asignando categoría {} al producto {}", categoryId, productId);
+
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Categoría con ID " + categoryId + " no encontrada"));
+
+        Category category = categoryService.findEntityById(categoryId);
+
+        if (product.getCategories() == null) {
+            product.setCategories(new ArrayList<>());
+        }
+
+        if (!product.getCategories().contains(category)) {
+            product.getCategories().add(category);
+            productRepository.save(product);
+            logger.info("Categoría asignada con éxito");
+        } else {
+            logger.warn("El producto ya tiene esta categoría asignada");
+        }
+
+        return mapperToDetailProductResponseDto(product);
+    }
+
+    @Override
+    public ResponseDto<List<ProductResponseDto>> findAll() {
+        List<Product> productsDB = productRepository.findAll();
+        List<ProductResponseDto> products = productsDB.stream()
+                .map(product -> modelMapper.map(product, ProductResponseDto.class))
+                .collect(Collectors.toList());
+
+        ResponseDto<List<ProductResponseDto>> responseDto = new ResponseDto<>();
+        responseDto.setData(products);
+        return responseDto;
+    }
+
+    @Override
+    public ProductResponseDto findById(Integer id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> {
+                    logger.error("Product {} NOT FOUND IN DB", id);
+                    return new ResourceNotFoundException("Product " + id + " not found");
+                });
+
+        return modelMapper.map(product, ProductResponseDto.class);
+    }
+
+    //*
+    private ProductResponseDto mapToDto(Product product) {
+        return ProductResponseDto.builder()
+                .id(product.getId())
+                .name(product.getName())
+                .description(product.getDescription())
+                .pricePerHour(product.getPricePerHour())
+                .stockQuantity(product.getStockQuantity())
+                .isAvailable(product.getIsAvailable())
+                .brandName(product.getBrandId().getName()) // Si `Brand` tiene un `name`
+                .model(product.getModel())
+                .productCondition(product.getProduct_condition())
+                .origin(product.getOrigin())
+                .launchYear(product.getLaunchYear())
+                .productSize(product.getProduct_size())
+                .material(product.getMaterial())
+                .recommendedUse(product.getRecommendedUse())
+                .categoryNames(product.getCategories().stream().map(Category::getName).toList()) // Convertimos categorías a nombres
+                .imageUrls(product.getImages().stream().map(ProductImage::getUrl).toList()) // Convertimos imágenes a URLs
+                .build();
+    }
+
+    @Override
+    public Product getProductByName(String name) {
+        return productRepository.findByName(name)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado: " + name));
+    }
+
+    @Override
+    public List<ProductResponseDto> findByCategory(String categoryName) {
+        Category category = categoryRepository.findByName(categoryName)
+                .orElseThrow(() -> new ResourceNotFoundException("Categoría no encontrada: " + categoryName));
+
+        List<Product> products = productRepository.findByCategory_Name(categoryName);
+
+        return products.stream()
+                .map(product -> modelMapper.map(product, ProductResponseDto.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ProductResponseDto> findByCategoryId(Integer categoryId) {
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new ResourceNotFoundException("Categoría no encontrada con ID: " + categoryId));
+
+        List<Product> products = productRepository.findByCategory_Id(categoryId);
+
+        return products.stream()
+                .map(product -> modelMapper.map(product, ProductResponseDto.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ProductResponseDto> filterProducts(String search, List<Integer> categoryIds, boolean hasCategories, int limit, int offset) {
+        List<FilteredProductProjection> products = productRepository.filterProducts(search, categoryIds, hasCategories, limit, offset);
+
+        return products.stream()
+                .map(product -> modelMapper.map(product, ProductResponseDto.class))
+                .collect(Collectors.toList());
+    }
+
 
     //funcion de mapeo a DetailProductResponseDto
     private DetailProductResponseDto mapperToDetailProductResponseDto(Product product){
         logger.info("Mapeando producto a response Detalle");
         //buscar categoria del producto
-        CategoryResponseDto category = categoryService.findById(product.getCategory().getId());
-        logger.info("Categoria encontrada");
+        // Obtener nombres de todas las categorías del producto
+        List<String> categoryNames = product.getCategories().stream()
+                .map(category -> category.getName())
+                .collect(Collectors.toList());
+
+        logger.info("Categorías encontradas: " + categoryNames);
         //buscar imagen principal del producto
         ProductImage productImage = productImageService.findByProductAndIsPrimary(product);
         String url = "//url.com";
@@ -183,7 +308,7 @@ public class ProductService implements IProductService {
         }
         //mapeo
         DetailProductResponseDto detailProductResponseDto = new DetailProductResponseDto(product.getId(),
-                category.getName(),
+                categoryNames,
                 product.getName(),
                 url,
                 product.getDescription(),

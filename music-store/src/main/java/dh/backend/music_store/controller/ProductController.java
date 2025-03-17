@@ -37,4 +37,10 @@ public class ProductController {
         DetailProductResponseDto detalleProductoResponseDto = productService.findDetailsById(id);
         return  ResponseEntity.ok(detalleProductoResponseDto);
     }
+    //añado
+    @PostMapping("/{productId}/categories/{categoryId}")
+    public ResponseEntity<DetailProductResponseDto> assignCategory(@PathVariable Integer productId, @PathVariable Integer categoryId) {
+        DetailProductResponseDto updatedProduct = productService.assignCategoryToProduct(productId, categoryId);
+        return ResponseEntity.ok(updatedProduct);
+    }
 }
