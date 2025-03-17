@@ -1,5 +1,6 @@
 package dh.backend.music_store.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -51,6 +52,10 @@ public class  Users implements UserDetails {
 
     @Column(name = "creation_date", nullable = false, updatable = false)
     private LocalDate creationDate = LocalDate.now();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    @JsonManagedReference(value = "user-reservation")
+    private List<Reservation> reservations;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
