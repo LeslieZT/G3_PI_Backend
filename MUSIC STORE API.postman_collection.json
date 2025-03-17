@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "3af47889-891a-428e-bbe7-20017088c874",
+		"_postman_id": "ba25601e-8a27-40e1-a9dd-f9de7a4e75c1",
 		"name": "MUSIC STORE API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "33998079"
+		"_exporter_id": "8028248"
 	},
 	"item": [
 		{
@@ -537,7 +537,10 @@
 					"name": "Endpoint Guardar Producto",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": ""
+						}
 					},
 					"response": [
 						{
@@ -637,7 +640,10 @@
 					"name": "Endpoint obtener todas las categorias",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": ""
+						}
 					},
 					"response": [
 						{
@@ -727,7 +733,10 @@
 					"name": "Endpoint obtener todas las marcas",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": ""
+						}
 					},
 					"response": [
 						{
@@ -815,6 +824,30 @@
 				}
 			],
 			"description": "Pasos para usar los endpoints que requieres rol de admin:\n\n1. Usar el endpoint /auth/login con un body de user y password del admin0 para loguearse en el back y luego copiar el token generado.\n    \n2. en la peticion que requiera un endpoint restringido a rol de admin usar el Token generado y definirlo en la seccion Autorizathion como 'Bearer Token'\n    \n3. ya se deberia dar acceso al endpoint"
+		},
+		{
+			"name": "reservations",
+			"item": [
+				{
+					"name": "Get Reservations By Product Copy",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/reservations/products/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"reservations",
+								"products",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }
