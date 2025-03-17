@@ -57,6 +57,10 @@ public class Product {
     @Column (name = "recommended_use")
     private String recommendedUse;
 
+    @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    @JsonManagedReference(value = "product-reservation")
+    private List<Reservation> reservations;
+
     @Override
     public String toString() {
         return GsonProvider.getGson().toJson(this);
