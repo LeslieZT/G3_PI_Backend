@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RequestSearcherDto {
-    
+
     private String text;
     @DateTimeFormat
     private LocalDate dateInit;
