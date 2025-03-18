@@ -1,5 +1,7 @@
 package dh.backend.music_store.dto.product.request;
 
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,12 +13,13 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SaveProductRequestDto {
+public class UpdateProductRequestDto {
     private String name;
-    private String imageUrl;
+    private List<String> imageUrls;     //puede ser private String imageUrl; si solo manejamos una imagen
+    @NotNull(message = "El precio es obligatorio")
+    @Positive(message = "El precio debe ser positivo")
     private Double price;
     private String description;
-    private List<Integer> categoryIds;
     private Integer brandId;
     private String model;
     private String productCondition;

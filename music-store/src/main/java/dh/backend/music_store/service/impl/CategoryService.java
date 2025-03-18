@@ -16,6 +16,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.http.HttpStatus;
+
 @Service
 public class CategoryService implements ICategoryService {
 
@@ -50,5 +53,20 @@ public class CategoryService implements ICategoryService {
         return modelMapper.map(category.get(), CategoryResponseDto.class);
     }
 
-
+    @Override
+    public Category findEntityById(Integer categoryId) {
+        return categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Categoría con ID " + categoryId + " no encontrada"));  //**
+    }
+    //
+    public Category getCategoryByName(String name){
+        return categoryRepository.findByName(name)
+                .orElseThrow(() -> new RuntimeException("Categoría no encontrada: " + name));
+    }
+    /*
+    public ResponseDto<CategoryResponseDto> createCategory(Category category) {
+        Category savedCategory = categoryRepository.save(category);
+        return new ResponseDto<>(modelMapper.map(savedCategory, CategoryResponseDto.class), "Categoría creada con éxito", true);
+    }
+     */
 }

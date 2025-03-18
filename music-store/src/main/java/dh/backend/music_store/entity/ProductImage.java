@@ -18,10 +18,12 @@ public class ProductImage {
 
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
+    @JsonBackReference
     private Product product;
 
-    private String  url;
+    @Column(nullable = false)
+    private String  imageUrl;
 
     @Column(name = "is_primary")
-    private Boolean isPrimary;
+    private Boolean isPrimary = false;
 }

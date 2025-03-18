@@ -4,60 +4,27 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bac50f5c-b467-4438-ae0b-e6a00f299a07" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/G3_PI_Backend.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/G3_PI_Backend.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="c8f437e5-1521-4fe4-b706-29f8d2c568e5" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/dto/user/request/RegisterUserRequestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/dto/user/request/RegisterUserRequestDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/dto/user/response/RegisterUserResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/dto/user/response/RegisterUserResponseDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/service/impl/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/service/impl/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/music-store/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/music-store/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/music-store/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/music-store/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/controller/ProductController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/entity/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/entity/Product.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/entity/ProductImage.java" beforeDir="false" afterPath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/entity/ProductImage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/service/IProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/service/IProductService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/service/impl/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/service/impl/ProductService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Class" />
-      </list>
-    </option>
-  </component>
-  <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="MarkdownSettingsMigration">
-    <option name="stateVersion" value="1" />
-  </component>
-  <component name="ProjectColorInfo">{
-  &quot;customColor&quot;: &quot;&quot;,
-  &quot;associatedIndex&quot;: 2
-}</component>
-  <component name="ProjectId" id="2tS7c2QePvDxKFdqrlkGEFFP18R" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
-  <component name="ProjectViewState">
-    <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showLibraryContents" value="true" />
-  </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.MusicStoreApplication.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;develop&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;F:/LESLIE/DIGITAL HOUSE/G3_PI_Backend&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.projectsettings.compiler.annotationProcessors&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.MusicStoreApplication.executor": "Run",
+    "git-widget-placeholder": "feature/N22__catergorzarP"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="MusicStoreApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="dh.backend.music_store.MusicStoreApplication" />
@@ -78,15 +45,7 @@
       </list>
     </recent_temporary>
   </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
-    <task active="true" id="Default" summary="Default task">
-      <changelist id="bac50f5c-b467-4438-ae0b-e6a00f299a07" name="Changes" comment="" />
-      <created>1740333699654</created>
-      <option name="number" value="Default" />
-      <option name="presentableId" value="Default" />
-      <updated>1740333699654</updated>
-    </task>
     <servers />
   </component>
 </project>

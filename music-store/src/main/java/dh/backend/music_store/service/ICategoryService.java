@@ -11,4 +11,8 @@ public interface ICategoryService {
     ResponseDto<List<CategoryResponseDto>> findAll();
 
     CategoryResponseDto findById(Integer id);
+
+    Category findEntityById(Integer categoryId); //**
+
+    Category getCategoryByName(String name); //*
 }

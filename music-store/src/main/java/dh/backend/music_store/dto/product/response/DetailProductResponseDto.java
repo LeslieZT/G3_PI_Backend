@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 public class DetailProductResponseDto {
     private Integer id;
-    private String category;
+    private List<String> categories;
     private String name;
     private String mainImage;
     private String description;

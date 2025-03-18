@@ -1,10 +1,14 @@
+
 package dh.backend.music_store.service.impl;
 
 
 import dh.backend.music_store.dto.Generic.PaginationResponseDto;
+import dh.backend.music_store.dto.Generic.ResponseDto;
+import dh.backend.music_store.dto.auth.response.ProductResponseDto;
 import dh.backend.music_store.dto.brand.BrandResponseDto;
 import dh.backend.music_store.dto.category.CategoryResponseDto;
 import dh.backend.music_store.dto.product.request.SaveProductRequestDto;
+import dh.backend.music_store.dto.product.request.UpdateProductRequestDto;
 import dh.backend.music_store.dto.product.response.DetailProductResponseDto;
 import dh.backend.music_store.dto.product.projection.FilteredProductProjection;
 import dh.backend.music_store.dto.product.request.FindAllProductRequestDto;
@@ -17,6 +21,7 @@ import dh.backend.music_store.entity.ProductImage;
 import dh.backend.music_store.exception.BadRequestException;
 import dh.backend.music_store.exception.ResourceNotFoundException;
 import dh.backend.music_store.repository.IBrandRepository;
+import dh.backend.music_store.repository.ICategoryRepository;
 import dh.backend.music_store.repository.IProductRepository;
 import dh.backend.music_store.service.IBrandService;
 import dh.backend.music_store.service.ICategoryService;
@@ -33,12 +38,17 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.http.HttpStatus;
 
 @Service
 public class ProductService implements IProductService {
     private final Logger logger = LoggerFactory.getLogger(ProductService.class);
 
     final IProductRepository productRepository;
+    private final ICategoryRepository categoryRepository;
     private ICategoryService categoryService;
     private IProductImageService productImageService;
     private IBrandService brandService;
@@ -47,11 +57,14 @@ public class ProductService implements IProductService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public ProductService(IProductRepository productRepository, ICategoryService categoryService, IProductImageService productImageService, IBrandService brandService) {
+    public ProductService(IProductRepository productRepository, ICategoryService categoryService,
+                          IProductImageService productImageService, IBrandService brandService,
+                          ICategoryRepository categoryRepository) {
         this.productRepository = productRepository;
         this.categoryService = categoryService;
         this.productImageService = productImageService;
         this.brandService = brandService;
+        this.categoryRepository = categoryRepository;
     }
 
     @Override
@@ -119,15 +132,17 @@ public class ProductService implements IProductService {
     public DetailProductResponseDto save(SaveProductRequestDto saveProductRequestDto) {
         logger.info("Ingresando al Service Producto | Guardar producto");
         DetailProductResponseDto detailProductResponseDto = null;
-        List<Product> sameProductsByName = productRepository.findByName(saveProductRequestDto.getName());
-        if(!sameProductsByName.isEmpty()){
+        Optional<Product> sameProductsByName = productRepository.findByName(saveProductRequestDto.getName());
+        if(!sameProductsByName.isPresent()){
             throw new BadRequestException("El nombre del producto ya se encuentra en uso");
         }
 
         logger.info("No existen productos con el mismo nombre, se procede al guardado");
         Product productToSave = new Product();
         logger.info("Buscando y mapeando categoria");
-        Category category =  modelMapper.map(categoryService.findById(saveProductRequestDto.getCategoryId()), Category.class) ;
+        List<Category> categories = saveProductRequestDto.getCategoryIds().stream()
+                .map(categoryId -> modelMapper.map(categoryService.findById(categoryId), Category.class))
+                .collect(Collectors.toList());
         Brand brand =  modelMapper.map(brandService.findById(saveProductRequestDto.getBrandId()), Brand.class);
         //seteo de la imagen a guardar
         List<ProductImage> images = new ArrayList<>();
@@ -136,18 +151,18 @@ public class ProductService implements IProductService {
         //seteo del producto a guardar
         productToSave.setName(saveProductRequestDto.getName());
         productToSave.setDescription(saveProductRequestDto.getDescription());
-        productToSave.setPricePerHour(saveProductRequestDto.getPrice());
+        productToSave.setPrice(saveProductRequestDto.getPrice());
         productToSave.setStockQuantity(1);
         productToSave.setIsAvailable(true);
-        productToSave.setCategory(category);
+        productToSave.setCategories(categories);
         productToSave.setImages(images);
         productToSave.setCreationDate(LocalDate.now());
         productToSave.setBrandId(brand);
         productToSave.setModel(saveProductRequestDto.getModel());
-        productToSave.setProduct_condition(saveProductRequestDto.getProductCondition());
+        productToSave.setProductCondition(saveProductRequestDto.getProductCondition());
         productToSave.setOrigin(saveProductRequestDto.getOrigin());
         productToSave.setLaunchYear(saveProductRequestDto.getLaunchYear());
-        productToSave.setProduct_size(saveProductRequestDto.getSize());
+        productToSave.setSize(saveProductRequestDto.getSize());
         productToSave.setMaterial(saveProductRequestDto.getMaterial());
         productToSave.setRecommendedUse(saveProductRequestDto.getRecommendedUse());
 
@@ -159,19 +174,207 @@ public class ProductService implements IProductService {
         return detailProductResponseDto;
     }
 
+    @Override
+    public DetailProductResponseDto assignCategoryToProduct(Integer productId, Integer categoryId) {
+        logger.info("Asignando categoría {} al producto {}", categoryId, productId);
+
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Categoría con ID " + categoryId + " no encontrada"));
+
+        Category category = categoryService.findEntityById(categoryId);
+
+        if (product.getCategories() == null) {
+            product.setCategories(new ArrayList<>());
+        }
+
+        if (!product.getCategories().contains(category)) {
+            product.getCategories().add(category);
+            productRepository.save(product);
+            logger.info("Categoría asignada con éxito");
+        } else {
+            logger.warn("El producto ya tiene esta categoría asignada");
+        }
+
+        return mapperToDetailProductResponseDto(product);
+    }
+
+
+
+    @Override
+    public ResponseDto<List<ProductResponseDto>> findAll() {
+        List<Product> productsDB = productRepository.findAll();
+        List<ProductResponseDto> products = productsDB.stream()
+                .map(product -> modelMapper.map(product, ProductResponseDto.class))
+                .collect(Collectors.toList());
+
+        ResponseDto<List<ProductResponseDto>> responseDto = new ResponseDto<>();
+        responseDto.setData(products);
+        return responseDto;
+    }
+
+    @Override
+    public ProductResponseDto findById(Integer id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> {
+                    logger.error("Product {} NOT FOUND IN DB", id);
+                    return new ResourceNotFoundException("Product " + id + " not found");
+                });
+
+        return modelMapper.map(product, ProductResponseDto.class);
+    }
+
+    //*
+    private ProductResponseDto mapToDto(Product product) {
+        return ProductResponseDto.builder()
+                .id(product.getId())
+                .name(product.getName())
+                .description(product.getDescription())
+                .pricePerHour(product.getPrice())
+                .stockQuantity(product.getStockQuantity())
+                .isAvailable(product.getIsAvailable())
+                .brandName(product.getBrandId().getName()) // Si `Brand` tiene un `name`
+                .model(product.getModel())
+                .productCondition(product.getProductCondition())
+                .origin(product.getOrigin())
+                .launchYear(product.getLaunchYear())
+                .productSize(product.getSize())
+                .material(product.getMaterial())
+                .recommendedUse(product.getRecommendedUse())
+                .categoryNames(product.getCategories().stream().map(Category::getName).toList()) // Convertimos categorías a nombres
+                .imageUrls(product.getImages().stream().map(ProductImage::getImageUrl).toList()) // Convertimos imágenes a URLs
+                .build();
+    }
+
+    @Override
+    public Product getProductByName(String name) {
+        return productRepository.findByName(name)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado: " + name));
+    }
+
+    @Override
+    public DetailProductResponseDto updateProduct(Integer productId, UpdateProductRequestDto updateProductRequestDto) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producto no encontrado"));
+
+        // Actualizar campos básicos del producto
+        product.setName(updateProductRequestDto.getName());
+        product.setPrice(updateProductRequestDto.getPrice());
+        product.setDescription(updateProductRequestDto.getDescription());
+        product.setModel(updateProductRequestDto.getModel());
+        product.setProductCondition(updateProductRequestDto.getProductCondition());
+        product.setOrigin(updateProductRequestDto.getOrigin());
+        product.setLaunchYear(updateProductRequestDto.getLaunchYear());
+        product.setMaterial(updateProductRequestDto.getMaterial());
+        product.setSize(updateProductRequestDto.getSize());
+        product.setRecommendedUse(updateProductRequestDto.getRecommendedUse());
+
+
+        // Limpiar imágenes existentes
+        product.getImages().clear();
+
+        if (updateProductRequestDto.getImageUrls() != null && !updateProductRequestDto.getImageUrls().isEmpty()) {
+            List<ProductImage> updatedImages = new ArrayList<>();
+
+            for (int i = 0; i < updateProductRequestDto.getImageUrls().size(); i++) {
+                String url = updateProductRequestDto.getImageUrls().get(i);
+                ProductImage image = new ProductImage();
+                image.setImageUrl(url);
+                image.setProduct(product);
+                image.setIsPrimary(i == 0); // Primera imagen como principal
+                updatedImages.add(image);
+            }
+
+            product.getImages().addAll(updatedImages);
+        }
+
+        productRepository.save(product);
+
+        // Construir la respuesta DTO
+        List<String> categories = product.getCategories().stream()
+                .map(Category::getName)
+                .toList();
+
+        List<String> secondaryImages = product.getImages().stream()
+                .filter(image -> !image.getIsPrimary())
+                .map(ProductImage::getImageUrl)
+                .toList();
+
+        String mainImage = product.getImages().stream()
+                .filter(ProductImage::getIsPrimary)
+                .map(ProductImage::getImageUrl)
+                .findFirst()
+                .orElse(null);
+
+        return new DetailProductResponseDto(
+                product.getId(),
+                categories,
+                product.getName(),
+                mainImage,
+                product.getDescription(),
+                product.getPrice(),
+                product.getBrandId().getName(), // Asegúrate que Brand tiene un método getName()
+                product.getModel(),
+                product.getProductCondition(),
+                product.getOrigin(),
+                product.getLaunchYear(),
+                product.getSize(),
+                product.getMaterial(),
+                product.getRecommendedUse(),
+                secondaryImages
+        );
+    }
+
+
+    @Override
+    public List<ProductResponseDto> findByCategory(String categoryName) {
+        Category category = categoryRepository.findByName(categoryName)
+                .orElseThrow(() -> new ResourceNotFoundException("Categoría no encontrada: " + categoryName));
+
+        List<Product> products = productRepository.findByCategory_Name(categoryName);
+
+        return products.stream()
+                .map(product -> modelMapper.map(product, ProductResponseDto.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ProductResponseDto> findByCategoryId(Integer categoryId) {
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new ResourceNotFoundException("Categoría no encontrada con ID: " + categoryId));
+
+        List<Product> products = productRepository.findByCategory_Id(categoryId);
+
+        return products.stream()
+                .map(product -> modelMapper.map(product, ProductResponseDto.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ProductResponseDto> filterProducts(String search, List<Integer> categoryIds, boolean hasCategories, int limit, int offset) {
+        List<FilteredProductProjection> products = productRepository.filterProducts(search, categoryIds, hasCategories, limit, offset);
+
+        return products.stream()
+                .map(product -> modelMapper.map(product, ProductResponseDto.class))
+                .collect(Collectors.toList());
+    }
+
 
     //funcion de mapeo a DetailProductResponseDto
     private DetailProductResponseDto mapperToDetailProductResponseDto(Product product){
         logger.info("Mapeando producto a response Detalle");
         //buscar categoria del producto
-        CategoryResponseDto category = categoryService.findById(product.getCategory().getId());
-        logger.info("Categoria encontrada");
+        // Obtener nombres de todas las categorías del producto
+        List<String> categoryNames = product.getCategories().stream()
+                .map(category -> category.getName())
+                .collect(Collectors.toList());
+
+        logger.info("Categorías encontradas: " + categoryNames);
         //buscar imagen principal del producto
         ProductImage productImage = productImageService.findByProductAndIsPrimary(product);
         String url = "//url.com";
         if(productImage != null){
             logger.info("Imagen principal producto encontrada");
-            url = productImage.getUrl();
+            url = productImage.getImageUrl();
         }
         //buscar marca del producto
         BrandResponseDto brandResponseDto = brandService.findById(product.getBrandId().getId());
@@ -179,21 +382,21 @@ public class ProductService implements IProductService {
         List<ProductImage> secondaryImagesFromDb = productImageService.findByProductAndIsNotPrimary(product);
         List<String> secondaryImages = new ArrayList<>();
         for (ProductImage pi : secondaryImagesFromDb){
-            secondaryImages.add(pi.getUrl());
+            secondaryImages.add(pi.getImageUrl());
         }
         //mapeo
         DetailProductResponseDto detailProductResponseDto = new DetailProductResponseDto(product.getId(),
-                category.getName(),
+                categoryNames,
                 product.getName(),
                 url,
                 product.getDescription(),
-                product.getPricePerHour(),
+                product.getPrice(),
                 brandResponseDto.getName(),
                 product.getModel(),
-                product.getProduct_condition(),
+                product.getProductCondition(),
                 product.getOrigin(),
                 product.getLaunchYear(),
-                product.getProduct_size(),
+                product.getSize(),
                 product.getMaterial(),
                 product.getRecommendedUse(),
                 secondaryImages);
