@@ -21,4 +21,6 @@ public interface IReservationRepository extends JpaRepository<Reservation, Integ
             nativeQuery = true)
     List<ReservationByProductProjection> findReservationsByProduct(@Param("productId") Integer productId);
 
+    List<Reservation> findByProductId(Integer id);
+
 }

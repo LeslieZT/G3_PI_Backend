@@ -2,6 +2,7 @@ package dh.backend.music_store.service.impl;
 
 
 import dh.backend.music_store.dto.Generic.PaginationResponseDto;
+import dh.backend.music_store.dto.Generic.RequestSearcherDto;
 import dh.backend.music_store.dto.brand.BrandResponseDto;
 import dh.backend.music_store.dto.category.CategoryResponseDto;
 import dh.backend.music_store.dto.product.request.SaveProductRequestDto;
@@ -10,14 +11,13 @@ import dh.backend.music_store.dto.product.projection.FilteredProductProjection;
 import dh.backend.music_store.dto.product.request.FindAllProductRequestDto;
 import dh.backend.music_store.dto.product.response.FindAllProductResponseDto;
 import dh.backend.music_store.dto.product.response.FindOneProductResponseDto;
-import dh.backend.music_store.entity.Brand;
-import dh.backend.music_store.entity.Category;
-import dh.backend.music_store.entity.Product;
-import dh.backend.music_store.entity.ProductImage;
+import dh.backend.music_store.dto.product.response.ResponseSearchProductDto;
+import dh.backend.music_store.entity.*;
 import dh.backend.music_store.exception.BadRequestException;
 import dh.backend.music_store.exception.ResourceNotFoundException;
 import dh.backend.music_store.repository.IBrandRepository;
 import dh.backend.music_store.repository.IProductRepository;
+import dh.backend.music_store.repository.IReservationRepository;
 import dh.backend.music_store.service.IBrandService;
 import dh.backend.music_store.service.ICategoryService;
 import dh.backend.music_store.service.IProductImageService;
@@ -42,6 +42,8 @@ public class ProductService implements IProductService {
     private ICategoryService categoryService;
     private IProductImageService productImageService;
     private IBrandService brandService;
+    @Autowired
+    private IReservationRepository reservationRepository;
 
 
     @Autowired
@@ -142,7 +144,7 @@ public class ProductService implements IProductService {
         productToSave.setCategory(category);
         productToSave.setImages(images);
         productToSave.setCreationDate(LocalDate.now());
-        productToSave.setBrandId(brand);
+        productToSave.setBrand(brand);
         productToSave.setModel(saveProductRequestDto.getModel());
         productToSave.setProduct_condition(saveProductRequestDto.getProductCondition());
         productToSave.setOrigin(saveProductRequestDto.getOrigin());
@@ -174,7 +176,7 @@ public class ProductService implements IProductService {
             url = productImage.getUrl();
         }
         //buscar marca del producto
-        BrandResponseDto brandResponseDto = brandService.findById(product.getBrandId().getId());
+        BrandResponseDto brandResponseDto = brandService.findById(product.getBrand().getId());
         //buscar imagenes no principales
         List<ProductImage> secondaryImagesFromDb = productImageService.findByProductAndIsNotPrimary(product);
         List<String> secondaryImages = new ArrayList<>();
@@ -198,6 +200,57 @@ public class ProductService implements IProductService {
                 product.getRecommendedUse(),
                 secondaryImages);
         return detailProductResponseDto;
+    }
+    @Override
+    public List<ResponseSearchProductDto> searchProducts(RequestSearcherDto requestSearcherDto) {
+        List<Product> products;
+        //FALTA FILTRADO SOLO DATE
+        if(requestSearcherDto.getText() == null){
+            products = productRepository.findAll();
+        }else{
+            products = productRepository.searchProducts(requestSearcherDto.getText());
+        }
+    List<ResponseSearchProductDto> productResponseDtos =new ArrayList<>();
+
+        for (Product product : products){
+
+        ResponseSearchProductDto productft = modelMapper.map(product,ResponseSearchProductDto.class);
+        productft.setBrand(product.getBrand().getName());
+        productft.setCategory(product.getCategory().getName());
+        ProductImage productImage = productImageService.findByProductAndIsPrimary(product);
+        productft.setImages(productImage.getUrl());
+        //FILTRANDO DISPONIBILIDAD POR FECHAS
+        if(isProductAvaiable(product, requestSearcherDto.getDateInit(), requestSearcherDto.getDateEnd())){
+            productResponseDtos.add(productft);
+        }
+    }
+
+        return productResponseDtos;
+}
+
+    private boolean  isProductAvaiable(Product product, LocalDate dateInit, LocalDate dateEnd){
+
+        // Obtener todas las reservas activas del producto (que no sean RETURNED ni CANCELED)
+        List<Reservation> activeReservations = reservationRepository.findByProductId(product.getId())
+                .stream()
+                .filter(reservation ->
+                        reservation.getStatus() == ReservationStatus.PENDING ||
+                                reservation.getStatus() == ReservationStatus.APPROVED ||
+                                reservation.getStatus() == ReservationStatus.IN_PROGRESS
+                )
+                .toList();
+
+
+        if(activeReservations.isEmpty() || dateInit ==null || dateEnd==null){
+            return true;
+        }else {
+            // Verificar si alguna reserva se traslapa con el rango consultado
+            boolean isAvailable = activeReservations.stream()
+                    .noneMatch(reservation ->
+                            dateEnd.isAfter(reservation.getStartDate()) && dateInit.isBefore(reservation.getEndDate())
+                    );
+
+            return isAvailable;}
     }
 
 }

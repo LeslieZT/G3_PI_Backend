@@ -1,5 +1,5 @@
 package dh.backend.music_store.config;
-
+/*
 import com.cloudinary.Cloudinary;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -26,3 +26,4 @@ public class CloudinaryConfig {
         return new Cloudinary(credentialsConfig);
     }
 }
+*/

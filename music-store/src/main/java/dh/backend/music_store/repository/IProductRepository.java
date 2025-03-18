@@ -35,4 +35,18 @@ public interface IProductRepository extends JpaRepository<Product, Integer> {
                                 @Param("hasCategories") boolean hasCategories);
 
     List<Product> findByName(String name);
+
+    @Query("SELECT p FROM Product p " +
+            "JOIN p.brand b " +
+            "JOIN p.category c " +
+            "WHERE LOWER(p.name) LIKE LOWER(CONCAT('%', :text, '%')) OR " +
+            "LOWER(p.description) LIKE LOWER(CONCAT('%', :text, '%')) OR " +
+            "LOWER(p.model) LIKE LOWER(CONCAT('%', :text, '%')) OR " +
+            "LOWER(p.product_condition) LIKE LOWER(CONCAT('%', :text, '%')) OR " +
+            "LOWER(p.origin) LIKE LOWER(CONCAT('%', :text, '%')) OR " +
+            "LOWER(p.material) LIKE LOWER(CONCAT('%', :text, '%')) OR " +
+            "LOWER(p.recommendedUse) LIKE LOWER(CONCAT('%', :text, '%')) OR " +
+            "LOWER(b.name) LIKE LOWER(CONCAT('%', :text, '%')) OR " +
+            "LOWER(c.name) LIKE LOWER(CONCAT('%', :text, '%'))")
+    List<Product> searchProducts(@Param("text") String text);
 }

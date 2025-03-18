@@ -46,7 +46,7 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "brand_id", nullable = false)
-    private Brand brandId;
+    private Brand brand;
     private String model;
     private String product_condition;
     private String origin;
