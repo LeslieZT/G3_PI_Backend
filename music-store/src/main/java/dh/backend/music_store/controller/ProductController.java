@@ -3,6 +3,7 @@ package dh.backend.music_store.controller;
 import dh.backend.music_store.dto.Generic.PaginationResponseDto;
 import dh.backend.music_store.dto.product.request.FindAllProductRequestDto;
 import dh.backend.music_store.dto.product.request.SaveProductRequestDto;
+import dh.backend.music_store.dto.product.request.UpdateProductRequestDto;
 import dh.backend.music_store.dto.product.response.DetailProductResponseDto;
 import dh.backend.music_store.dto.product.response.FindAllProductResponseDto;
 import dh.backend.music_store.dto.product.response.FindOneProductResponseDto;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
+@RequestMapping("/products")
 public class ProductController {
 
     private IProductService productService;
@@ -22,20 +24,24 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @PostMapping("/products/find-all")
+    @PostMapping("/find-all")
     public ResponseEntity<PaginationResponseDto<FindAllProductResponseDto>>  findAll(@Valid @RequestBody(required = false) FindAllProductRequestDto request){
         PaginationResponseDto<FindAllProductResponseDto> response = productService.findAll(request);
         return ResponseEntity.ok(response);
     }
-    @PostMapping("/products/save")
+    @PostMapping("/save")
     public ResponseEntity<DetailProductResponseDto> save(@RequestBody SaveProductRequestDto saveProductRequestDto){
         DetailProductResponseDto detailResponse = productService.save(saveProductRequestDto);
         return ResponseEntity.ok(detailResponse);
     }
-    @GetMapping("/products/{id}")
-    public ResponseEntity<DetailProductResponseDto> findDetailsById(@PathVariable Integer id){
-        DetailProductResponseDto detalleProductoResponseDto = productService.findDetailsById(id);
-        return  ResponseEntity.ok(detalleProductoResponseDto);
+    //modificado para manejo de errores
+    @GetMapping("/{id}")
+    public ResponseEntity<DetailProductResponseDto> findDetailsById(@PathVariable Integer id) {
+        DetailProductResponseDto product = productService.findDetailsById(id);
+        if (product == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        return ResponseEntity.ok(product);
     }
     //añado
     @PostMapping("/{productId}/categories/{categoryId}")
@@ -43,4 +49,13 @@ public class ProductController {
         DetailProductResponseDto updatedProduct = productService.assignCategoryToProduct(productId, categoryId);
         return ResponseEntity.ok(updatedProduct);
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<DetailProductResponseDto> updateProduct(
+            @PathVariable Integer id,
+            @Valid @RequestBody UpdateProductRequestDto updateProductRequestDto) {
+
+        DetailProductResponseDto updatedProduct = productService.updateProduct(id, updateProductRequestDto);
+        return ResponseEntity.ok(updatedProduct);
+    }
 }
+

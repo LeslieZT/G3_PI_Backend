@@ -25,8 +25,11 @@ public class Product {
 
     private String description;
 
-    @Column(name = "price_per_hour")
-    private Double pricePerHour;
+
+
+
+    @Column(name = "price") //cambio nombre
+    private Double price;
 
     @Column(name = "stock_quantity")
     private Integer stockQuantity;
@@ -44,7 +47,7 @@ public class Product {
 
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<ProductImage> images;
+    private List<ProductImage> images = new ArrayList<>();
 
     @Column(name = "creation_date")
     private LocalDate creationDate;
@@ -53,11 +56,11 @@ public class Product {
     @JoinColumn(name = "brand_id", nullable = false)
     private Brand brandId;
     private String model;
-    private String product_condition;
+    private String productCondition; //cambio de nombre
     private String origin;
     @Column(name = "launch_year")
     private String launchYear;
-    private String product_size;
+    private String size;
     private String material;
     @Column (name = "recommended_use")
     private String recommendedUse;
@@ -66,7 +69,5 @@ public class Product {
     public String toString() {
         return GsonProvider.getGson().toJson(this);
     }
-
-
 
 }

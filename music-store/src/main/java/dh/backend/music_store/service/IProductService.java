@@ -5,6 +5,7 @@ import dh.backend.music_store.dto.Generic.ResponseDto;
 import dh.backend.music_store.dto.auth.response.ProductResponseDto;
 import dh.backend.music_store.dto.product.request.FindAllProductRequestDto;
 import dh.backend.music_store.dto.product.request.SaveProductRequestDto;
+import dh.backend.music_store.dto.product.request.UpdateProductRequestDto;
 import dh.backend.music_store.dto.product.response.DetailProductResponseDto;
 import dh.backend.music_store.dto.product.response.FindAllProductResponseDto;
 import dh.backend.music_store.dto.product.response.FindOneProductResponseDto;
@@ -25,6 +26,8 @@ public interface IProductService {
     ProductResponseDto findById(Integer id);
 
     Product getProductByName(String name);
+
+    DetailProductResponseDto updateProduct(Integer productId, UpdateProductRequestDto updateProductRequestDto);
 
     List<ProductResponseDto> findByCategory(String categoryName); // Nuevo método para buscar por categoría
 

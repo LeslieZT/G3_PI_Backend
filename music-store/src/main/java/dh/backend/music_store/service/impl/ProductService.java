@@ -1,3 +1,4 @@
+
 package dh.backend.music_store.service.impl;
 
 
@@ -7,6 +8,7 @@ import dh.backend.music_store.dto.auth.response.ProductResponseDto;
 import dh.backend.music_store.dto.brand.BrandResponseDto;
 import dh.backend.music_store.dto.category.CategoryResponseDto;
 import dh.backend.music_store.dto.product.request.SaveProductRequestDto;
+import dh.backend.music_store.dto.product.request.UpdateProductRequestDto;
 import dh.backend.music_store.dto.product.response.DetailProductResponseDto;
 import dh.backend.music_store.dto.product.projection.FilteredProductProjection;
 import dh.backend.music_store.dto.product.request.FindAllProductRequestDto;
@@ -149,7 +151,7 @@ public class ProductService implements IProductService {
         //seteo del producto a guardar
         productToSave.setName(saveProductRequestDto.getName());
         productToSave.setDescription(saveProductRequestDto.getDescription());
-        productToSave.setPricePerHour(saveProductRequestDto.getPrice());
+        productToSave.setPrice(saveProductRequestDto.getPrice());
         productToSave.setStockQuantity(1);
         productToSave.setIsAvailable(true);
         productToSave.setCategories(categories);
@@ -157,10 +159,10 @@ public class ProductService implements IProductService {
         productToSave.setCreationDate(LocalDate.now());
         productToSave.setBrandId(brand);
         productToSave.setModel(saveProductRequestDto.getModel());
-        productToSave.setProduct_condition(saveProductRequestDto.getProductCondition());
+        productToSave.setProductCondition(saveProductRequestDto.getProductCondition());
         productToSave.setOrigin(saveProductRequestDto.getOrigin());
         productToSave.setLaunchYear(saveProductRequestDto.getLaunchYear());
-        productToSave.setProduct_size(saveProductRequestDto.getSize());
+        productToSave.setSize(saveProductRequestDto.getSize());
         productToSave.setMaterial(saveProductRequestDto.getMaterial());
         productToSave.setRecommendedUse(saveProductRequestDto.getRecommendedUse());
 
@@ -196,6 +198,8 @@ public class ProductService implements IProductService {
         return mapperToDetailProductResponseDto(product);
     }
 
+
+
     @Override
     public ResponseDto<List<ProductResponseDto>> findAll() {
         List<Product> productsDB = productRepository.findAll();
@@ -225,19 +229,19 @@ public class ProductService implements IProductService {
                 .id(product.getId())
                 .name(product.getName())
                 .description(product.getDescription())
-                .pricePerHour(product.getPricePerHour())
+                .pricePerHour(product.getPrice())
                 .stockQuantity(product.getStockQuantity())
                 .isAvailable(product.getIsAvailable())
                 .brandName(product.getBrandId().getName()) // Si `Brand` tiene un `name`
                 .model(product.getModel())
-                .productCondition(product.getProduct_condition())
+                .productCondition(product.getProductCondition())
                 .origin(product.getOrigin())
                 .launchYear(product.getLaunchYear())
-                .productSize(product.getProduct_size())
+                .productSize(product.getSize())
                 .material(product.getMaterial())
                 .recommendedUse(product.getRecommendedUse())
                 .categoryNames(product.getCategories().stream().map(Category::getName).toList()) // Convertimos categorías a nombres
-                .imageUrls(product.getImages().stream().map(ProductImage::getUrl).toList()) // Convertimos imágenes a URLs
+                .imageUrls(product.getImages().stream().map(ProductImage::getImageUrl).toList()) // Convertimos imágenes a URLs
                 .build();
     }
 
@@ -246,6 +250,80 @@ public class ProductService implements IProductService {
         return productRepository.findByName(name)
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado: " + name));
     }
+
+    @Override
+    public DetailProductResponseDto updateProduct(Integer productId, UpdateProductRequestDto updateProductRequestDto) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producto no encontrado"));
+
+        // Actualizar campos básicos del producto
+        product.setName(updateProductRequestDto.getName());
+        product.setPrice(updateProductRequestDto.getPrice());
+        product.setDescription(updateProductRequestDto.getDescription());
+        product.setModel(updateProductRequestDto.getModel());
+        product.setProductCondition(updateProductRequestDto.getProductCondition());
+        product.setOrigin(updateProductRequestDto.getOrigin());
+        product.setLaunchYear(updateProductRequestDto.getLaunchYear());
+        product.setMaterial(updateProductRequestDto.getMaterial());
+        product.setSize(updateProductRequestDto.getSize());
+        product.setRecommendedUse(updateProductRequestDto.getRecommendedUse());
+
+
+        // Limpiar imágenes existentes
+        product.getImages().clear();
+
+        if (updateProductRequestDto.getImageUrls() != null && !updateProductRequestDto.getImageUrls().isEmpty()) {
+            List<ProductImage> updatedImages = new ArrayList<>();
+
+            for (int i = 0; i < updateProductRequestDto.getImageUrls().size(); i++) {
+                String url = updateProductRequestDto.getImageUrls().get(i);
+                ProductImage image = new ProductImage();
+                image.setImageUrl(url);
+                image.setProduct(product);
+                image.setIsPrimary(i == 0); // Primera imagen como principal
+                updatedImages.add(image);
+            }
+
+            product.getImages().addAll(updatedImages);
+        }
+
+        productRepository.save(product);
+
+        // Construir la respuesta DTO
+        List<String> categories = product.getCategories().stream()
+                .map(Category::getName)
+                .toList();
+
+        List<String> secondaryImages = product.getImages().stream()
+                .filter(image -> !image.getIsPrimary())
+                .map(ProductImage::getImageUrl)
+                .toList();
+
+        String mainImage = product.getImages().stream()
+                .filter(ProductImage::getIsPrimary)
+                .map(ProductImage::getImageUrl)
+                .findFirst()
+                .orElse(null);
+
+        return new DetailProductResponseDto(
+                product.getId(),
+                categories,
+                product.getName(),
+                mainImage,
+                product.getDescription(),
+                product.getPrice(),
+                product.getBrandId().getName(), // Asegúrate que Brand tiene un método getName()
+                product.getModel(),
+                product.getProductCondition(),
+                product.getOrigin(),
+                product.getLaunchYear(),
+                product.getSize(),
+                product.getMaterial(),
+                product.getRecommendedUse(),
+                secondaryImages
+        );
+    }
+
 
     @Override
     public List<ProductResponseDto> findByCategory(String categoryName) {
@@ -296,7 +374,7 @@ public class ProductService implements IProductService {
         String url = "//url.com";
         if(productImage != null){
             logger.info("Imagen principal producto encontrada");
-            url = productImage.getUrl();
+            url = productImage.getImageUrl();
         }
         //buscar marca del producto
         BrandResponseDto brandResponseDto = brandService.findById(product.getBrandId().getId());
@@ -304,7 +382,7 @@ public class ProductService implements IProductService {
         List<ProductImage> secondaryImagesFromDb = productImageService.findByProductAndIsNotPrimary(product);
         List<String> secondaryImages = new ArrayList<>();
         for (ProductImage pi : secondaryImagesFromDb){
-            secondaryImages.add(pi.getUrl());
+            secondaryImages.add(pi.getImageUrl());
         }
         //mapeo
         DetailProductResponseDto detailProductResponseDto = new DetailProductResponseDto(product.getId(),
@@ -312,13 +390,13 @@ public class ProductService implements IProductService {
                 product.getName(),
                 url,
                 product.getDescription(),
-                product.getPricePerHour(),
+                product.getPrice(),
                 brandResponseDto.getName(),
                 product.getModel(),
-                product.getProduct_condition(),
+                product.getProductCondition(),
                 product.getOrigin(),
                 product.getLaunchYear(),
-                product.getProduct_size(),
+                product.getSize(),
                 product.getMaterial(),
                 product.getRecommendedUse(),
                 secondaryImages);
