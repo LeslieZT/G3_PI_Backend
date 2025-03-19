@@ -41,7 +41,6 @@ public class SecurityConfiguration {
                             auth.requestMatchers(HttpMethod.POST, "/products/find-all").permitAll();
                             auth.requestMatchers(HttpMethod.POST, "/products/search").permitAll();
                             auth.requestMatchers(HttpMethod.GET, "/reservations/products/**").permitAll();
-                            auth.requestMatchers(HttpMethod.PUT,"/products/update").permitAll();
 
                             // endpoints que requieren autenticacion basica (tener al menos el rol de user)
                             auth.requestMatchers(HttpMethod.POST, "/users/find-by-email").authenticated();
@@ -50,7 +49,7 @@ public class SecurityConfiguration {
                             auth.requestMatchers("/backoffice/**").hasAnyAuthority("ADMIN");
                             auth.requestMatchers(HttpMethod.POST, "/api/upload/image").hasAuthority("ADMIN");
                             auth.requestMatchers(HttpMethod.POST, "/products/save").hasAuthority("ADMIN");
-
+                            auth.requestMatchers(HttpMethod.PUT, "/products/update").hasAuthority("ADMIN");
                             auth.anyRequest().authenticated();
 
                         })

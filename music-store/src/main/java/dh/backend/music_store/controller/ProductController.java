@@ -33,7 +33,7 @@ public class ProductController {
         return ResponseEntity.ok(response);
     }
     @PostMapping("/products/save")
-    public ResponseEntity<DetailProductResponseDto> save(@RequestBody SaveProductRequestDto saveProductRequestDto){
+    public ResponseEntity<DetailProductResponseDto> save(@Valid @RequestBody SaveProductRequestDto saveProductRequestDto){
         DetailProductResponseDto detailResponse = productService.save(saveProductRequestDto);
         return ResponseEntity.ok(detailResponse);
     }
@@ -49,7 +49,7 @@ public class ProductController {
     }
 
     @PutMapping("/products/update")
-    public ResponseEntity<?> update(@RequestBody UpdateProductRequestDto updateProductRequestDto){
+    public ResponseEntity<?> update(@Valid @RequestBody UpdateProductRequestDto updateProductRequestDto){
         productService.update(updateProductRequestDto);
         String jsonResponse =  "{\"mensaje\" : \"El producto fue modificado\"}";
         return  ResponseEntity.ok(jsonResponse);
