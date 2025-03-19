@@ -10,11 +10,13 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SaveProductRequestDto {
+public class UpdateProductRequestDto {
+    @NotNull(message = "El id del producto a modificar es obligatorio")
+    @Min(value = 1, message = "ID de producto invalido")
+    private Integer id;
     @NotBlank(message = "El nombre del producto es obligatorio")
     @Size(max = 100, message = "El nombre no puede tener mas de 100 caracteres")
     private String name;
-
     @NotBlank(message = "La Url de la imagen es obligatoria")
     private String imageUrl;
     @NotNull(message = "El precio es obligatorio")

@@ -6,6 +6,7 @@ import dh.backend.music_store.dto.Generic.RequestSearcherDto;
 import dh.backend.music_store.dto.brand.BrandResponseDto;
 import dh.backend.music_store.dto.category.CategoryResponseDto;
 import dh.backend.music_store.dto.product.request.SaveProductRequestDto;
+import dh.backend.music_store.dto.product.request.UpdateProductRequestDto;
 import dh.backend.music_store.dto.product.response.DetailProductResponseDto;
 import dh.backend.music_store.dto.product.projection.FilteredProductProjection;
 import dh.backend.music_store.dto.product.request.FindAllProductRequestDto;
@@ -160,6 +161,51 @@ public class ProductService implements IProductService {
         detailProductResponseDto = mapperToDetailProductResponseDto(productSaved);
         return detailProductResponseDto;
     }
+
+    @Override
+    public void update(UpdateProductRequestDto updateProductRequestDto){
+        logger.info("Ingresando al Service Producto | Modificar producto");
+        //buscando si existe para update
+        Product productToSave = productRepository.findById(updateProductRequestDto.getId())
+                .orElseThrow(()-> new ResourceNotFoundException("Producto no encontrado"));
+        //regla de negocio de no nombres repetidos
+        List<Product> sameProductsByName = productRepository.findByName(updateProductRequestDto.getName());
+        if(!sameProductsByName.isEmpty()){
+            throw new BadRequestException("No es posible modificar, el nombre nuevo del producto ya se encuentra en uso");
+        }
+        logger.info("No existen productos con el mismo nombre, se procede al guardado");
+
+        logger.info("Buscando y mapeando categoria");
+        Category category =  modelMapper.map(categoryService.findById(updateProductRequestDto.getCategoryId()), Category.class) ;
+        Brand brand =  modelMapper.map(brandService.findById(updateProductRequestDto.getBrandId()), Brand.class);
+        //seteo de la imagen a modificar
+        List<ProductImage> images = productToSave.getImages();
+        images.get(0).setUrl(updateProductRequestDto.getImageUrl());
+
+        //seteo del producto a modificar
+        productToSave.setId(updateProductRequestDto.getId());
+        productToSave.setName(updateProductRequestDto.getName());
+        productToSave.setDescription(updateProductRequestDto.getDescription());
+        productToSave.setPricePerHour(updateProductRequestDto.getPrice());
+        productToSave.setStockQuantity(1);
+        productToSave.setIsAvailable(true);
+        productToSave.setCategory(category);
+        //productToSave.setImages(images);
+        productToSave.setCreationDate(LocalDate.now());
+        productToSave.setBrand(brand);
+        productToSave.setModel(updateProductRequestDto.getModel());
+        productToSave.setProduct_condition(updateProductRequestDto.getProductCondition());
+        productToSave.setOrigin(updateProductRequestDto.getOrigin());
+        productToSave.setLaunchYear(updateProductRequestDto.getLaunchYear());
+        productToSave.setProduct_size(updateProductRequestDto.getSize());
+        productToSave.setMaterial(updateProductRequestDto.getMaterial());
+        productToSave.setRecommendedUse(updateProductRequestDto.getRecommendedUse());
+
+        //guardado
+        productRepository.save(productToSave);
+        logger.info("Producto modificado en la db");
+    }
+
 
 
     //funcion de mapeo a DetailProductResponseDto
