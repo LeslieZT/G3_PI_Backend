@@ -41,7 +41,7 @@ public class ProductController {
         DetailProductResponseDto detalleProductoResponseDto = productService.findDetailsById(id);
         return  ResponseEntity.ok(detalleProductoResponseDto);
     }
-    @GetMapping("/products/search")
+    @PostMapping ("/products/search")
     public ResponseEntity<List<ResponseSearchProductDto>> searchProducts(@Valid @RequestBody RequestSearcherDto requestSearcherDto){
         List<ResponseSearchProductDto> responseDtos = productService.searchProducts(requestSearcherDto);
         return ResponseEntity.ok(responseDtos);
