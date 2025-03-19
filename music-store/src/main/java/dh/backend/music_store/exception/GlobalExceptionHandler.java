@@ -70,7 +70,7 @@ public class GlobalExceptionHandler {
         this.logger.error("Exception " + e);
         ApiError apiError = new ApiError(
                 request.getRequestURI(),
-                "Error del servidor",
+                "Error del servidor: "+ e,
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 ZonedDateTime.now(),
                 List.of()

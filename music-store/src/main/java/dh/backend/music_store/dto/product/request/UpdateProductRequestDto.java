@@ -1,7 +1,5 @@
 package dh.backend.music_store.dto.product.request;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +9,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SaveProductRequestDto {
+public class UpdateProductRequestDto {
+    private Integer id;
     private String name;
     private String imageUrl;
     private Double price;
