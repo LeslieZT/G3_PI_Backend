@@ -34,6 +34,7 @@ public class SecurityConfiguration {
                             auth.requestMatchers(HttpMethod.GET, "/brands/**").permitAll();
                             auth.requestMatchers(HttpMethod.GET, "/products/**").permitAll();
                             auth.requestMatchers(HttpMethod.POST, "/products/find-all").permitAll();
+                            auth.requestMatchers(HttpMethod.POST, "/products/search").permitAll();
                             auth.requestMatchers(HttpMethod.GET, "/reservations/products/**").permitAll();
 
 
