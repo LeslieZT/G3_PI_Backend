@@ -14,7 +14,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Data
 @Table(name = "products")
 public class Product {
     @Id
@@ -54,7 +53,7 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "brand_id", nullable = false)
-    private Brand brandId;
+    private Brand brand;
     private String model;
     private String productCondition; //cambio de nombre
     private String origin;
@@ -64,6 +63,10 @@ public class Product {
     private String material;
     @Column (name = "recommended_use")
     private String recommendedUse;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    @JsonManagedReference(value = "product-reservation")
+    private List<Reservation> reservations;
 
     @Override
     public String toString() {

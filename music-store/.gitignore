@@ -31,5 +31,9 @@ build/
 
 ### VS Code ###
 .vscode/
+<<<<<<< HEAD
 
 .idea/
+=======
+**/.idea
+>>>>>>> 3e7ae0d6b419aa199c3ffbe5cc4195959741bd0b

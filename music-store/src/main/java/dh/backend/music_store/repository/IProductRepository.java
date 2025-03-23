@@ -40,6 +40,7 @@ public interface IProductRepository extends JpaRepository<Product, Integer> {
                                 @Param("categoryIds") List<Integer> categoryIds,
                                 @Param("hasCategories") boolean hasCategories);
 
+<<<<<<< HEAD
     // Métodos para buscar productos por categoría (JPA derivado)
     List<Product> findByCategory_Name(String name);
     List<Product> findByCategory_Id(Integer id);
@@ -47,4 +48,21 @@ public interface IProductRepository extends JpaRepository<Product, Integer> {
 
     // Buscar producto por nombre exacto
     Optional<Product> findByName(String name);
+=======
+    List<Product> findByName(String name);
+
+    @Query("SELECT p FROM Product p " +
+            "JOIN p.brand b " +
+            "JOIN p.category c " +
+            "WHERE LOWER(p.name) LIKE LOWER(CONCAT('%', :text, '%')) OR " +
+            "LOWER(p.description) LIKE LOWER(CONCAT('%', :text, '%')) OR " +
+            "LOWER(p.model) LIKE LOWER(CONCAT('%', :text, '%')) OR " +
+            "LOWER(p.product_condition) LIKE LOWER(CONCAT('%', :text, '%')) OR " +
+            "LOWER(p.origin) LIKE LOWER(CONCAT('%', :text, '%')) OR " +
+            "LOWER(p.material) LIKE LOWER(CONCAT('%', :text, '%')) OR " +
+            "LOWER(p.recommendedUse) LIKE LOWER(CONCAT('%', :text, '%')) OR " +
+            "LOWER(b.name) LIKE LOWER(CONCAT('%', :text, '%')) OR " +
+            "LOWER(c.name) LIKE LOWER(CONCAT('%', :text, '%'))")
+    List<Product> searchProducts(@Param("text") String text);
+>>>>>>> 3e7ae0d6b419aa199c3ffbe5cc4195959741bd0b
 }

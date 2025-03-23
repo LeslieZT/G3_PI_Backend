@@ -1,5 +1,6 @@
 package dh.backend.music_store.dto.product.request;
 
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,12 +13,28 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SaveProductRequestDto {
+    @NotBlank(message = "El nombre del producto es obligatorio")
+    @Size(max = 100, message = "El nombre no puede tener mas de 100 caracteres")
     private String name;
+
+    @NotBlank(message = "La Url de la imagen es obligatoria")
     private String imageUrl;
+    @NotNull(message = "El precio es obligatorio")
+    @DecimalMin(value = "0.01", message = "El precio debe ser mayor que cero")
     private Double price;
+    @NotBlank(message = "La descripcion es obligatoria")
     private String description;
+<<<<<<< HEAD
     private List<Integer> categoryIds;
+=======
+    @NotNull(message = "La categoria es obligatoria")
+    @Min(value = 1, message = "ID de categoria invalido")
+    private Integer categoryId;
+    @NotNull(message = "La marca es obligatoria")
+    @Min(value = 1, message = "ID de marca invalido")
+>>>>>>> 3e7ae0d6b419aa199c3ffbe5cc4195959741bd0b
     private Integer brandId;
+
     private String model;
     private String productCondition;
     private String origin;

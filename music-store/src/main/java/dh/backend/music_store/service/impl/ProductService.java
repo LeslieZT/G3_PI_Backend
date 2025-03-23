@@ -3,8 +3,12 @@ package dh.backend.music_store.service.impl;
 
 
 import dh.backend.music_store.dto.Generic.PaginationResponseDto;
+<<<<<<< HEAD
 import dh.backend.music_store.dto.Generic.ResponseDto;
 import dh.backend.music_store.dto.auth.response.ProductResponseDto;
+=======
+import dh.backend.music_store.dto.Generic.RequestSearcherDto;
+>>>>>>> 3e7ae0d6b419aa199c3ffbe5cc4195959741bd0b
 import dh.backend.music_store.dto.brand.BrandResponseDto;
 import dh.backend.music_store.dto.category.CategoryResponseDto;
 import dh.backend.music_store.dto.product.request.SaveProductRequestDto;
@@ -14,15 +18,14 @@ import dh.backend.music_store.dto.product.projection.FilteredProductProjection;
 import dh.backend.music_store.dto.product.request.FindAllProductRequestDto;
 import dh.backend.music_store.dto.product.response.FindAllProductResponseDto;
 import dh.backend.music_store.dto.product.response.FindOneProductResponseDto;
-import dh.backend.music_store.entity.Brand;
-import dh.backend.music_store.entity.Category;
-import dh.backend.music_store.entity.Product;
-import dh.backend.music_store.entity.ProductImage;
+import dh.backend.music_store.dto.product.response.ResponseSearchProductDto;
+import dh.backend.music_store.entity.*;
 import dh.backend.music_store.exception.BadRequestException;
 import dh.backend.music_store.exception.ResourceNotFoundException;
 import dh.backend.music_store.repository.IBrandRepository;
 import dh.backend.music_store.repository.ICategoryRepository;
 import dh.backend.music_store.repository.IProductRepository;
+import dh.backend.music_store.repository.IReservationRepository;
 import dh.backend.music_store.service.IBrandService;
 import dh.backend.music_store.service.ICategoryService;
 import dh.backend.music_store.service.IProductImageService;
@@ -52,6 +55,8 @@ public class ProductService implements IProductService {
     private ICategoryService categoryService;
     private IProductImageService productImageService;
     private IBrandService brandService;
+    @Autowired
+    private IReservationRepository reservationRepository;
 
 
     @Autowired
@@ -157,7 +162,7 @@ public class ProductService implements IProductService {
         productToSave.setCategories(categories);
         productToSave.setImages(images);
         productToSave.setCreationDate(LocalDate.now());
-        productToSave.setBrandId(brand);
+        productToSave.setBrand(brand);
         productToSave.setModel(saveProductRequestDto.getModel());
         productToSave.setProductCondition(saveProductRequestDto.getProductCondition());
         productToSave.setOrigin(saveProductRequestDto.getOrigin());
@@ -175,6 +180,7 @@ public class ProductService implements IProductService {
     }
 
     @Override
+<<<<<<< HEAD
     public DetailProductResponseDto assignCategoryToProduct(Integer productId, Integer categoryId) {
         logger.info("Asignando categoría {} al producto {}", categoryId, productId);
 
@@ -358,6 +364,52 @@ public class ProductService implements IProductService {
                 .collect(Collectors.toList());
     }
 
+=======
+    public void update(UpdateProductRequestDto updateProductRequestDto){
+        logger.info("Ingresando al Service Producto | Modificar producto");
+        //buscando si existe para update
+        Product productToSave = productRepository.findById(updateProductRequestDto.getId())
+                .orElseThrow(()-> new ResourceNotFoundException("Producto no encontrado"));
+        //regla de negocio de no nombres repetidos
+        List<Product> sameProductsByName = productRepository.findByName(updateProductRequestDto.getName());
+        if(!sameProductsByName.isEmpty()){
+            throw new BadRequestException("No es posible modificar, el nombre nuevo del producto ya se encuentra en uso");
+        }
+        logger.info("No existen productos con el mismo nombre, se procede al guardado");
+
+        logger.info("Buscando y mapeando categoria");
+        Category category =  modelMapper.map(categoryService.findById(updateProductRequestDto.getCategoryId()), Category.class) ;
+        Brand brand =  modelMapper.map(brandService.findById(updateProductRequestDto.getBrandId()), Brand.class);
+        //seteo de la imagen a modificar
+        List<ProductImage> images = productToSave.getImages();
+        images.get(0).setUrl(updateProductRequestDto.getImageUrl());
+
+        //seteo del producto a modificar
+        productToSave.setId(updateProductRequestDto.getId());
+        productToSave.setName(updateProductRequestDto.getName());
+        productToSave.setDescription(updateProductRequestDto.getDescription());
+        productToSave.setPricePerHour(updateProductRequestDto.getPrice());
+        productToSave.setStockQuantity(1);
+        productToSave.setIsAvailable(true);
+        productToSave.setCategory(category);
+        //productToSave.setImages(images);
+        productToSave.setCreationDate(LocalDate.now());
+        productToSave.setBrand(brand);
+        productToSave.setModel(updateProductRequestDto.getModel());
+        productToSave.setProduct_condition(updateProductRequestDto.getProductCondition());
+        productToSave.setOrigin(updateProductRequestDto.getOrigin());
+        productToSave.setLaunchYear(updateProductRequestDto.getLaunchYear());
+        productToSave.setProduct_size(updateProductRequestDto.getSize());
+        productToSave.setMaterial(updateProductRequestDto.getMaterial());
+        productToSave.setRecommendedUse(updateProductRequestDto.getRecommendedUse());
+
+        //guardado
+        productRepository.save(productToSave);
+        logger.info("Producto modificado en la db");
+    }
+
+
+>>>>>>> 3e7ae0d6b419aa199c3ffbe5cc4195959741bd0b
 
     //funcion de mapeo a DetailProductResponseDto
     private DetailProductResponseDto mapperToDetailProductResponseDto(Product product){
@@ -377,7 +429,7 @@ public class ProductService implements IProductService {
             url = productImage.getImageUrl();
         }
         //buscar marca del producto
-        BrandResponseDto brandResponseDto = brandService.findById(product.getBrandId().getId());
+        BrandResponseDto brandResponseDto = brandService.findById(product.getBrand().getId());
         //buscar imagenes no principales
         List<ProductImage> secondaryImagesFromDb = productImageService.findByProductAndIsNotPrimary(product);
         List<String> secondaryImages = new ArrayList<>();
@@ -401,6 +453,57 @@ public class ProductService implements IProductService {
                 product.getRecommendedUse(),
                 secondaryImages);
         return detailProductResponseDto;
+    }
+    @Override
+    public List<ResponseSearchProductDto> searchProducts(RequestSearcherDto requestSearcherDto) {
+        List<Product> products;
+        //FALTA FILTRADO SOLO DATE
+        if(requestSearcherDto.getText() == null){
+            products = productRepository.findAll();
+        }else{
+            products = productRepository.searchProducts(requestSearcherDto.getText());
+        }
+    List<ResponseSearchProductDto> productResponseDtos =new ArrayList<>();
+
+        for (Product product : products){
+
+        ResponseSearchProductDto productft = modelMapper.map(product,ResponseSearchProductDto.class);
+        productft.setBrand(product.getBrand().getName());
+        productft.setCategory(product.getCategory().getName());
+        ProductImage productImage = productImageService.findByProductAndIsPrimary(product);
+        productft.setImages(productImage.getUrl());
+        //FILTRANDO DISPONIBILIDAD POR FECHAS
+        if(isProductAvaiable(product, requestSearcherDto.getDateInit(), requestSearcherDto.getDateEnd())){
+            productResponseDtos.add(productft);
+        }
+    }
+
+        return productResponseDtos;
+}
+
+    private boolean  isProductAvaiable(Product product, LocalDate dateInit, LocalDate dateEnd){
+
+        // Obtener todas las reservas activas del producto (que no sean RETURNED ni CANCELED)
+        List<Reservation> activeReservations = reservationRepository.findByProductId(product.getId())
+                .stream()
+                .filter(reservation ->
+                        reservation.getStatus() == ReservationStatus.PENDING ||
+                                reservation.getStatus() == ReservationStatus.APPROVED ||
+                                reservation.getStatus() == ReservationStatus.IN_PROGRESS
+                )
+                .toList();
+
+
+        if(activeReservations.isEmpty() || dateInit ==null || dateEnd==null){
+            return true;
+        }else {
+            // Verificar si alguna reserva se traslapa con el rango consultado
+            boolean isAvailable = activeReservations.stream()
+                    .noneMatch(reservation ->
+                            dateEnd.isAfter(reservation.getStartDate()) && dateInit.isBefore(reservation.getEndDate())
+                    );
+
+            return isAvailable;}
     }
 
 }

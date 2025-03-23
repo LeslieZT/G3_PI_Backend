@@ -4,29 +4,95 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c8f437e5-1521-4fe4-b706-29f8d2c568e5" name="Changes" comment="">
+    <list default="true" id="bac50f5c-b467-4438-ae0b-e6a00f299a07" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/controller/ReservationController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/dto/Generic/RequestSearcherDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/dto/product/response/ResponseSearchProductDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/dto/reservation/projection/ReservationByProductProjection.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/dto/reservation/response/ReservationByProductResponseDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/entity/Reservation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/entity/ReservationStatus.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/repository/IReservationRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/service/IReservationService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/service/impl/ReservationService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MUSIC STORE API.postman_collection.json" beforeDir="false" afterPath="$PROJECT_DIR$/MUSIC STORE API.postman_collection.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/music-store/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/music-store/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/config/SecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/config/SecurityConfiguration.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/controller/ProductController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/controller/UploadController.java" beforeDir="false" afterPath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/controller/UploadController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/dto/product/request/SaveProductRequestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/dto/product/request/SaveProductRequestDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/dto/product/request/UpdateProductRequestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/dto/product/request/UpdateProductRequestDto.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/entity/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/entity/Product.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/entity/ProductImage.java" beforeDir="false" afterPath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/entity/ProductImage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/entity/Users.java" beforeDir="false" afterPath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/entity/Users.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/exception/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/exception/GlobalExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/repository/IProductRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/repository/IProductRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/service/IProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/service/IProductService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/service/impl/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/music-store/src/main/java/dh/backend/music_store/service/impl/ProductService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/music-store/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/music-store/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/music-store/src/main/resources/data.sql" beforeDir="false" afterPath="$PROJECT_DIR$/music-store/src/main/resources/data.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 2
+}</component>
+  <component name="ProjectId" id="2tS7c2QePvDxKFdqrlkGEFFP18R" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.MusicStoreApplication.executor": "Run",
-    "git-widget-placeholder": "feature/N22__catergorzarP"
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "Merging feature/N22__catergorzarP",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Eduardo Sanchez/IdeaProjects/TrabajoFinal",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "reference.projectsettings.compiler.annotationProcessors"
   }
 }]]></component>
   <component name="RunManager">
     <configuration name="MusicStoreApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <envs>
+        <env name="CLOUDINARY_API_KEY" value="627525345319363" />
+        <env name="CLOUDINARY_API_SECRET" value="y1hUv8qt46IEFzWLWd0-ykH0i0g" />
+        <env name="CLOUDINARY_CLOUD_NAME" value="dwzugg5gm" />
+        <env name="DB_HOST" value="localhost" />
+        <env name="DB_NAME" value="music-store" />
+        <env name="DB_PASSWORD" value="root" />
+        <env name="DB_PORT" value="3307" />
+        <env name="DB_USER" value="root" />
+      </envs>
       <option name="MAIN_CLASS_NAME" value="dh.backend.music_store.MusicStoreApplication" />
       <module name="music-store" />
       <extension name="coverage">
@@ -45,7 +111,15 @@
       </list>
     </recent_temporary>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="bac50f5c-b467-4438-ae0b-e6a00f299a07" name="Changes" comment="" />
+      <created>1740333699654</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1740333699654</updated>
+    </task>
     <servers />
   </component>
 </project>

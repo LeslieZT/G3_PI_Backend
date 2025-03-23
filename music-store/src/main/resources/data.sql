@@ -115,4 +115,42 @@ VALUES
 -- INSERT USERS
 INSERT INTO users(creation_date, email, id, first_name, last_name, password, role_id)
 VALUES
-('2025-03-1', 'admin@email.com', DEFAULT, 'admin', 'admin', '$2a$10$6eRTbsXOKMvRgKQ2Xzo2Ee2QEGdjsYxTwzCKkBUpeSFIVXNe2UErW', '1'); -- admin123456
+('2025-03-1', 'admin@email.com', DEFAULT, 'admin', 'admin', '$2a$10$6eRTbsXOKMvRgKQ2Xzo2Ee2QEGdjsYxTwzCKkBUpeSFIVXNe2UErW', '1'),
+('2025-03-1', 'carla@email.com', DEFAULT, 'Carla', 'Perez', '$2a$10$6eRTbsXOKMvRgKQ2Xzo2Ee2QEGdjsYxTwzCKkBUpeSFIVXNe2UErW', '2'),
+('2025-03-1', 'juan@email.com', DEFAULT, 'Juan', 'Perez', '$2a$10$6eRTbsXOKMvRgKQ2Xzo2Ee2QEGdjsYxTwzCKkBUpeSFIVXNe2UErW', '2'),
+('2025-03-1', 'pedro@email.com', DEFAULT, 'Pedro', 'Perez', '$2a$10$6eRTbsXOKMvRgKQ2Xzo2Ee2QEGdjsYxTwzCKkBUpeSFIVXNe2UErW', '2'),
+('2025-03-1', 'admin2@email.com', DEFAULT, 'admin2', 'admin2', '$2a$10$6eRTbsXOKMvRgKQ2Xzo2Ee2QEGdjsYxTwzCKkBUpeSFIVXNe2UErW', '1');
+
+  -- admin123456
+-- INSERT RESERVED PRODUCTS
+
+INSERT INTO reservations (start_date, end_date, status, user_id, product_id, creation_date)
+VALUES
+    -- Reservas pasadas (PENDING, RETURNED, CANCELED)
+    ('2024-03-10', '2024-03-15', 'PENDING', 2, 1, '2024-03-01'),
+    ('2024-02-20', '2024-02-25', 'RETURNED', 2, 2, '2024-02-10'),
+    ('2024-01-05', '2024-01-10', 'CANCELED', 3, 3, '2024-01-01'),
+    ('2024-02-15', '2024-02-22', 'RETURNED', 3, 4, '2024-02-05'),
+    ('2024-03-01', '2024-03-05', 'PENDING', 4, 5, '2024-02-25'),
+
+    -- Reservas futuras (IN_PROGRESS, APPROVED)
+
+    ('2025-03-17', '2025-03-20', 'IN_PROGRESS', 2, 1, NOW()),
+    ('2025-03-23', '2025-03-25', 'APPROVED', 3, 1, NOW()),
+
+    ('2025-03-17', '2025-03-18', 'IN_PROGRESS', 3, 2, NOW()),
+    ('2025-03-26', '2025-04-29', 'APPROVED', 3, 2, NOW()),
+    ('2025-04-20', '2025-04-27', 'APPROVED', 3, 2, NOW()),
+
+    ('2025-03-18', '2025-03-22', 'APPROVED', 4, 3, NOW()),
+    ('2025-03-23', '2025-03-30', 'APPROVED', 2, 4, NOW()),
+    ('2025-03-16', '2025-03-24', 'IN_PROGRESS', 4,5, NOW()),
+
+    ('2025-03-16', '2025-03-20', 'IN_PROGRESS', 2, 6, NOW()),
+    ('2025-03-25', '2025-03-23', 'APPROVED', 3, 6, NOW()),
+
+    ('2025-03-17', '2025-03-20', 'IN_PROGRESS', 4, 9, NOW()),
+    ('2025-03-22', '2025-03-26', 'APPROVED', 3, 9, NOW()),
+    ('2025-04-10', '2025-04-15', 'APPROVED', 2, 9, NOW());
+
+
