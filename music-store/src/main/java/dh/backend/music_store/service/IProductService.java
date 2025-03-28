@@ -8,6 +8,8 @@ import dh.backend.music_store.dto.product.response.DetailProductResponseDto;
 import dh.backend.music_store.dto.product.response.FindAllProductResponseDto;
 import dh.backend.music_store.dto.product.response.FindOneProductResponseDto;
 import dh.backend.music_store.dto.product.response.ResponseSearchProductDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -17,5 +19,5 @@ public interface IProductService {
     DetailProductResponseDto findDetailsById(Integer id);
     DetailProductResponseDto save(SaveProductRequestDto saveProductRequestDto);
 
-    List<ResponseSearchProductDto> searchProducts(RequestSearcherDto requestSearcherDto);
+    PaginationResponseDto<ResponseSearchProductDto> searchProducts(RequestSearcherDto requestSearcherDto, Pageable pageable);
 }

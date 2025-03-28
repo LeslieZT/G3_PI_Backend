@@ -10,6 +10,10 @@ import dh.backend.music_store.dto.product.response.FindOneProductResponseDto;
 import dh.backend.music_store.dto.product.response.ResponseSearchProductDto;
 import dh.backend.music_store.service.IProductService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -41,9 +45,12 @@ public class ProductController {
         DetailProductResponseDto detalleProductoResponseDto = productService.findDetailsById(id);
         return  ResponseEntity.ok(detalleProductoResponseDto);
     }
-    @GetMapping("/products/search")
-    public ResponseEntity<List<ResponseSearchProductDto>> searchProducts(@Valid @RequestBody RequestSearcherDto requestSearcherDto){
-        List<ResponseSearchProductDto> responseDtos = productService.searchProducts(requestSearcherDto);
+    @PostMapping("/products/search")
+    public ResponseEntity<PaginationResponseDto<ResponseSearchProductDto>> searchProducts(@Valid @RequestBody RequestSearcherDto requestSearcherDto,
+                                                                                          @RequestParam(defaultValue = "1") int page,
+                                                                         @RequestParam(defaultValue = "6") int size){
+        Pageable pageable = PageRequest.of(page - 1, size);
+        PaginationResponseDto<ResponseSearchProductDto> responseDtos = productService.searchProducts(requestSearcherDto, pageable);
         return ResponseEntity.ok(responseDtos);
     }
 }

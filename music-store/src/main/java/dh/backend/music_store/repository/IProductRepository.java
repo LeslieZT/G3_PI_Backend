@@ -2,6 +2,8 @@ package dh.backend.music_store.repository;
 
 import dh.backend.music_store.dto.product.projection.FilteredProductProjection;
 import dh.backend.music_store.entity.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -48,5 +50,7 @@ public interface IProductRepository extends JpaRepository<Product, Integer> {
             "LOWER(p.recommendedUse) LIKE LOWER(CONCAT('%', :text, '%')) OR " +
             "LOWER(b.name) LIKE LOWER(CONCAT('%', :text, '%')) OR " +
             "LOWER(c.name) LIKE LOWER(CONCAT('%', :text, '%'))")
-    List<Product> searchProducts(@Param("text") String text);
+    Page<Product> searchProducts(@Param("text") String text, Pageable pageable);
+
+    Page<Product> findAll(Pageable pageable);
 }
