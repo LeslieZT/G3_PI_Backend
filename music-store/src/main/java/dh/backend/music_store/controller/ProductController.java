@@ -4,6 +4,7 @@ import dh.backend.music_store.dto.Generic.PaginationResponseDto;
 import dh.backend.music_store.dto.Generic.RequestSearcherDto;
 import dh.backend.music_store.dto.product.request.FindAllProductRequestDto;
 import dh.backend.music_store.dto.product.request.SaveProductRequestDto;
+import dh.backend.music_store.dto.product.request.UpdateProductRequestDto;
 import dh.backend.music_store.dto.product.response.DetailProductResponseDto;
 import dh.backend.music_store.dto.product.response.FindAllProductResponseDto;
 import dh.backend.music_store.dto.product.response.FindOneProductResponseDto;
@@ -36,7 +37,7 @@ public class ProductController {
         return ResponseEntity.ok(response);
     }
     @PostMapping("/products/save")
-    public ResponseEntity<DetailProductResponseDto> save(@RequestBody SaveProductRequestDto saveProductRequestDto){
+    public ResponseEntity<DetailProductResponseDto> save(@Valid @RequestBody SaveProductRequestDto saveProductRequestDto){
         DetailProductResponseDto detailResponse = productService.save(saveProductRequestDto);
         return ResponseEntity.ok(detailResponse);
     }
@@ -52,5 +53,12 @@ public class ProductController {
         Pageable pageable = PageRequest.of(page - 1, size);
         PaginationResponseDto<ResponseSearchProductDto> responseDtos = productService.searchProducts(requestSearcherDto, pageable);
         return ResponseEntity.ok(responseDtos);
+    }
+
+    @PutMapping("/products/update")
+    public ResponseEntity<?> update(@Valid @RequestBody UpdateProductRequestDto updateProductRequestDto){
+        productService.update(updateProductRequestDto);
+        String jsonResponse =  "{\"mensaje\" : \"El producto fue modificado\"}";
+        return  ResponseEntity.ok(jsonResponse);
     }
 }
