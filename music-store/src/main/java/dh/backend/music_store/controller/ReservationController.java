@@ -4,6 +4,7 @@ import dh.backend.music_store.dto.Generic.ResponseDto;
 import dh.backend.music_store.dto.reservation.request.SaveReservationRequestDto;
 import dh.backend.music_store.dto.reservation.response.ReservationByProductResponseDto;
 import dh.backend.music_store.service.IReservationService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +24,7 @@ public class ReservationController {
     }
 
     @PostMapping("/reservations/save")
-    public ResponseEntity<ReservationByProductResponseDto> saveReservation(@RequestBody SaveReservationRequestDto saveReservationRequestDto){
+    public ResponseEntity<ReservationByProductResponseDto> saveReservation(@Valid @RequestBody SaveReservationRequestDto saveReservationRequestDto){
         ReservationByProductResponseDto response = reservationService.save(saveReservationRequestDto);
         return ResponseEntity.ok(response);
     }

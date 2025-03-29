@@ -41,10 +41,10 @@ public class SecurityConfiguration {
                             auth.requestMatchers(HttpMethod.POST, "/products/find-all").permitAll();
                             auth.requestMatchers(HttpMethod.POST, "/products/search").permitAll();
                             auth.requestMatchers(HttpMethod.GET, "/reservations/products/**").permitAll();
-                            auth.requestMatchers(HttpMethod.POST, "/reservations/save").permitAll();
 
                             // endpoints que requieren autenticacion basica (tener al menos el rol de user)
                             auth.requestMatchers(HttpMethod.POST, "/users/find-by-email").authenticated();
+                            auth.requestMatchers(HttpMethod.POST, "/reservations/save").authenticated();
 
                             // endponints que necesitan algun tipo de rol especifico
                             auth.requestMatchers("/backoffice/**").hasAnyAuthority("ADMIN");
