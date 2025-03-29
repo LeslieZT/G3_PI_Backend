@@ -1,12 +1,11 @@
 package dh.backend.music_store.controller;
 
 import dh.backend.music_store.dto.Generic.ResponseDto;
+import dh.backend.music_store.dto.reservation.request.SaveReservationRequestDto;
 import dh.backend.music_store.dto.reservation.response.ReservationByProductResponseDto;
 import dh.backend.music_store.service.IReservationService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,6 +19,12 @@ public class ReservationController {
     @GetMapping("/reservations/products/{productId}")
     public ResponseEntity<ResponseDto<List<ReservationByProductResponseDto>>> getReservationsByProductId(@PathVariable Integer productId){
         ResponseDto<List<ReservationByProductResponseDto>> response = reservationService.getReservationsByProductId(productId);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/reservations/save")
+    public ResponseEntity<ReservationByProductResponseDto> saveReservation(@RequestBody SaveReservationRequestDto saveReservationRequestDto){
+        ReservationByProductResponseDto response = reservationService.save(saveReservationRequestDto);
         return ResponseEntity.ok(response);
     }
 }

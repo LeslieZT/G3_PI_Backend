@@ -13,6 +13,7 @@ import dh.backend.music_store.dto.product.request.FindAllProductRequestDto;
 import dh.backend.music_store.dto.product.response.FindAllProductResponseDto;
 import dh.backend.music_store.dto.product.response.FindOneProductResponseDto;
 import dh.backend.music_store.dto.product.response.ResponseSearchProductDto;
+import dh.backend.music_store.dto.reservation.projection.ReservationByProductProjection;
 import dh.backend.music_store.entity.*;
 import dh.backend.music_store.exception.BadRequestException;
 import dh.backend.music_store.exception.ResourceNotFoundException;
@@ -297,6 +298,17 @@ public class ProductService implements IProductService {
                     );
 
             return isAvailable;}
+    }
+
+    @Override
+    //ahi falta coordinar con waldir un poco la diferencia de logica
+    public boolean productIsAvailable(LocalDate startDate, LocalDate endDate, List<ReservationByProductProjection> reservations){
+        logger.info("Validando Disponibilidad de reserva...");
+        return reservations.stream()
+                .noneMatch(existingReservation ->
+                        !(endDate.isBefore(existingReservation.getStartDate()) ||
+                                startDate.isAfter(existingReservation.getEndDate()))
+                );
     }
 
 }

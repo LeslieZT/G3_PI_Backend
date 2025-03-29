@@ -9,7 +9,9 @@ import dh.backend.music_store.dto.product.response.DetailProductResponseDto;
 import dh.backend.music_store.dto.product.response.FindAllProductResponseDto;
 import dh.backend.music_store.dto.product.response.FindOneProductResponseDto;
 import dh.backend.music_store.dto.product.response.ResponseSearchProductDto;
+import dh.backend.music_store.dto.reservation.projection.ReservationByProductProjection;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface IProductService {
@@ -20,4 +22,6 @@ public interface IProductService {
     void update(UpdateProductRequestDto updateProductRequestDto);
 
     List<ResponseSearchProductDto> searchProducts(RequestSearcherDto requestSearcherDto);
+
+    boolean productIsAvailable(LocalDate startDate, LocalDate endDate, List<ReservationByProductProjection> reservations);
 }
