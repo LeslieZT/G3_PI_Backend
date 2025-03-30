@@ -172,9 +172,13 @@ public class ProductService implements IProductService {
         //regla de negocio de no nombres repetidos
         List<Product> sameProductsByName = productRepository.findByName(updateProductRequestDto.getName());
         if(!sameProductsByName.isEmpty()){
-            throw new BadRequestException("No es posible modificar, el nombre nuevo del producto ya se encuentra en uso");
+            Integer idEqualProduct  = sameProductsByName.get(0).getId();
+            // si es el mismo producto se puede mantener el nombre
+            if(!idEqualProduct.equals(updateProductRequestDto.getId())){
+                throw new BadRequestException("No es posible modificar, el nombre nuevo del producto ya se encuentra en uso");
+            }
         }
-        logger.info("No existen productos con el mismo nombre, se procede al guardado");
+        logger.info("No existen productos distintos con el mismo nombre, se procede al guardado");
 
         logger.info("Buscando y mapeando categoria");
         Category category =  modelMapper.map(categoryService.findById(updateProductRequestDto.getCategoryId()), Category.class) ;
