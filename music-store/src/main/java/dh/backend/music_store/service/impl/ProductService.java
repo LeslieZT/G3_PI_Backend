@@ -13,6 +13,7 @@ import dh.backend.music_store.dto.product.request.FindAllProductRequestDto;
 import dh.backend.music_store.dto.product.response.FindAllProductResponseDto;
 import dh.backend.music_store.dto.product.response.FindOneProductResponseDto;
 import dh.backend.music_store.dto.product.response.ResponseSearchProductDto;
+import dh.backend.music_store.dto.reservation.projection.ReservationByProductProjection;
 import dh.backend.music_store.entity.*;
 import dh.backend.music_store.exception.BadRequestException;
 import dh.backend.music_store.exception.ResourceNotFoundException;
@@ -171,9 +172,13 @@ public class ProductService implements IProductService {
         //regla de negocio de no nombres repetidos
         List<Product> sameProductsByName = productRepository.findByName(updateProductRequestDto.getName());
         if(!sameProductsByName.isEmpty()){
-            throw new BadRequestException("No es posible modificar, el nombre nuevo del producto ya se encuentra en uso");
+            Integer idEqualProduct  = sameProductsByName.get(0).getId();
+            // si es el mismo producto se puede mantener el nombre
+            if(!idEqualProduct.equals(updateProductRequestDto.getId())){
+                throw new BadRequestException("No es posible modificar, el nombre nuevo del producto ya se encuentra en uso");
+            }
         }
-        logger.info("No existen productos con el mismo nombre, se procede al guardado");
+        logger.info("No existen productos distintos con el mismo nombre, se procede al guardado");
 
         logger.info("Buscando y mapeando categoria");
         Category category =  modelMapper.map(categoryService.findById(updateProductRequestDto.getCategoryId()), Category.class) ;
@@ -297,6 +302,17 @@ public class ProductService implements IProductService {
                     );
 
             return isAvailable;}
+    }
+
+    @Override
+    //ahi falta coordinar con waldir un poco la diferencia de logica
+    public boolean productIsAvailable(LocalDate startDate, LocalDate endDate, List<ReservationByProductProjection> reservations){
+        logger.info("Validando Disponibilidad de reserva...");
+        return reservations.stream()
+                .noneMatch(existingReservation ->
+                        !(endDate.isBefore(existingReservation.getStartDate()) ||
+                                startDate.isAfter(existingReservation.getEndDate()))
+                );
     }
 
 }
