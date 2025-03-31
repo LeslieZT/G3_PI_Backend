@@ -44,6 +44,7 @@ public class SecurityConfiguration {
 
                             // endpoints que requieren autenticacion basica (tener al menos el rol de user)
                             auth.requestMatchers(HttpMethod.POST, "/users/find-by-email").authenticated();
+                            auth.requestMatchers(HttpMethod.POST, "/reservations/save").authenticated();
 
                             // endponints que necesitan algun tipo de rol especifico
                             auth.requestMatchers("/backoffice/**").hasAnyAuthority("ADMIN");
