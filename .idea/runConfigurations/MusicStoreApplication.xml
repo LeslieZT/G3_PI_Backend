@@ -1,0 +1,25 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="MusicStoreApplication" type="Application" factoryName="Application" nameIsGenerated="true">
+    <envs>
+      <env name="CLOUDINARY_API_KEY" value="627525345319363" />
+      <env name="CLOUDINARY_API_SECRET" value="y1hUv8qt46IEFzWLWd0-ykH0i0g" />
+      <env name="CLOUDINARY_CLOUD_NAME" value="dwzugg5gm" />
+      <env name="DB_HOST" value="localhost" />
+      <env name="DB_NAME" value="music-store" />
+      <env name="DB_PASSWORD" value="root" />
+      <env name="DB_PORT" value="3307" />
+      <env name="DB_USER" value="root" />
+    </envs>
+    <option name="MAIN_CLASS_NAME" value="dh.backend.music_store.MusicStoreApplication" />
+    <module name="music-store" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="dh.backend.music_store.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

@@ -33,9 +33,13 @@ public class UploadController {
     //enpoint independiente para subir una imagen al cloudinary
     @PostMapping("/image")
     public ResponseEntity<Map<String, String>> uploadImage(@RequestParam("image")MultipartFile image){
-
-        String imageUrl = cloudinaryService.uploadToStorage(image);
         Map<String, String> response = new HashMap<>();
+        if (image.isEmpty()) {
+            response.put("error", "No file uploaded");
+            return ResponseEntity.ok(response);
+        }
+        String imageUrl = cloudinaryService.uploadToStorage(image);
+
         response.put("url", imageUrl);
         return ResponseEntity.ok(response);
     }

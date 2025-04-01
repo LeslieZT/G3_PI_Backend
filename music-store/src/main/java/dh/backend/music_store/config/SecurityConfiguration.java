@@ -51,6 +51,7 @@ public class SecurityConfiguration {
                             auth.requestMatchers(HttpMethod.POST, "/api/upload/image").hasAuthority("ADMIN");
                             auth.requestMatchers(HttpMethod.POST, "/products/save").hasAuthority("ADMIN");
                             auth.requestMatchers(HttpMethod.PUT, "/products/update").hasAuthority("ADMIN");
+                            auth.requestMatchers(HttpMethod.DELETE, "/products/delete/**").hasAuthority("ADMIN");
                             auth.anyRequest().authenticated();
 
                         })
