@@ -16,8 +16,8 @@ public interface IReservationRepository extends JpaRepository<Reservation, Integ
     @Query(value = "SELECT id, start_date, end_date FROM reservations " +
             "WHERE product_id = :productId " +
             "AND status IN ('PENDING', 'APPROVED', 'IN_PROGRESS') " +
-            "AND start_date >= DATE_FORMAT(CURDATE(), '%Y-%m-01') " +
-            "AND start_date < DATE_ADD(DATE_FORMAT(CURDATE(), '%Y-%m-01'), INTERVAL 2 MONTH)",
+            "AND (start_date >= CURDATE() OR end_date >= CURDATE()) " +
+            "ORDER BY start_date",
             nativeQuery = true)
     List<ReservationByProductProjection> findReservationsByProduct(@Param("productId") Integer productId);
 

@@ -3,17 +3,16 @@ package dh.backend.music_store.service.impl;
 
 import dh.backend.music_store.dto.Generic.PaginationResponseDto;
 import dh.backend.music_store.dto.Generic.RequestSearcherDto;
+import dh.backend.music_store.dto.Generic.ResponseDto;
 import dh.backend.music_store.dto.brand.BrandResponseDto;
 import dh.backend.music_store.dto.category.CategoryResponseDto;
 import dh.backend.music_store.dto.product.request.SaveProductRequestDto;
 import dh.backend.music_store.dto.product.request.UpdateProductRequestDto;
-import dh.backend.music_store.dto.product.response.DetailProductResponseDto;
+import dh.backend.music_store.dto.product.response.*;
 import dh.backend.music_store.dto.product.projection.FilteredProductProjection;
 import dh.backend.music_store.dto.product.request.FindAllProductRequestDto;
-import dh.backend.music_store.dto.product.response.FindAllProductResponseDto;
-import dh.backend.music_store.dto.product.response.FindOneProductResponseDto;
-import dh.backend.music_store.dto.product.response.ResponseSearchProductDto;
 import dh.backend.music_store.dto.reservation.projection.ReservationByProductProjection;
+import dh.backend.music_store.dto.user.response.ChangeRoleResponseDto;
 import dh.backend.music_store.entity.*;
 import dh.backend.music_store.exception.BadRequestException;
 import dh.backend.music_store.exception.ResourceNotFoundException;
@@ -313,6 +312,18 @@ public class ProductService implements IProductService {
                         !(endDate.isBefore(existingReservation.getStartDate()) ||
                                 startDate.isAfter(existingReservation.getEndDate()))
                 );
+    }
+
+    @Override
+    public ResponseDto<DeleteProductResponseDto> delete(Integer id) {
+        Optional<Product> product = productRepository.findById(id);
+        if (product.isEmpty()){
+            throw new ResourceNotFoundException("Product not found");
+        }
+        productRepository.deleteById(id);
+        ResponseDto<DeleteProductResponseDto> response = new ResponseDto<>();
+        response.setData(new DeleteProductResponseDto("Product deleted successfully"));
+        return response;
     }
 
 }
