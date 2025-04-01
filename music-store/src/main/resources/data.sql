@@ -49,7 +49,7 @@ VALUES
  (
      1, '2025-03-21', DEFAULT, true, 30.00, 5, '2023', 'Nueva',
      'Guitarra electrica de seis cuerdas con cuerpo de caoba y pastillas humbucker.',
-     6, 'Madera', '102x35', 'Les Paul Standard 50s',
+     6, 'Madera', '102x35x30', 'Les Paul Standard 50s',
      'Guitarra Gibson Les Paul', 'EE.UU.', 'Profesional'
  ),
  (

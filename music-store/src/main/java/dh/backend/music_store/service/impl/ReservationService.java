@@ -70,6 +70,10 @@ public class ReservationService implements IReservationService {
         if(startDate.isAfter(endDate)){
             throw new BadRequestException("La fecha de fin debe ser posterior a la de inicio");
         }
+        //validamos que las fechas seleccionadas sean posterior al dia actual
+        if (startDate.isBefore(LocalDate.now())) {
+            throw new BadRequestException("No se pueden realizar reservas con fechas pasadas");
+        }
 
         logger.info("Validando existencia de producto y usuario");
         //validamos que el producto exista y el usuario exista
