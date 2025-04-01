@@ -1,5 +1,6 @@
 package dh.backend.music_store.dto.Generic;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,4 +19,5 @@ public class RequestSearcherDto {
     private LocalDate dateInit;
     @DateTimeFormat
     private LocalDate dateEnd;
+
 }
