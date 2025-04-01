@@ -36,48 +36,48 @@ VALUES
 INSERT INTO products(`category_id`, `creation_date`, `id`,`is_available`, `price_per_hour`, `stock_quantity`, `launch_year`,
 `product_condition`, `description`, `brand_id`, `material`, `product_size`, `model`, `name`, `origin`, `recommended_use`)
 VALUES
-( 2, '2025-03-16', DEFAULT, true, 35.99, 5, '2022', 'Nueva','Bateria acustica profesional con gran resonancia y durabilidad.',
+( 2, '2025-03-16', DEFAULT, true, 35.99, 1, '2022', 'Nueva','Bateria acustica profesional con gran resonancia y durabilidad.',
 1, 'Metal y madera', '140x90x30', 'EXX725S', 'Bateria Pearl Export', 'Japon', 'Profesional'),
-( 3, '2025-03-17', DEFAULT, true, 28.99, 3, '2021', 'Nuevo', 'Teclado digital con 88 teclas sensibles al tacto y multiples funciones integradas.',
+( 3, '2025-03-17', DEFAULT, true, 28.99, 1, '2021', 'Nuevo', 'Teclado digital con 88 teclas sensibles al tacto y multiples funciones integradas.',
 2, 'Plastico y metal', '130x35x40', 'FP-30X', 'Teclado Roland FP-30X', 'EE.UU.', 'Profesional'),
-( 1, '2025-03-18', DEFAULT, true, 22.50, 4, '2022', 'Seminueva', 'Guitarra acustica de seis cuerdas con gran resonancia y acabado de madera natural.',
+( 1, '2025-03-18', DEFAULT, true, 22.50, 1, '2022', 'Seminueva', 'Guitarra acustica de seis cuerdas con gran resonancia y acabado de madera natural.',
 3, 'Madera', '100x40x50', 'CD-60', 'Guitarra Fender CD-60', 'Mexico', 'Principiante'),
-( 2, '2025-03-19', DEFAULT, true, 40.00, 3, '2023', 'Nueva', 'Bateria acustica de 5 piezas con platillos incluidos, ideal para estudios y presentaciones en vivo.',
+( 2, '2025-03-19', DEFAULT, true, 40.00, 1, '2023', 'Nueva', 'Bateria acustica de 5 piezas con platillos incluidos, ideal para estudios y presentaciones en vivo.',
 4, 'Madera y metal', '150x90x100', 'Imperialstar', 'Bateria Tama Imperialstar', 'Japon', 'Profesional'),
-( 6, '2025-03-20', DEFAULT, true, 15.99, 10, '2022', 'Nuevo', 'Audifonos profesionales con cancelacion de ruido y sonido envolvente.',
+( 6, '2025-03-20', DEFAULT, true, 15.99, 1, '2022', 'Nuevo', 'Audifonos profesionales con cancelacion de ruido y sonido envolvente.',
  5, 'Plastico y metal', '18x15x5', 'WH-1000XM4', 'Audifonos Sony WH-1000XM4', 'Japon', 'Intermedio'),
  (
-     1, '2025-03-21', DEFAULT, true, 30.00, 5, '2023', 'Nueva',
+     1, '2025-03-21', DEFAULT, true, 30.00, 1, '2023', 'Nueva',
      'Guitarra electrica de seis cuerdas con cuerpo de caoba y pastillas humbucker.',
      6, 'Madera', '102x35x30', 'Les Paul Standard 50s',
      'Guitarra Gibson Les Paul', 'EE.UU.', 'Profesional'
  ),
  (
-     4, '2025-03-21', DEFAULT, true, 10.50, 8, '2022', 'Nueva',
-     'Armonica diatonica de 10 agujeros afinada en Do (C), ideal para blues y folk.',
-     7, 'Metal y plastico', '10x3x1', 'Marine Band 1896',
-     'Armonica Hohner Marine Band', 'Alemania', 'Intermedio'
+     4, '2025-03-21', DEFAULT, true, 25.00, 1, '2022', 'Nueva',
+     'Bajo eléctrico de cuatro cuerdas con cuerpo de aliso y pastillas pasivas de precisión.',
+     8, 'Madera', '115x38x10', 'Precision Bass',
+     'Fender Precision Bass', 'EE.UU.', 'Profesional'
  ),
  (
-     3, '2025-03-16', DEFAULT, true, 50.00, 2, '2023', 'Nuevo',
+     3, '2025-03-16', DEFAULT, true, 50.00, 1, '2023', 'Nuevo',
      'Piano de cola con 88 teclas, sonido envolvente y sistema de martillos de alta precision.',
      8, 'Madera y metal', '150x180x90', 'Model D',
      'Piano Steinway & Sons Model D', 'Alemania', 'Profesional'
  ),
  (
-     4, '2025-03-17', DEFAULT, true, 20.00, 4, '2021', 'Seminuevo',
-     'Violin acustico con acabado en barniz brillante, ideal para principiantes y musicos avanzados.',
-     1, 'Madera de arce y abeto', '59x21x14', '1730',
-     'Violin Stradivarius 1730', 'Italia', 'Profesional'
+     4, '2025-03-21', DEFAULT, true, 28.00, 1, '2021', 'Usado',
+     'Bajo eléctrico de cinco cuerdas con cuerpo de fresno y circuito activo.',
+     7, 'Madera', '120x40x12', 'StingRay',
+     'Music Man StingRay 5', 'EE.UU.', 'Intermedio'
  ),
  (
-     6, '2025-03-17', DEFAULT, true, 15.00, 6, '2022', 'Nueva',
+     6, '2025-03-17', DEFAULT, true, 15.00, 1, '2022', 'Nueva',
      'Caja de ritmos digital con secuenciador integrado y sonidos de bateria electronica.',
      2, 'Plastico y metal', '30x20x14', 'TR-8S',
      'Caja de Ritmos Roland TR-8S', 'Japon', 'Intermedio'
  );
 
--- ( 6, '2024-06-17', DEFAULT, true, 15.00, 6, '2022', 'Nueva',
+-- ( 6, '2024-06-17', DEFAULT, true, 15.00, 1, '2022', 'Nueva',
 --     'Caja de ritmos digital con secuenciador integrado y sonidos de bateria electronica.',
 --     2, 'Plastico y metal', '30x20x40', 'TR-8S',
 --     'Caja de Ritmos Roland TR-8S', 'Japon', 'Principiante')
@@ -92,9 +92,9 @@ VALUES
 (DEFAULT, true, 4, 'https://res.cloudinary.com/dqc7cuyox/image/upload/fl_preserve_transparency/v1740765108/bateria2_z2hmc5.jpg?_s=public-apps'),
 (DEFAULT, true, 5, 'https://res.cloudinary.com/dqc7cuyox/image/upload/fl_preserve_transparency/v1740765167/accesorio_imagen_1_oytuan.jpg?_s=public-apps'),
 (DEFAULT, true, 6, 'https://res.cloudinary.com/dqc7cuyox/image/upload/fl_preserve_transparency/v1740765247/guitarra2_orh7lj.jpg?_s=public-apps'),
-(DEFAULT, true, 7, 'https://res.cloudinary.com/dqc7cuyox/image/upload/fl_preserve_transparency/v1740765576/armonica_imagen_3_1_podetf.jpg?_s=public-apps'),
+(DEFAULT, true, 7, 'https://res.cloudinary.com/dwzugg5gm/image/upload/v1743490093/Screenshot_2025-04-01_014717_ip0clr.png'),
 (DEFAULT, true, 8, 'https://res.cloudinary.com/dqc7cuyox/image/upload/fl_preserve_transparency/v1740765641/piano_imagen_1_k196yx.jpg?_s=public-apps'),
-(DEFAULT, true, 9, 'https://res.cloudinary.com/dqc7cuyox/image/upload/fl_preserve_transparency/v1740765707/violin_uolxg9.jpg?_s=public-apps'),
+(DEFAULT, true, 9, 'https://res.cloudinary.com/dwzugg5gm/image/upload/v1743490239/im21005174635dsc0316_ldwvxu.jpg'),
 (DEFAULT, true, 10, 'https://res.cloudinary.com/dqc7cuyox/image/upload/fl_preserve_transparency/v1740765878/equipomejoras_aefxbm.jpg?_s=public-apps');
 
 
@@ -121,22 +121,23 @@ VALUES
 
     -- Reservas futuras (IN_PROGRESS, APPROVED)
 
-    ('2025-03-17', '2025-03-20', 'IN_PROGRESS', 2, 1, NOW()),
+    ('2025-04-17', '2025-04-20', 'IN_PROGRESS', 2, 1, NOW()),
     ('2025-03-23', '2025-03-25', 'APPROVED', 3, 1, NOW()),
+    ('2025-04-23', '2025-04-25', 'APPROVED', 3, 1, NOW()),
 
-    ('2025-03-17', '2025-03-18', 'IN_PROGRESS', 3, 2, NOW()),
-    ('2025-03-26', '2025-04-15', 'APPROVED', 3, 2, NOW()),
+    ('2025-04-17', '2025-04-18', 'IN_PROGRESS', 3, 2, NOW()),
+    ('2025-04-26', '2025-05-15', 'APPROVED', 3, 2, NOW()),
     ('2025-04-20', '2025-04-27', 'APPROVED', 3, 2, NOW()),
 
-    ('2025-03-18', '2025-03-22', 'APPROVED', 4, 3, NOW()),
-    ('2025-03-23', '2025-03-30', 'APPROVED', 2, 4, NOW()),
+    ('2025-04-18', '2025-04-22', 'APPROVED', 4, 3, NOW()),
+    ('2025-04-23', '2025-04-30', 'APPROVED', 2, 4, NOW()),
     ('2025-03-10', '2025-03-12', 'IN_PROGRESS', 4,5, NOW()),
 
-    ('2025-03-16', '2025-03-20', 'IN_PROGRESS', 2, 6, NOW()),
-    ('2025-03-23', '2025-03-25', 'APPROVED', 3, 6, NOW()),
+    ('2025-04-16', '2025-04-20', 'IN_PROGRESS', 2, 6, NOW()),
+    ('2025-04-23', '2025-04-25', 'APPROVED', 3, 6, NOW()),
 
-    ('2025-03-17', '2025-03-20', 'IN_PROGRESS', 4, 9, NOW()),
-    ('2025-03-22', '2025-03-26', 'APPROVED', 3, 9, NOW()),
-    ('2025-04-10', '2025-04-15', 'APPROVED', 2, 9, NOW());
+    ('2025-04-17', '2025-04-20', 'IN_PROGRESS', 4, 9, NOW()),
+    ('2025-04-22', '2025-04-26', 'APPROVED', 3, 9, NOW()),
+    ('2025-05-10', '2025-05-15', 'APPROVED', 2, 9, NOW());
 
 
