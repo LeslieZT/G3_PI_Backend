@@ -46,11 +46,8 @@ public class ProductController {
         return  ResponseEntity.ok(detalleProductoResponseDto);
     }
     @PostMapping("/products/search")
-    public ResponseEntity<PaginationResponseDto<ResponseSearchProductDto>> searchProducts(@Valid @RequestBody RequestSearcherDto requestSearcherDto,
-                                                                                          @RequestParam(defaultValue = "1") int page,
-                                                                         @RequestParam(defaultValue = "18") int size){
-        Pageable pageable = PageRequest.of(page - 1, size);
-        PaginationResponseDto<ResponseSearchProductDto> responseDtos = productService.searchProducts(requestSearcherDto, pageable);
+    public ResponseEntity<List<ResponseSearchProductDto>> searchProducts(@Valid @RequestBody RequestSearcherDto requestSearcherDto){
+        List<ResponseSearchProductDto> responseDtos = productService.searchProducts(requestSearcherDto);
         return ResponseEntity.ok(responseDtos);
     }
 

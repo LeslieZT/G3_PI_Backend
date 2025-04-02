@@ -28,6 +28,6 @@ public interface IProductService {
 
     ResponseDto<DeleteProductResponseDto> delete(Integer id);
 
-    PaginationResponseDto<ResponseSearchProductDto> searchProducts(RequestSearcherDto requestSearcherDto, Pageable pageable);
+    List<ResponseSearchProductDto> searchProducts(RequestSearcherDto requestSearcherDto);
 
 }
