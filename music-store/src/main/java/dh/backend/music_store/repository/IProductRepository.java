@@ -50,7 +50,7 @@ public interface IProductRepository extends JpaRepository<Product, Integer> {
             "LOWER(p.recommendedUse) LIKE LOWER(CONCAT('%', :text, '%')) OR " +
             "LOWER(b.name) LIKE LOWER(CONCAT('%', :text, '%')) OR " +
             "LOWER(c.name) LIKE LOWER(CONCAT('%', :text, '%'))")
-    Page<Product> searchProducts(@Param("text") String text, Pageable pageable);
+    List<Product> searchProducts(@Param("text") String text);
 
     Page<Product> findAll(Pageable pageable);
 }
