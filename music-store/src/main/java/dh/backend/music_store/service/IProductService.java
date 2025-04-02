@@ -8,6 +8,11 @@ import dh.backend.music_store.dto.product.request.SaveProductRequestDto;
 import dh.backend.music_store.dto.product.request.UpdateProductRequestDto;
 import dh.backend.music_store.dto.product.response.*;
 import dh.backend.music_store.dto.reservation.projection.ReservationByProductProjection;
+import dh.backend.music_store.dto.product.response.DetailProductResponseDto;
+import dh.backend.music_store.dto.product.response.FindOneProductResponseDto;
+import dh.backend.music_store.dto.product.response.ResponseSearchProductDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -19,9 +24,10 @@ public interface IProductService {
     DetailProductResponseDto save(SaveProductRequestDto saveProductRequestDto);
     void update(UpdateProductRequestDto updateProductRequestDto);
 
-    List<ResponseSearchProductDto> searchProducts(RequestSearcherDto requestSearcherDto);
-
     boolean productIsAvailable(LocalDate startDate, LocalDate endDate, List<ReservationByProductProjection> reservations);
 
     ResponseDto<DeleteProductResponseDto> delete(Integer id);
+
+    PaginationResponseDto<ResponseSearchProductDto> searchProducts(RequestSearcherDto requestSearcherDto, Pageable pageable);
+
 }

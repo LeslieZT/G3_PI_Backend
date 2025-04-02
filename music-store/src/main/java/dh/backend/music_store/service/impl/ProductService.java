@@ -27,6 +27,10 @@ import dh.backend.music_store.service.IProductService;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 import org.modelmapper.ModelMapper;
 
@@ -252,31 +256,42 @@ public class ProductService implements IProductService {
         return detailProductResponseDto;
     }
     @Override
-    public List<ResponseSearchProductDto> searchProducts(RequestSearcherDto requestSearcherDto) {
-        List<Product> products;
-        //FALTA FILTRADO SOLO DATE
-        if(requestSearcherDto.getText() == null){
-            products = productRepository.findAll();
-        }else{
-            products = productRepository.searchProducts(requestSearcherDto.getText());
-        }
-    List<ResponseSearchProductDto> productResponseDtos =new ArrayList<>();
+    public PaginationResponseDto<ResponseSearchProductDto> searchProducts(RequestSearcherDto requestSearcherDto,
+                                                                          Pageable pageable) {
 
-        for (Product product : products){
+        Page<Product> productsPage;
 
-        ResponseSearchProductDto productft = modelMapper.map(product,ResponseSearchProductDto.class);
-        productft.setBrand(product.getBrand().getName());
-        productft.setCategory(product.getCategory().getName());
-        ProductImage productImage = productImageService.findByProductAndIsPrimary(product);
-        productft.setImages(productImage.getUrl());
-        //FILTRANDO DISPONIBILIDAD POR FECHAS
-        if(isProductAvaiable(product, requestSearcherDto.getDateInit(), requestSearcherDto.getDateEnd())){
-            productResponseDtos.add(productft);
+        if (requestSearcherDto.getText() == null) {
+            productsPage = productRepository.findAll(pageable);
+        } else {
+            productsPage = productRepository.searchProducts(requestSearcherDto.getText(), pageable);
         }
+
+        // Filtrar los productos disponibles
+        List<ResponseSearchProductDto> filteredProducts = productsPage.stream()
+                .filter(product -> isProductAvaiable(product, requestSearcherDto.getDateInit(), requestSearcherDto.getDateEnd()))
+                .map(product -> {
+                    ResponseSearchProductDto productDto = modelMapper.map(product, ResponseSearchProductDto.class);
+                    productDto.setBrand(product.getBrand().getName());
+                    productDto.setCategory(product.getCategory().getName());
+
+                    ProductImage productImage = productImageService.findByProductAndIsPrimary(product);
+                    if (productImage != null) {
+                        productDto.setImages(productImage.getUrl());
+                    }
+
+                    return productDto;
+                }).toList();
+
+        // Crear la nueva respuesta paginada con los datos filtrados
+        PaginationResponseDto<ResponseSearchProductDto> paginationResponseDto = new PaginationResponseDto<>();
+        paginationResponseDto.setData(filteredProducts); //
+        paginationResponseDto.setPage(productsPage.getNumber()+1); //
+        paginationResponseDto.setSize(productsPage.getSize());
+        paginationResponseDto.setTotal(productsPage.getTotalPages());
+
+        return paginationResponseDto;
     }
-
-        return productResponseDtos;
-}
 
     private boolean  isProductAvaiable(Product product, LocalDate dateInit, LocalDate dateEnd){
 
