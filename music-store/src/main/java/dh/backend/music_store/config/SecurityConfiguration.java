@@ -38,6 +38,7 @@ public class SecurityConfiguration {
                             auth.requestMatchers(HttpMethod.GET, "/categories/**").permitAll();
                             auth.requestMatchers(HttpMethod.GET, "/brands/**").permitAll();
                             auth.requestMatchers(HttpMethod.GET, "/products/**").permitAll();
+                            auth.requestMatchers(HttpMethod.POST, "/products/search").permitAll();
                             auth.requestMatchers(HttpMethod.POST, "/products/find-all").permitAll();
                             auth.requestMatchers(HttpMethod.POST, "/products/search").permitAll();
                             auth.requestMatchers(HttpMethod.GET, "/reservations/products/**").permitAll();
@@ -67,7 +68,7 @@ public class SecurityConfiguration {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of("*")); // Permite cualquier origen
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS")); // Métodos permitidos
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH")); // Métodos permitidos
         configuration.setAllowedHeaders(List.of("*")); // Permite cualquier header
         configuration.setAllowCredentials(false); // Permitir credenciales
         configuration.setExposedHeaders(List.of("Authorization", "Content-Type")); // Permite estos headers en la respuesta
